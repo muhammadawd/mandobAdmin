@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Tajawal|El+Messiri|Reem+Kufi|Baloo+Bhaijaan|Lateef|Mada');
+
+body, .section, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, div, .ui-input, input, a, p, td, th, button {
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+.row, .container-fluid {
+    direction: rtl;
+}
+
+.ml-2, .mx-2 {
+    margin-right: 0.5rem !important;
+    margin-left: 0 !important;
+}
+
+@media (min-width: 768px) {
+    .navbar-vertical.navbar-expand-md.fixed-left {
+        left: auto;
+        right: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-vertical.navbar-expand-md .navbar-nav {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+    }
+
+    .navbar-nav {
+        padding-right: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-vertical.navbar-expand-md .navbar-nav .nav-link.active:before {
+        right: 0;
+        left: auto;
+    }
+}
+
+.navbar-vertical.navbar-expand-md .navbar-collapse {
+    text-align: right;
+}
+
+@media (min-width: 768px) {
+    .navbar-vertical.navbar-expand-md.fixed-left + .main-content {
+        margin-left: 0;
+        margin-right: 250px;
+    }
+}
+
+.dropdown-menu {
+    direction: rtl;
+    text-align: right;
+}
+.card .table td, .card .table th {
+    text-align: right;
+}

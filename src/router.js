@@ -20,7 +20,15 @@ const router = new Router({
                     path: '/',
                     name: 'dashboard',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Dashboard.vue')
-                }
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/delegate',
+                    name: 'delegate',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Delegate.vue')
+                },
             ]
         },
         {

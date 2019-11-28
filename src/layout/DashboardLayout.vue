@@ -7,12 +7,13 @@
       <template slot="links">
         <sidebar-item
           :link="{
-            name: 'Dashboard',
+            name: $ml.get('dashboard'),
             icon: 'ni ni-tv-2 text-primary',
             path: '/'
           }"/>
 
-        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>
+        <sidebar-item :link="{name: $ml.get('delegate'), icon: 'ni ni-app text-info', path: '/delegate'}"/>
+<!--        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>-->
 
       </template>
     </side-bar>

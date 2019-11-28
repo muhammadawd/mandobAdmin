@@ -4,22 +4,21 @@
             <div class="card bg-secondary shadow border-0">
                 <div class="card-body px-lg-5 py-lg-5">
                     <form role="form">
-                        <h1 class="text-center">Login</h1>
+                        <h1 class="text-center">{{$ml.get('login')}}</h1>
                         <base-input class="input-group-alternative mb-3"
-                                    placeholder="Email"
+                                    :placeholder="$ml.get('email')"
                                     addon-left-icon="ni ni-email-83"
                                     v-model="model.email">
                         </base-input>
-
                         <base-input class="input-group-alternative"
                                     placeholder="Password"
-                                    type="password"
+                                    :placeholder="$ml.get('password')"
                                     addon-left-icon="ni ni-lock-circle-open"
                                     v-model="model.password">
                         </base-input>
 
                         <div class="text-center">
-                            <base-button type="primary" class="my-4">Sign in</base-button>
+                            <base-button type="primary" class="my-4">{{$ml.get('sign_in')}}</base-button>
                         </div>
                     </form>
                 </div>
@@ -37,6 +36,9 @@
                     password: ''
                 }
             }
+        },
+        mounted() {
+
         }
     }
 </script>
