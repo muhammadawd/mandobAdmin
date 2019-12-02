@@ -12,7 +12,8 @@
             path: '/'
           }"/>
 
-        <sidebar-item :link="{name: $ml.get('delegate'), icon: 'ni ni-app text-info', path: '/delegate'}"/>
+<!--        <sidebar-item :link="{name: $ml.get('delegate'), icon: 'ni ni-circle-08 text-info', path: '/delegate'}"/>-->
+        <sidebar-item :link="{name: $ml.get('clients'), icon: 'ni ni-glasses-2 text-danger', path: '/clients'}"/>
 <!--        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>-->
 
       </template>

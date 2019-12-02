@@ -29,6 +29,14 @@ const router = new Router({
                     name: 'delegate',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Delegate.vue')
                 },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/clients',
+                    name: 'clients',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Client.vue')
+                },
             ]
         },
         {

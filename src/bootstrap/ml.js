@@ -48,9 +48,13 @@ export default new MLCreate({
             no: 'ﻻ',
             confirm_warning: 'تنبيه',
             are_you_sure: 'هل انت متأكد ؟',
-            // delegate:'',
-            // delegate:'',
-            // delegate:'',
+            name: 'الاسم',
+            mobile: 'الهاتف المحمول',
+            phone: 'الهاتف الارضي',
+            address: 'العنوان  ',
+            status: 'الحالة',
+            transactionStatus: 'حالة الدفع',
+            city: 'المدينة',
         })
     ]
 })

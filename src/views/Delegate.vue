@@ -103,7 +103,7 @@
                 }).then((result) => {
                     if (result.value) {
                         person = JSON.parse(JSON.stringify(person));
-                        console.log(person.id)
+                        // console.log(person.id)
                         vm.$root.$firestore.raw_mandoobs.doc(person.id).delete()
                         // location.reload()
                     }
