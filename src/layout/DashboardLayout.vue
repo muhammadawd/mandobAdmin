@@ -12,9 +12,11 @@
             path: '/'
           }"/>
 
-<!--        <sidebar-item :link="{name: $ml.get('delegate'), icon: 'ni ni-circle-08 text-info', path: '/delegate'}"/>-->
-        <sidebar-item :link="{name: $ml.get('clients'), icon: 'ni ni-glasses-2 text-danger', path: '/clients'}"/>
-<!--        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>-->
+        <sidebar-item :link="{name: $ml.get('clients'), icon: 'ni ni-archive-2 text-danger', path: '/clients'}"/>
+        <sidebar-item :link="{name: $ml.get('supervisor'), icon: 'ni ni-vector text-warning', path: '/supervisor'}"/>
+        <sidebar-item :link="{name: $ml.get('mandoob'), icon: 'ni ni-delivery-fast text-default', path: '/mandoob'}"/>
+        <sidebar-item :link="{name: $ml.get('customers'), icon: 'ni ni-circle-08 text-info', path: '/customers'}"/>
+        <!--        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>-->
 
       </template>
     </side-bar>

@@ -25,45 +25,27 @@
                                             tbody-classes="list"
                                             :data="tableData">
                                     <template slot="columns">
-                                        <th>{{$ml.get('name')}}</th>
-                                        <th>{{$ml.get('mobile')}}</th>
-                                        <th>{{$ml.get('phone')}}</th>
+                                        <th>{{$ml.get('first_name')}}</th>
+                                        <th>{{$ml.get('last_name')}}</th>
                                         <th>{{$ml.get('email')}}</th>
-                                        <th>{{$ml.get('address')}}</th>
-                                        <th>{{$ml.get('status')}}</th>
-                                        <th>{{$ml.get('transactionStatus')}}</th>
+                                        <th>{{$ml.get('cities')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
                                         <td class="budget" :id="'td_row_'+row.id">
-                                            {{row.name}}
+                                            {{row.first_name}}
                                         </td>
                                         <td>
-                                            {{row.mobile}}
-                                        </td>
-                                        <td>
-                                            {{row.phone}}
+                                            {{row.last_name}}
                                         </td>
                                         <td>
                                             {{row.email}}
                                         </td>
-                                        <td>
-                                            {{row.addressText}}
-                                        </td>
-                                        <td>
-                                            <slot v-if="row.status">
-                                                {{row.status.translated.title}}
-                                            </slot>
-                                        </td>
-                                        <td>
-                                            <slot v-if="row.transaction_status">
-                                                {{row.transaction_status.translated.title}}
-                                            </slot>
-                                        </td>
+                                        <td v-html="getCitiesText(row.cities)"></td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteClient(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteSupervisor(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
@@ -81,71 +63,42 @@
             <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal'" width="70%">
                 <div class="row text-right">
                     <div class="col-md-4">
-                        <label>{{$ml.get('name')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.name">
-                        <div class="text-danger error_text" id="name_error"></div>
+                        <label>{{$ml.get('first_name')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.first_name">
+                        <div class="text-danger error_text" id="first_name_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('phone')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.phone">
-                        <div class="text-danger error_text" id="phone_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('mobile')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.mobile">
-                        <div class="text-danger error_text" id="mobile_error"></div>
-                    </div>
-                    <div class="col-md-12"></div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('city')}}</label>
-                        <multiselect v-model="selectValue" :options="allGovernorates" :multiple="false"
-                                     group-values="cities"
-                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
-                                     track-by="name" label="name">
-                            <span slot="noResult">Oops! No elements found. </span>
-                        </multiselect>
-
-                        <!--                        <select type="text" class="form-control" v-model="dataModel.city_id">-->
-                        <!--                            <option v-for="(item , key) in allGovernorates" :value="item.id" :key="key">-->
-                        <!--                                {{item.translated.title}}-->
-                        <!--                            </option>-->
-                        <!--                        </select>-->
-                        <div class="text-danger error_text" id="city_id_error"></div>
-                    </div>
-                    <div class="col-md-3">
-                        <label>{{$ml.get('status')}}</label>
-                        <select type="text" class="form-control" v-model="dataModel.status_id">
-                            <option v-for="(item , key) in statusModel.client_status" :value="item.id" :key="key">
-                                {{item.translated.title}}
-                            </option>
-                        </select>
-                        <div class="text-danger error_text" id="status_id_error"></div>
-                    </div>
-                    <div class="col-md-3">
-                        <label>{{$ml.get('transactionStatus')}}</label>
-                        <select type="text" class="form-control" v-model="dataModel.transaction_status_id">
-                            <option v-for="(item , key) in statusModel.client_transaction" :value="item.id" :key="key">
-                                {{item.translated.title}}
-                            </option>
-                        </select>
-                        <div class="text-danger error_text" id="transaction_status_id_error"></div>
+                        <label>{{$ml.get('last_name')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.last_name">
+                        <div class="text-danger error_text" id="last_name_error"></div>
                     </div>
                     <div class="col-md-4">
                         <label>{{$ml.get('email')}}</label>
                         <input type="text" class="form-control" v-model="dataModel.email">
                         <div class="text-danger error_text" id="email_error"></div>
                     </div>
-                    <div class="col-md-8">
-                        <label>{{$ml.get('address')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.addressText">
-                        <div class="text-danger error_text" id="addressText_error"></div>
+                    <div class="col-md-12"></div>
+                    <div class="col-md-4">
+                        <label>{{$ml.get('password')}}</label>
+                        <input type="password" class="form-control" v-model="dataModel.password">
+                        <div class="text-danger error_text" id="password_error"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>{{$ml.get('city')}}</label>
+                        <multiselect v-model="selectValue" :options="allGovernorates" :multiple="true"
+                                     group-values="cities"
+                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
+                                     track-by="name" label="name">
+                            <span slot="noResult">Oops! No elements found. </span>
+                        </multiselect>
+                        <div class="text-danger error_text" id="city_id_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
-                        <button class="btn btn-info" @click="addClient()" v-if="!dataModel.id">
+                        <button class="btn btn-info" @click="addSupervisor()" v-if="!dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('add')}}</slot>
                         </button>
-                        <button class="btn btn-info" @click="updateClient()" v-if="dataModel.id">
+                        <button class="btn btn-info" @click="updateSupervisor()" v-if="dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('edit')}}</slot>
                         </button>
@@ -177,18 +130,18 @@
         },
         watch: {
             selectValue: function (newVal, oldVal) {
-                if (newVal) {
-                    this.dataModel.city_id = newVal.id
+                if (newVal.length) {
+                    // this.dataModel.city_id = newVal.id
                 } else {
-                    this.dataModel.city_id = newVal
+                    // this.dataModel.city_id = newVal
                 }
             },
         },
         mounted() {
             let vm = this;
-            vm.getAllClients();
+            vm.getAllSupervisor();
             vm.getallGovernorates();
-            vm.getAllStatus();
+            // vm.getAllStatus();
         },
         components: {
             Multiselect,
@@ -196,6 +149,14 @@
             SweetModalTab
         },
         methods: {
+            getCitiesText(cities) {
+                let str = '';
+                _.forEach(cities, (item, index) => {
+                    str += `<span class="badge badge-info" style="font-size: 12px"> ${item.translated.title} </span> `;
+                    // if (index + 1 != cities.length) str += ','
+                })
+                return str;
+            },
             showModal() {
                 let vm = this;
                 vm.resetModelData();
@@ -204,7 +165,7 @@
             showUpdateModal(data) {
                 let vm = this;
                 vm.dataModel = data;
-                vm.selectValue = data.city;
+                vm.selectValue = data.cities;
                 vm.$refs.addModal.open();
             },
             getAllStatus() {
@@ -251,16 +212,16 @@
                     console.log(e)
                 }
             },
-            getAllClients() {
+            getAllSupervisor() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.ALL_CLIENTS)
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_SUPERVISOR)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.clients;
+                                vm.tableData = response.data.super_visors;
                                 return null;
                             }
                             vm.tableData = [];
@@ -274,7 +235,7 @@
                     console.log(e)
                 }
             },
-            deleteClient: function (row) {
+            deleteSupervisor: function (row) {
                 let vm = this;
 
                 vm.$swal({
@@ -289,7 +250,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_CLIENTS + `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_SUPERVISOR + `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;
@@ -309,12 +270,13 @@
                     }
                 });
             },
-            addClient: function () {
+            addSupervisor: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
+                request_data.city_ids = _.map(vm.selectValue, 'id');
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.ADD_CLIENTS, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.ADD_SUPERVISOR, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -322,8 +284,8 @@
                                 window.helper.showMessage('success', vm);
                                 vm.resetModelData();
                                 $('.error_text').text('');
-                                let client = response.data.client;
-                                vm.tableData.push(client);
+                                let super_visor = response.data.super_visor;
+                                vm.tableData.push(super_visor);
                                 vm.$refs.addModal.close();
                                 return null;
                             }
@@ -336,24 +298,24 @@
                     console.log(e)
                 }
             },
-            updateClient: function () {
+            updateSupervisor: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_CLIENTS, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_SUPERVISOR, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
+                                let super_visor = response.data.super_visor;
                                 window.helper.showMessage('success', vm);
                                 vm.resetModelData();
                                 $('.error_text').text('');
                                 vm.$refs.addModal.close();
                                 // location.reload()
                                 $(`#td_row_${request_data.id}`).parent().remove();
-                                let client = response.data.client;
-                                vm.tableData.push(client);
+                                vm.tableData.push(super_visor);
                                 return null;
                             }
 
@@ -366,54 +328,17 @@
                 }
             },
             resetModelData() {
-                this.selectValue = null;
+                this.selectValue = [];
                 this.dataModel = {
-                    "id": '',
-                    "addressText": '',
-                    "email": '',
-                    "lat": '',
-                    "lng": '',
-                    "mobile": '',
-                    "name": '',
-                    "phone": '',
-                    "city_id": '',
-                    "status_id": '',
-                    "transaction_status_id": '',
-                    "shopCreationDate": '',
-                    "created_at": '',
-                    "updated_at": '',
-                    "city": {
-                        "id": '',
-                        "title_ar": '',
-                        "title_en": '',
-                        "created_at": '',
-                        "updated_at": '',
-                        "translated": {
-                            "title": '',
-                        }
-                    },
-                    "status": {
-                        "id": '',
-                        "title_ar": '',
-                        "title_en": '',
-                        "type": '',
-                        "created_at": '',
-                        "updated_at": '',
-                        "translated": {
-                            "title": '',
-                        }
-                    },
-                    "transaction_status": {
-                        "id": '',
-                        "title_ar": '',
-                        "title_en": '',
-                        "type": '',
-                        "created_at": '',
-                        "updated_at": '',
-                        "translated": {
-                            "title": '',
-                        }
-                    }
+                    "id": "",
+                    "first_name": "",
+                    "last_name": "",
+                    "email": "",
+                    "type": "super_visor",
+                    "parent_id": "",
+                    "created_at": "",
+                    "updated_at": "",
+                    "cities": []
                 }
             }
         }

@@ -2,13 +2,12 @@ window._ = require('lodash');
 window.queryString = require('query-string');
 
 import {helper} from "@/bootstrap/helper";
-import serviceAPI from '@/store/serviceAPI'
-import ls from '@/store/localStorageService'
+import ls from '@/bootstrap/localStorageService'
+import serviceAPI from '@/bootstrap/serviceAPI'
 
 window.helper = helper;
 window.serviceAPI = serviceAPI;
 window.ls = ls;
-
 
 try {
   window.$ = window.jQuery = require('jquery')

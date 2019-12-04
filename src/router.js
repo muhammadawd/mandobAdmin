@@ -25,9 +25,9 @@ const router = new Router({
                     meta: {
                         requiresAuth: true,
                     },
-                    path: '/delegate',
-                    name: 'delegate',
-                    component: () => import(/* webpackChunkName: "demo" */ './views/Delegate.vue')
+                    path: '/mandoob',
+                    name: 'mandoob',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Mandoob.vue')
                 },
                 {
                     meta: {
@@ -36,6 +36,22 @@ const router = new Router({
                     path: '/clients',
                     name: 'clients',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Client.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/customers',
+                    name: 'customers',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Customer.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/supervisor',
+                    name: 'supervisor',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Supervisor.vue')
                 },
             ]
         },
@@ -59,12 +75,13 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        let auth_data = localStorage.getItem('auth_data');
+        let auth_data = ls.getFromStorage('auth_data');
         // this route requires auth, check if logged in
         if (!auth_data) {
-            next({
-                name: 'login', // query: {redirect: to.fullPath}
-            })
+            next()
+            // next({
+            //     name: 'login', // query: {redirect: to.fullPath}
+            // })
         } else {
             next()
         }

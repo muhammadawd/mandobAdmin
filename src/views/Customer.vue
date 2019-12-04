@@ -26,12 +26,10 @@
                                             :data="tableData">
                                     <template slot="columns">
                                         <th>{{$ml.get('name')}}</th>
-                                        <th>{{$ml.get('mobile')}}</th>
                                         <th>{{$ml.get('phone')}}</th>
-                                        <th>{{$ml.get('email')}}</th>
-                                        <th>{{$ml.get('address')}}</th>
-                                        <th>{{$ml.get('status')}}</th>
-                                        <th>{{$ml.get('transactionStatus')}}</th>
+                                        <th>{{$ml.get('customer_experience')}}</th>
+                                        <th>{{$ml.get('customer_type')}}</th>
+                                        <th>{{$ml.get('clients')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
@@ -40,30 +38,26 @@
                                             {{row.name}}
                                         </td>
                                         <td>
-                                            {{row.mobile}}
-                                        </td>
-                                        <td>
                                             {{row.phone}}
                                         </td>
                                         <td>
-                                            {{row.email}}
-                                        </td>
-                                        <td>
-                                            {{row.addressText}}
-                                        </td>
-                                        <td>
-                                            <slot v-if="row.status">
-                                                {{row.status.translated.title}}
+                                            <slot v-if="row.customer_experience">
+                                                {{row.customer_experience.translated.title}}
                                             </slot>
                                         </td>
                                         <td>
-                                            <slot v-if="row.transaction_status">
-                                                {{row.transaction_status.translated.title}}
+                                            <slot v-if="row.type">
+                                                {{row.type.translated.title}}
+                                            </slot>
+                                        </td>
+                                        <td>
+                                            <slot v-if="row.client">
+                                                {{row.client.name}}
                                             </slot>
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteClient(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteCustomer(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
@@ -91,9 +85,14 @@
                         <div class="text-danger error_text" id="phone_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('mobile')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.mobile">
-                        <div class="text-danger error_text" id="mobile_error"></div>
+                        <label>{{$ml.get('clients')}}</label>
+                        <select type="text" class="form-control" v-model="dataModel.client_id">
+                            <option v-for="(item , key) in allClients" :value="item.id"
+                                    :key="key">
+                                {{item.name}}
+                            </option>
+                        </select>
+                        <div class="text-danger error_text" id="client_id_error"></div>
                     </div>
                     <div class="col-md-12"></div>
                     <div class="col-md-4">
@@ -104,48 +103,32 @@
                                      track-by="name" label="name">
                             <span slot="noResult">Oops! No elements found. </span>
                         </multiselect>
-
-                        <!--                        <select type="text" class="form-control" v-model="dataModel.city_id">-->
-                        <!--                            <option v-for="(item , key) in allGovernorates" :value="item.id" :key="key">-->
-                        <!--                                {{item.translated.title}}-->
-                        <!--                            </option>-->
-                        <!--                        </select>-->
                         <div class="text-danger error_text" id="city_id_error"></div>
                     </div>
                     <div class="col-md-3">
-                        <label>{{$ml.get('status')}}</label>
-                        <select type="text" class="form-control" v-model="dataModel.status_id">
-                            <option v-for="(item , key) in statusModel.client_status" :value="item.id" :key="key">
+                        <label>{{$ml.get('customer_experience')}}</label>
+                        <select type="text" class="form-control" v-model="dataModel.customer_experience_id">
+                            <option v-for="(item , key) in statusModel.customer_experience" :value="item.id" :key="key">
                                 {{item.translated.title}}
                             </option>
                         </select>
-                        <div class="text-danger error_text" id="status_id_error"></div>
+                        <div class="text-danger error_text" id="customer_experience_id_error"></div>
                     </div>
                     <div class="col-md-3">
-                        <label>{{$ml.get('transactionStatus')}}</label>
-                        <select type="text" class="form-control" v-model="dataModel.transaction_status_id">
-                            <option v-for="(item , key) in statusModel.client_transaction" :value="item.id" :key="key">
+                        <label>{{$ml.get('customer_type')}}</label>
+                        <select type="text" class="form-control" v-model="dataModel.type_id">
+                            <option v-for="(item , key) in statusModel.customer_type" :value="item.id" :key="key">
                                 {{item.translated.title}}
                             </option>
                         </select>
-                        <div class="text-danger error_text" id="transaction_status_id_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('email')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.email">
-                        <div class="text-danger error_text" id="email_error"></div>
-                    </div>
-                    <div class="col-md-8">
-                        <label>{{$ml.get('address')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.addressText">
-                        <div class="text-danger error_text" id="addressText_error"></div>
+                        <div class="text-danger error_text" id="type_id_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
-                        <button class="btn btn-info" @click="addClient()" v-if="!dataModel.id">
+                        <button class="btn btn-info" @click="addCustomer()" v-if="!dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('add')}}</slot>
                         </button>
-                        <button class="btn btn-info" @click="updateClient()" v-if="dataModel.id">
+                        <button class="btn btn-info" @click="updateCustomer()" v-if="dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('edit')}}</slot>
                         </button>
@@ -165,12 +148,13 @@
             return {
                 selectValue: null,
                 tableData: [],
+                allClients: [],
                 isLoading: true,
                 disable: false,
                 allGovernorates: [],
                 statusModel: {
-                    client_status: [],
-                    client_transaction: [],
+                    customer_experience: [],
+                    customer_type: [],
                 },
                 dataModel: {}
             }
@@ -187,6 +171,7 @@
         mounted() {
             let vm = this;
             vm.getAllClients();
+            vm.getAllCustomers();
             vm.getallGovernorates();
             vm.getAllStatus();
         },
@@ -211,19 +196,19 @@
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.COMMON_STATUS, {params: {typess: JSON.stringify(['client_status', 'client_transaction'])}})
+                    window.serviceAPI.API().get(window.serviceAPI.COMMON_STATUS, {params: {typess: JSON.stringify(['customer_experience', 'customer_type'])}})
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.statusModel.client_status = response.data.status.client_status;
-                                vm.statusModel.client_transaction = response.data.status.client_transaction;
+                                vm.statusModel.customer_experience = response.data.status.customer_experience;
+                                vm.statusModel.customer_type = response.data.status.customer_type;
                             }
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
-                        vm.statusModel.client_status = [];
-                        vm.statusModel.client_transaction = [];
+                        vm.statusModel.customer_experience = [];
+                        vm.statusModel.customer_type = [];
                     });
                 } catch (e) {
                     console.log(e)
@@ -260,7 +245,30 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.clients;
+                                vm.allClients = response.data.clients;
+                                return null;
+                            }
+                            vm.allClients = [];
+
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.allClients = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            getAllCustomers() {
+                let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_CUSTOMERS)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+                                vm.tableData = response.data.customers;
                                 return null;
                             }
                             vm.tableData = [];
@@ -274,7 +282,7 @@
                     console.log(e)
                 }
             },
-            deleteClient: function (row) {
+            deleteCustomer: function (row) {
                 let vm = this;
 
                 vm.$swal({
@@ -289,7 +297,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_CLIENTS + `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_CUSTOMERS+ `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;
@@ -309,12 +317,14 @@
                     }
                 });
             },
-            addClient: function () {
+            addCustomer: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
+                console.log(request_data)
+                // return
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.ADD_CLIENTS, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.ADD_CUSTOMERS, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -322,8 +332,8 @@
                                 window.helper.showMessage('success', vm);
                                 vm.resetModelData();
                                 $('.error_text').text('');
-                                let client = response.data.client;
-                                vm.tableData.push(client);
+                                let customer = response.data.customer;
+                                vm.tableData.push(customer);
                                 vm.$refs.addModal.close();
                                 return null;
                             }
@@ -336,12 +346,12 @@
                     console.log(e)
                 }
             },
-            updateClient: function () {
+            updateCustomer: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_CLIENTS, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_CUSTOMERS, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -352,8 +362,8 @@
                                 vm.$refs.addModal.close();
                                 // location.reload()
                                 $(`#td_row_${request_data.id}`).parent().remove();
-                                let client = response.data.client;
-                                vm.tableData.push(client);
+                                let customer = response.data.customer;
+                                vm.tableData.push(customer);
                                 return null;
                             }
 
@@ -368,51 +378,69 @@
             resetModelData() {
                 this.selectValue = null;
                 this.dataModel = {
-                    "id": '',
-                    "addressText": '',
-                    "email": '',
-                    "lat": '',
-                    "lng": '',
-                    "mobile": '',
-                    "name": '',
-                    "phone": '',
-                    "city_id": '',
-                    "status_id": '',
-                    "transaction_status_id": '',
-                    "shopCreationDate": '',
-                    "created_at": '',
-                    "updated_at": '',
+                    "id": "",
+                    "name": "",
+                    "phone": "",
+                    "customer_experience_id": "",
+                    "client_id": "",
+                    "city_id": "",
+                    "type_id": "",
+                    "created_at": "",
+                    "updated_at": "",
                     "city": {
-                        "id": '',
-                        "title_ar": '',
-                        "title_en": '',
-                        "created_at": '',
-                        "updated_at": '',
+                        "id": "",
+                        "governorate_id": "",
+                        "name": "",
+                        "name_en": "",
                         "translated": {
-                            "title": '',
+                            "title": "",
+                        },
+                        "governorate": {
+                            "id": "",
+                            "name": "",
+                            "name_en": "",
+                            "translated": {
+                                "title": "",
+                            }
                         }
                     },
-                    "status": {
-                        "id": '',
-                        "title_ar": '',
-                        "title_en": '',
-                        "type": '',
-                        "created_at": '',
-                        "updated_at": '',
+                    "customer_experience": {
+                        "id": "",
+                        "title_ar": "",
+                        "title_en": "",
+                        "type": "",
+                        "created_at": "",
+                        "updated_at": "",
                         "translated": {
-                            "title": '',
+                            "title": ""
                         }
                     },
-                    "transaction_status": {
-                        "id": '',
-                        "title_ar": '',
-                        "title_en": '',
-                        "type": '',
-                        "created_at": '',
-                        "updated_at": '',
+                    "type": {
+                        "id": "",
+                        "title_ar": "",
+                        "title_en": "",
+                        "type": "",
+                        "created_at": "",
+                        "updated_at": "",
                         "translated": {
-                            "title": '',
+                            "title": " "
                         }
+                    },
+                    "client": {
+                        "id": "",
+                        "addressText": "",
+                        "email": "",
+                        "lat": "",
+                        "lng": "",
+                        "mobile": "",
+                        "name": "",
+                        "phone": "",
+                        "city_id": "",
+                        "status_id": "",
+                        "transaction_status_id": "",
+                        "shopCreationDate": "",
+                        "created_at": "",
+                        "updated_at": "",
                     }
                 }
             }
