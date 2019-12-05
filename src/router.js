@@ -53,6 +53,14 @@ const router = new Router({
                     name: 'supervisor',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Supervisor.vue')
                 },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/coupons',
+                    name: 'coupons',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Coupons.vue')
+                },
             ]
         },
         {
@@ -78,10 +86,10 @@ router.beforeEach((to, from, next) => {
         let auth_data = ls.getFromStorage('auth_data');
         // this route requires auth, check if logged in
         if (!auth_data) {
-            next()
-            // next({
-            //     name: 'login', // query: {redirect: to.fullPath}
-            // })
+            // next()
+            next({
+                name: 'login', // query: {redirect: to.fullPath}
+            })
         } else {
             next()
         }

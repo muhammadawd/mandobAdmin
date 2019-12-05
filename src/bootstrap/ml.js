@@ -68,6 +68,14 @@ export default new MLCreate({
             customers: 'العملاء',
             customer_experience: 'خبرة العميل',
             customer_type: 'نوع العميل',
+            username: 'اسم المستخدم',
+            coupons: 'الكوبونات',
+            code: 'الكود',
+            value: 'القيمة',
+            created_at: 'تاريخ الانشاء',
+            delivered_at: 'تاريخ التوصيل',
+            finished_at: 'تاريخ الانتهاء',
+            add_coupon_value: 'اضافة قيم الكوبون',
         })
     ]
 })
