@@ -90,7 +90,7 @@ Within the download you'll find the following directories and files:
     |-- src
         |-- App.vue
         |-- main.js
-        |-- registerServiceWorker.js
+        |-- service-worker.js
         |-- router.js
         |-- assets
         |   |-- logo.png
