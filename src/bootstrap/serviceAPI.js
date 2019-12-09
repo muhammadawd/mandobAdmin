@@ -7,6 +7,8 @@ export default {
 
     COMMON_GOVERNORATES: 'common/governorates',
     COMMON_STATUS: 'common/status',
+    COMMON_SITE_DATA: 'common/getSiteData',
+    COMMON_EXPENSES_AUTO_COMPLETE: 'expense/option-autocomplete',
 
     ALL_CLIENTS: 'client',
     DELETE_CLIENTS: 'client/delete',
@@ -34,6 +36,11 @@ export default {
     DELETE_COUPONS: 'coupon/delete',
     ADD_COUPONS: 'coupon/create',
     UPDATE_COUPONS: 'coupon/update',
+
+    EXPENSES_REPORT: '/reports/allExpenses',
+    COUPONS_REPORT: '/reports/allCoupons',
+    VISITS_REPORT: '/reports/allVisitDetails',
+
 
     API: () => {
         let token = null;

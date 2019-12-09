@@ -64,6 +64,7 @@ export default new MLCreate({
             first_name: 'الاسم الاول',
             last_name: 'الاسم الاخير',
             supervisor: 'المراقبين',
+            cost: 'التكلفة',
             cities: 'المناطق',
             customers: 'العملاء',
             customer_experience: 'خبرة العميل',
@@ -76,6 +77,20 @@ export default new MLCreate({
             delivered_at: 'تاريخ التوصيل',
             finished_at: 'تاريخ الانتهاء',
             add_coupon_value: 'اضافة قيم الكوبون',
+            mandoob_collect_report: 'تقرير بتحصيلات مندوب',
+            mandoob_expenses_report: 'تقرير باجمالي المصاريف',
+            expenses_report: 'تقرير باجمالي المصاريف',
+            mandoob_coupons_report: 'تقرير بحالات الكوبون',
+            coupons_report: 'تقرير بحالات الكوبون',
+            mandoob_visits_report: 'تقرير بالزيارات',
+            visits_report: 'تقرير بالزيارات',
+            mandoob_clients_report: 'تقرير بجميع العملاء',
+            client_report: 'تقرير بجميع العملاء',
+            date: 'التاريخ',
+            detail: 'البيان',
+            person: 'الشخص',
+            start_date: 'وقت البداية',
+            end_date: 'وقت النهاية',
         })
     ]
 })

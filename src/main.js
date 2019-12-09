@@ -4,8 +4,22 @@ import router from './router'
 import './registerServiceWorker'
 import './bootstrap/bootstrap'
 import './bootstrap/ml'
-// import './bootstrap/localStorageService'
-// import './bootstrap/serviceAPI'
+import VueHtmlToPaper from 'vue-html-to-paper';
+
+const options = {
+    name: '_blank',
+    specs: [
+        'fullscreen=yes',
+        'titlebar=yes',
+        'scrollbars=yes'
+    ],
+    styles: [
+        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.min.css',
+        'https://unpkg.com/kidlat-css/css/kidlat.css'
+    ]
+}
+
 
 import ArgonDashboard from './plugins/argon-dashboard'
 // import VueFirestore from 'vue-firestore'
@@ -18,6 +32,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 // Vue.use(VueFirestore)
 Vue.use(ArgonDashboard)
+Vue.use(VueHtmlToPaper, options);
 
 // let firebaseApp = Firebase.initializeApp({
 //     apiKey: "AIzaSyAGXmTxdCnbVMgBUtTVPu385ngLQcseLKk",

@@ -61,6 +61,38 @@ const router = new Router({
                     name: 'coupons',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Coupons.vue')
                 },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/client_report',
+                    name: 'client_report',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/reports/ClientsReport.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/expenses_report',
+                    name: 'expenses_report',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/reports/ExpensesReport.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/coupons_report',
+                    name: 'coupons_report',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/reports/CouponsReport.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/visits_report',
+                    name: 'visits_report',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/reports/VisitsReport.vue')
+                },
             ]
         },
         {
