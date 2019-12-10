@@ -117,8 +117,8 @@
         padding-top: 50px;
         padding-bottom: 50px;
         margin-top: 10px;
-        margin-left: -10px;
-        margin-right: -10px;
+        /*margin-left: -10px;*/
+        /*margin-right: -10px;*/
         box-shadow: 1px 2px 20px #888;
     }
 

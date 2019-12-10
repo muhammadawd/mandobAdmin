@@ -91,6 +91,7 @@ export default new MLCreate({
             person: 'الشخص',
             start_date: 'وقت البداية',
             end_date: 'وقت النهاية',
+            attendance: 'الغياب'
         })
     ]
 })

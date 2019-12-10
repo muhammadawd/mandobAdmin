@@ -17,6 +17,7 @@
         <sidebar-item :link="{name: $ml.get('mandoob'), icon: 'ni ni-delivery-fast text-default', path: '/mandoob'}"/>
         <sidebar-item :link="{name: $ml.get('customers'), icon: 'ni ni-circle-08 text-primary', path: '/customers'}"/>
         <sidebar-item :link="{name: $ml.get('coupons'), icon: 'ni ni-badge text-default', path: '/coupons'}"/>
+        <sidebar-item :link="{name: $ml.get('attendance'), icon: 'ni ni-key-25 text-primary', path: '/attendance'}"/>
         <!--        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>-->
 
       </template>

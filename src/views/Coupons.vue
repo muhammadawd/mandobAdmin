@@ -109,7 +109,7 @@
             </sweet-modal>
             <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal2'">
                 <div class="row text-right">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <label>{{$ml.get('value')}}</label>
                         <input type="text" class="form-control" v-model="value">
                         <div class="text-danger error_text" id="value_error"></div>

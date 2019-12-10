@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const isProd = process.env.NODE_ENV === "production";
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '/mandob/dist' : '/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
     configureWebpack: {
         // Set up all the aliases we use in our app.
         plugins: [
@@ -17,12 +17,11 @@ module.exports = {
         msTileColor: '#172b4d',
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: '#172b4d',
-        // configure the workbox plugin
+
         workboxPluginMode: 'InjectManifest',
         workboxOptions: {
-            // swSrc is required in InjectManifest mode.
-            swSrc: 'dev/sw.js',
-            // ...other Workbox options...
+            importWorkboxFrom: 'local',
+            swSrc:'public/service-worker.js',
         }
     },
     css: {

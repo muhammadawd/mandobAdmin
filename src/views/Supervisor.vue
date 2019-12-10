@@ -172,7 +172,7 @@
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.COMMON_STATUS, {params: {typess: JSON.stringify(['client_status', 'client_transaction'])}})
+                    window.serviceAPI.API().get(window.serviceAPI.COMMON_STATUS)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
