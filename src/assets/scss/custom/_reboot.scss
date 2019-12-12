@@ -1,13 +1,100 @@
 iframe {
-    border: 0;
+  border: 0;
 }
 
 figcaption,
 figure,
 main {
-    display: block;
+  display: block;
 }
 
 main {
-    overflow: hidden;
+  overflow: hidden;
+}
+
+a {
+  color: #515776;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+  font-weight: bold;
+}
+label{
+  margin-top: 7px;
+}
+.multiselect__tags-wrap{
+  float: right!important;
+}
+
+.main-content {
+  min-height: 50vh;
+  max-width: 100%;
+}
+
+.main-content > div {
+  max-width: 100%;
+}
+
+.main-content  .title {
+  background: #217346;
+  text-align: center;
+  place-content: center;
+  color: #fff;
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+.cells {
+  position: relative;
+}
+
+.cells__spacer {
+  background: #e6e6e6;
+  position: relative;
+  border-left: 1px solid #888;
+}
+
+.cells__spacer:after {
+  content: "";
+  position: absolute;
+  left: 80%;
+  bottom: 4px;
+  height: 80%;
+  width: 100%;
+  background: linear-gradient(135deg, transparent 30px, #bbb 43px, #bbb 55px, transparent 55px)
+}
+
+.cells__alphabet {
+  background: #e6e6e6;
+  width: 80px;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+.cells__names {
+  background: #e6e6e6;
+  width: 80px;
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 15px;
+  white-space: pre;
+}
+
+.card .table td, .card .table th {
+  text-align: right;
+  padding: 8px;
+}
+@media print {
+  #sidenav-main{
+    display: none;
+  }
+  .navbar-vertical.navbar-expand-md.fixed-left + .main-content{
+    width: 100%;
+  }
 }

@@ -67,8 +67,8 @@ body, .section, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, div, .ui-i
 }
 
 .multiselect__option--disabled {
-    background: #182029 !important;
-    background-color: #182029 !important;
+    /*background: #182029 !important;*/
+    /*background-color: #182029 !important;*/
     color: #ffffff !important;
     font-weight: bold;
     font-size: 18px;

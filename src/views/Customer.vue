@@ -1,11 +1,11 @@
 <template>
     <div>
 
-        <base-header type="gradient-info" class="pb-6 pb-8 pt-5 pt-md-8">
+        <base-header type="gradient-default" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-success btn-icon btn-icon-only" @click="showModal()">
+                    <button class="btn btn-primary btn-icon btn-icon-only" @click="showModal()">
                         <i class="ni ni-fat-add ni-lg pt-1"></i>
                     </button>
                 </div>
@@ -105,7 +105,7 @@
                         </multiselect>
                         <div class="text-danger error_text" id="city_id_error"></div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>{{$ml.get('customer_experience')}}</label>
                         <select type="text" class="form-control" v-model="dataModel.customer_experience_id">
                             <option v-for="(item , key) in statusModel.customer_experience" :value="item.id" :key="key">
@@ -114,7 +114,7 @@
                         </select>
                         <div class="text-danger error_text" id="customer_experience_id_error"></div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>{{$ml.get('customer_type')}}</label>
                         <select type="text" class="form-control" v-model="dataModel.type_id">
                             <option v-for="(item , key) in statusModel.customer_type" :value="item.id" :key="key">
@@ -245,7 +245,7 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.allClients = response.data.clients;
+                                vm.allClients = response.data.clients.data;
                                 return null;
                             }
                             vm.allClients = [];
@@ -268,7 +268,7 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.customers;
+                                vm.tableData = response.data.customers.data;
                                 return null;
                             }
                             vm.tableData = [];
@@ -341,6 +341,7 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
+                        vm.$refs.addModal.close();
                     });
                 } catch (e) {
                     console.log(e)
@@ -370,6 +371,7 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
+                        vm.$refs.addModal.close();
                     });
                 } catch (e) {
                     console.log(e)
@@ -453,8 +455,8 @@
     }
 
     .multiselect__option--disabled {
-        background: #182029 !important;
-        color: #ffffff !important;
+        /*background: #182029 !important;*/
+        /*color: #ffffff !important;*/
         font-weight: bold;
         font-size: 18px;
     }

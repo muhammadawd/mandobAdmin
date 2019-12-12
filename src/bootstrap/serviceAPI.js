@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 let BASE_URL = `https://approc.com/~approctest/mandoob/api/`;
+// let BASE_URL = `http://192.168.1.2/mandoob/api/`;
 
 export default {
     AUTH_ACCOUNT: 'admin/login',
@@ -8,12 +9,20 @@ export default {
     COMMON_GOVERNORATES: 'common/governorates',
     COMMON_STATUS: 'common/status',
     COMMON_SITE_DATA: 'common/getSiteData',
+    COMMON_STATISTICS: 'common/statistics',
     COMMON_EXPENSES_AUTO_COMPLETE: 'expense/option-autocomplete',
 
     ALL_CLIENTS: 'client',
     DELETE_CLIENTS: 'client/delete',
+    FIND_CLIENTS: 'client',
     ADD_CLIENTS: 'client/create',
     UPDATE_CLIENTS: 'client/update',
+
+    ALL_EMPLOYEE: 'employee',
+    DELETE_EMPLOYEE: 'employee/delete',
+    FIND_EMPLOYEE: 'employee',
+    ADD_EMPLOYEE: 'employee/create',
+    UPDATE_EMPLOYEE: 'employee/update',
 
     ALL_MANDOOBS: 'mandoob',
     DELETE_MANDOOBS: 'mandoob/delete',
@@ -40,6 +49,9 @@ export default {
     EXPENSES_REPORT: '/reports/allExpenses',
     COUPONS_REPORT: '/reports/allCoupons',
     VISITS_REPORT: '/reports/allVisitDetails',
+
+    ADD_ATTEND: 'absence/create',
+    ALL_ABSENCE: 'absence',
 
 
     API: () => {

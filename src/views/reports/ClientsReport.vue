@@ -96,7 +96,7 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.clients;
+                                vm.tableData = response.data.clients.data;
                                 return null;
                             }
                             vm.tableData = [];

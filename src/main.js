@@ -16,7 +16,7 @@ const options = {
     styles: [
         'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.min.css',
-        'https://unpkg.com/kidlat-css/css/kidlat.css'
+        'https://unpkg.com/kidlat-css/css/kidlat.css',
     ]
 }
 

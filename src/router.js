@@ -33,9 +33,25 @@ const router = new Router({
                     meta: {
                         requiresAuth: true,
                     },
+                    path: '/employee',
+                    name: 'employee',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Employee.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
                     path: '/clients',
                     name: 'clients',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Client.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/clients/:id',
+                    name: 'show_client',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/ClientProfile.vue')
                 },
                 {
                     meta: {
@@ -92,6 +108,14 @@ const router = new Router({
                     path: '/visits_report',
                     name: 'visits_report',
                     component: () => import(/* webpackChunkName: "demo" */ './views/reports/VisitsReport.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/attendance_report',
+                    name: 'attendance_report',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/reports/AttendanceReport.vue')
                 },
                 {
                     meta: {

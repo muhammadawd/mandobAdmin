@@ -42,7 +42,7 @@ export const helper = {
         for (let input in inputs) {
             try {
                 document.getElementById(input + '_error').innerText = ' ';
-            }catch (e) {
+            } catch (e) {
 
             }
         }
@@ -55,6 +55,9 @@ export const helper = {
         }
     },
     handleError: (error, vm) => {
+        // request error cause of offline using
+        if (!navigator.onLine) return;
+
         if (error.response) {
             // The request was made and the server responded with a status code
 
@@ -63,7 +66,7 @@ export const helper = {
                 let validations = error.response.data.data.validation_errors;
                 try {
                     window.helper.addErrors(vm.dataModel, validations);
-                }catch (e) {
+                } catch (e) {
 
                 }
                 return;

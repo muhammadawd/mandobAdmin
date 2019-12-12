@@ -1,11 +1,11 @@
 <template>
     <div>
 
-        <base-header type="gradient-info" class="pb-6 pb-8 pt-5 pt-md-8">
+        <base-header type="gradient-warning" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-success btn-icon btn-icon-only" @click="showModal()">
+                    <button class="btn btn-danger btn-icon btn-icon-only" @click="showModal()">
                         <i class="ni ni-fat-add ni-lg pt-1"></i>
                     </button>
                 </div>
@@ -27,6 +27,7 @@
                                     <template slot="columns">
                                         <th>{{$ml.get('first_name')}}</th>
                                         <th>{{$ml.get('last_name')}}</th>
+                                        <th>{{$ml.get('barcode')}}</th>
                                         <th>{{$ml.get('email')}}</th>
                                         <th>{{$ml.get('type')}}</th>
                                         <th>{{$ml.get('cities')}}</th>
@@ -39,6 +40,9 @@
                                         </td>
                                         <td>
                                             {{row.last_name}}
+                                        </td>
+                                        <td>
+                                            {{row.barcode}}
                                         </td>
                                         <td>
                                             {{row.email}}
@@ -67,6 +71,11 @@
             <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal'" width="70%">
                 <div class="row text-right">
                     <div class="col-md-4">
+                        <label>{{$ml.get('barcode')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.barcode">
+                        <div class="text-danger error_text" id="barcode_error"></div>
+                    </div>
+                    <div class="col-md-4">
                         <label>{{$ml.get('first_name')}}</label>
                         <input type="text" class="form-control" v-model="dataModel.first_name">
                         <div class="text-danger error_text" id="first_name_error"></div>
@@ -81,7 +90,7 @@
                         <input type="text" class="form-control" v-model="dataModel.email">
                         <div class="text-danger error_text" id="email_error"></div>
                     </div>
-                    <div class="col-md-12"></div>
+<!--                    <div class="col-md-12"></div>-->
                     <div class="col-md-4">
                         <label>{{$ml.get('supervisor')}}</label>
                         <select class="form-control" v-model="dataModel.parent_id">
@@ -104,7 +113,7 @@
                         <input type="password" class="form-control" v-model="dataModel.password">
                         <div class="text-danger error_text" id="password_error"></div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <label>{{$ml.get('city')}}</label>
                         <multiselect v-model="selectValue" :options="allGovernorates" :multiple="true"
                                      group-values="cities"
@@ -267,7 +276,7 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.mandoobs;
+                                vm.tableData = response.data.mandoobs.data;
                                 return null;
                             }
                             vm.tableData = [];
@@ -339,6 +348,7 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
+                        vm.$refs.addModal.close();
                     });
                 } catch (e) {
                     console.log(e)
@@ -369,6 +379,7 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
+                        vm.$refs.addModal.close();
                     });
                 } catch (e) {
                     console.log(e)
@@ -378,6 +389,7 @@
                 this.selectValue = [];
                 this.dataModel = {
                     "id": "",
+                    "barcode": "",
                     "first_name": "",
                     "last_name": "",
                     "email": "",
@@ -397,8 +409,8 @@
     }
 
     .multiselect__option--disabled {
-        background: #182029 !important;
-        color: #ffffff !important;
+        /*background: #182029 !important;*/
+        /*color: #ffffff !important;*/
         font-weight: bold;
         font-size: 18px;
     }

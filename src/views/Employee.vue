@@ -1,11 +1,11 @@
 <template>
     <div>
 
-        <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
+        <base-header type="gradient-danger" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-success btn-icon btn-icon-only" @click="showModal()">
+                    <button class="btn btn-dark btn-icon btn-icon-only" @click="showModal()">
                         <i class="ni ni-fat-add ni-lg pt-1"></i>
                     </button>
                 </div>
@@ -25,31 +25,37 @@
                                             tbody-classes="list"
                                             :data="tableData">
                                     <template slot="columns">
-                                        <th>{{$ml.get('first_name')}}</th>
-                                        <th>{{$ml.get('last_name')}}</th>
                                         <th>{{$ml.get('barcode')}}</th>
-                                        <th>{{$ml.get('email')}}</th>
-                                        <th>{{$ml.get('cities')}}</th>
+                                        <th>{{$ml.get('name')}}</th>
+                                        <th>{{$ml.get('phone')}}</th>
+                                        <th>{{$ml.get('age')}}</th>
+                                        <th>{{$ml.get('job')}}</th>
+                                        <th>{{$ml.get('hiring_at')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
                                         <td class="budget" :id="'td_row_'+row.id">
-                                            {{row.first_name}}
-                                        </td>
-                                        <td>
-                                            {{row.last_name}}
-                                        </td>
-                                        <td>
                                             {{row.barcode}}
                                         </td>
                                         <td>
-                                            {{row.email}}
+                                            {{row.name}}
                                         </td>
-                                        <td v-html="getCitiesText(row.cities)"></td>
+                                        <td>
+                                            {{row.phone}}
+                                        </td>
+                                        <td>
+                                            {{row.age}}
+                                        </td>
+                                        <td>
+                                            {{row.job}}
+                                        </td>
+                                        <td>
+                                            {{row.hiring_at}}
+                                        </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteSupervisor(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteEmployee(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
@@ -72,42 +78,36 @@
                         <div class="text-danger error_text" id="barcode_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('first_name')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.first_name">
-                        <div class="text-danger error_text" id="first_name_error"></div>
+                        <label>{{$ml.get('name')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.name">
+                        <div class="text-danger error_text" id="name_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('last_name')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.last_name">
-                        <div class="text-danger error_text" id="last_name_error"></div>
+                        <label>{{$ml.get('phone')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.phone">
+                        <div class="text-danger error_text" id="phone_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('email')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.email">
-                        <div class="text-danger error_text" id="email_error"></div>
+                        <label>{{$ml.get('age')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.age">
+                        <div class="text-danger error_text" id="age_error"></div>
                     </div>
-<!--                    <div class="col-md-12"></div>-->
                     <div class="col-md-4">
-                        <label>{{$ml.get('password')}}</label>
-                        <input type="password" class="form-control" v-model="dataModel.password">
-                        <div class="text-danger error_text" id="password_error"></div>
+                        <label>{{$ml.get('job')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.job">
+                        <div class="text-danger error_text" id="job_error"></div>
                     </div>
-                    <div class="col-md-12">
-                        <label>{{$ml.get('city')}}</label>
-                        <multiselect v-model="selectValue" :options="allGovernorates" :multiple="true"
-                                     group-values="cities"
-                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
-                                     track-by="name" label="name">
-                            <span slot="noResult">Oops! No elements found. </span>
-                        </multiselect>
-                        <div class="text-danger error_text" id="city_id_error"></div>
+                    <div class="col-md-4">
+                        <label>{{$ml.get('hiring_at')}}</label>
+                        <flat-pickr type="text" class="form-control" v-model="dataModel.hiring_at"></flat-pickr>
+                        <div class="text-danger error_text" id="hiring_at_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
-                        <button class="btn btn-info" @click="addSupervisor()" v-if="!dataModel.id">
+                        <button class="btn btn-info" @click="addEmployee()" v-if="!dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('add')}}</slot>
                         </button>
-                        <button class="btn btn-info" @click="updateSupervisor()" v-if="dataModel.id">
+                        <button class="btn btn-info" @click="updateEmployee()" v-if="dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('edit')}}</slot>
                         </button>
@@ -121,6 +121,8 @@
     import {SweetModal, SweetModalTab} from 'sweet-modal-vue'
     import Multiselect from 'vue-multiselect'
     import 'vue-multiselect/dist/vue-multiselect.min.css'
+    import 'flatpickr/dist/flatpickr.css';
+    import FlatPickr from "vue-flatpickr-component/src/component";
 
     export default {
         data() {
@@ -129,43 +131,29 @@
                 tableData: [],
                 isLoading: true,
                 disable: false,
-                allGovernorates: [],
-                statusModel: {
-                    client_status: [],
-                    client_transaction: [],
-                },
                 dataModel: {}
             }
         },
         watch: {
             selectValue: function (newVal, oldVal) {
-                if (newVal.length) {
-                    // this.dataModel.city_id = newVal.id
+                if (newVal) {
+                    this.dataModel.city_id = newVal.id
                 } else {
-                    // this.dataModel.city_id = newVal
+                    this.dataModel.city_id = newVal
                 }
             },
         },
         mounted() {
             let vm = this;
-            vm.getAllSupervisor();
-            vm.getallGovernorates();
-            // vm.getAllStatus();
+            vm.getAllEmployees();
         },
         components: {
+            FlatPickr,
             Multiselect,
             SweetModal,
             SweetModalTab
         },
         methods: {
-            getCitiesText(cities) {
-                let str = '';
-                _.forEach(cities, (item, index) => {
-                    str += `<span class="badge badge-info" style="font-size: 12px"> ${item.translated.title} </span> `;
-                    // if (index + 1 != cities.length) str += ','
-                })
-                return str;
-            },
             showModal() {
                 let vm = this;
                 vm.resetModelData();
@@ -174,63 +162,19 @@
             showUpdateModal(data) {
                 let vm = this;
                 vm.dataModel = data;
-                vm.selectValue = data.cities;
+                vm.selectValue = data.city;
                 vm.$refs.addModal.open();
             },
-            getAllStatus() {
+            getAllEmployees() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.COMMON_STATUS)
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_EMPLOYEE)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.statusModel.client_status = response.data.status.client_status;
-                                vm.statusModel.client_transaction = response.data.status.client_transaction;
-                            }
-                        }).catch((error) => {
-                        vm.$root.$children[0].$refs.loader.show_loader = false;
-                        window.helper.handleError(error, vm);
-                        vm.statusModel.client_status = [];
-                        vm.statusModel.client_transaction = [];
-                    });
-                } catch (e) {
-                    console.log(e)
-                }
-            },
-            getallGovernorates() {
-                let vm = this;
-                vm.$root.$children[0].$refs.loader.show_loader = true;
-                try {
-                    window.serviceAPI.API().get(window.serviceAPI.COMMON_GOVERNORATES)
-                        .then((response) => {
-                            vm.$root.$children[0].$refs.loader.show_loader = false;
-                            response = response.data;
-                            if (response.status) {
-                                vm.allGovernorates = response.data.governorates;
-                                return null;
-                            }
-                            vm.allGovernorates = [];
-                        }).catch((error) => {
-                        vm.$root.$children[0].$refs.loader.show_loader = false;
-                        window.helper.handleError(error, vm);
-                        vm.allGovernorates = [];
-                    });
-                } catch (e) {
-                    console.log(e)
-                }
-            },
-            getAllSupervisor() {
-                let vm = this;
-                vm.$root.$children[0].$refs.loader.show_loader = true;
-                try {
-                    window.serviceAPI.API().get(window.serviceAPI.ALL_SUPERVISOR)
-                        .then((response) => {
-                            vm.$root.$children[0].$refs.loader.show_loader = false;
-                            response = response.data;
-                            if (response.status) {
-                                vm.tableData = response.data.super_visors.data;
+                                vm.tableData = response.data.employees.data;
                                 return null;
                             }
                             vm.tableData = [];
@@ -244,7 +188,7 @@
                     console.log(e)
                 }
             },
-            deleteSupervisor: function (row) {
+            deleteEmployee: function (row) {
                 let vm = this;
 
                 vm.$swal({
@@ -259,7 +203,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_SUPERVISOR + `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_EMPLOYEE+ `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;
@@ -279,13 +223,12 @@
                     }
                 });
             },
-            addSupervisor: function () {
+            addEmployee: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
-                request_data.city_ids = _.map(vm.selectValue, 'id');
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.ADD_SUPERVISOR, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.ADD_EMPLOYEE, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -293,8 +236,8 @@
                                 window.helper.showMessage('success', vm);
                                 vm.resetModelData();
                                 $('.error_text').text('');
-                                let super_visor = response.data.super_visor;
-                                vm.tableData.push(super_visor);
+                                let employee = response.data.employee;
+                                vm.tableData.push(employee);
                                 vm.$refs.addModal.close();
                                 return null;
                             }
@@ -308,24 +251,24 @@
                     console.log(e)
                 }
             },
-            updateSupervisor: function () {
+            updateEmployee: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_SUPERVISOR, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_EMPLOYEE, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                let super_visor = response.data.super_visor;
                                 window.helper.showMessage('success', vm);
                                 vm.resetModelData();
                                 $('.error_text').text('');
                                 vm.$refs.addModal.close();
                                 // location.reload()
                                 $(`#td_row_${request_data.id}`).parent().remove();
-                                vm.tableData.push(super_visor);
+                                let employee = response.data.employee;
+                                vm.tableData.push(employee);
                                 return null;
                             }
 
@@ -339,18 +282,17 @@
                 }
             },
             resetModelData() {
-                this.selectValue = [];
+                this.selectValue = null;
                 this.dataModel = {
                     "id": "",
-                    "barcode": "",
-                    "first_name": "",
-                    "last_name": "",
-                    "email": "",
-                    "type": "super_visor",
-                    "parent_id": "",
-                    "created_at": "",
-                    "updated_at": "",
-                    "cities": []
+                    "name": "",
+                    "phone": "",
+                    "age": "",
+                    "job_id": "",
+                    "hiring_at": "",
+                    "created_at": " ",
+                    "updated_at": " ",
+                    "job": "   "
                 }
             }
         }

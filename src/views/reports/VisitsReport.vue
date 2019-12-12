@@ -39,6 +39,16 @@
                         <option value="not_completed">not_completed</option>
                     </select>
                 </div>
+                <div class="col-md-6">
+                    <label class="font-weight-bold text-white">{{$ml.get('city')}}</label>
+                    <multiselect v-model="selectedGov" :options="allGovernorates" :multiple="false"
+                                 group-values="cities"
+                                 group-label="name" :group-select="false" :placeholder="$ml.get('search')"
+                                 track-by="name" label="name">
+                        <span slot="noResult">Oops! No elements found. </span>
+                    </multiselect>
+                    <div class="text-danger error_text" id="city_id_error"></div>
+                </div>
                 <div class="col-md-12 text-center">
                     <button class="btn btn-primary mt-2" @click="getAllVisits()">
                         <i class="fas fa-search"></i>
@@ -117,6 +127,9 @@
     export default {
         data() {
             return {
+
+                allGovernorates: [],
+                selectedGov: null,
                 selectValue: null,
                 selectSupervisor: null,
                 selectMandoob: null,
@@ -139,6 +152,7 @@
             let vm = this;
             vm.getAllVisits();
             vm.getAllFilterData();
+            vm.getallGovernorates();
         },
         components: {
             Multiselect,
@@ -177,11 +191,16 @@
                 if (this.selectMandoob) {
                     mandoob_id = this.selectMandoob.id;
                 }
+                let governorate_id = null;
+                if (this.selectedGov) {
+                    governorate_id = this.selectedGov.id;
+                }
 
                 return {
                     mandoob_id: mandoob_id,
                     supervisor_id: supervisor_id,
                     client_id: client_id,
+                    city_id: governorate_id,
                     status: this.status,
                     start_date: start_date,
                     end_date: end_date ? end_date : start_date,
@@ -222,9 +241,9 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.mandoobs = response.data.mandoob
-                                vm.supervisor = response.data.supervisor
-                                vm.clients = response.data.clients
+                                vm.mandoobs = response.data.mandoob.data
+                                vm.supervisor = response.data.supervisor.data
+                                vm.clients = response.data.clients.data
                                 return null;
                             }
                             vm.supervisor = [];
@@ -237,6 +256,28 @@
                         vm.supervisor = [];
                         vm.mandoobs = [];
                         vm.clients = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            getallGovernorates() {
+                let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.COMMON_GOVERNORATES)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+                                vm.allGovernorates = response.data.governorates;
+                                return null;
+                            }
+                            vm.allGovernorates = [];
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.allGovernorates = [];
                     });
                 } catch (e) {
                     console.log(e)

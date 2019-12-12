@@ -219,20 +219,20 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                $.each(response.data.mandoob, function (index, item) {
+                                $.each(response.data.mandoob.data, function (index, item) {
                                     item['person_type'] = 'mandoob'
                                 });
-                                $.each(response.data.supervisor, function (index, item) {
+                                $.each(response.data.supervisor.data, function (index, item) {
                                     item['person_type'] = 'supervisor'
                                 });
                                 vm.allFilterData = response.data;
                                 vm.allFilterDataAltered.push({
                                     key: vm.$ml.get('mandoob'),
-                                    persons: response.data.mandoob
+                                    persons: response.data.mandoob.data
                                 });
                                 vm.allFilterDataAltered.push({
                                     key: vm.$ml.get('supervisor'),
-                                    persons: response.data.supervisor
+                                    persons: response.data.supervisor.data
                                 });
                                 return null;
                             }

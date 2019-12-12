@@ -5,7 +5,7 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-success btn-icon btn-icon-only" @click="showModal()">
+                    <button class="btn btn-info btn-icon btn-icon-only" @click="showModal()">
                         <i class="ni ni-fat-add ni-lg pt-1"></i>
                     </button>
                 </div>
@@ -66,6 +66,11 @@
                                                 <button class="btn btn-danger btn-sm" @click="deleteClient(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
+                                                <router-link
+                                                        :to="{name:'show_client',params:{id:row.id}}"
+                                                        class="btn btn-sm btn-warning">
+                                                    <i class="fa fa-eye"></i>
+                                                </router-link>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
@@ -112,7 +117,7 @@
                         <!--                        </select>-->
                         <div class="text-danger error_text" id="city_id_error"></div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>{{$ml.get('status')}}</label>
                         <select type="text" class="form-control" v-model="dataModel.status_id">
                             <option v-for="(item , key) in statusModel.client_status" :value="item.id" :key="key">
@@ -121,7 +126,7 @@
                         </select>
                         <div class="text-danger error_text" id="status_id_error"></div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>{{$ml.get('transactionStatus')}}</label>
                         <select type="text" class="form-control" v-model="dataModel.transaction_status_id">
                             <option v-for="(item , key) in statusModel.client_transaction" :value="item.id" :key="key">
@@ -260,7 +265,7 @@
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.clients;
+                                vm.tableData = response.data.clients.data;
                                 return null;
                             }
                             vm.tableData = [];
@@ -331,6 +336,7 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
+                        vm.$refs.addModal.close();
                     });
                 } catch (e) {
                     console.log(e)
@@ -360,6 +366,7 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
+                        vm.$refs.addModal.close();
                     });
                 } catch (e) {
                     console.log(e)
@@ -425,8 +432,8 @@
     }
 
     .multiselect__option--disabled {
-        background: #182029 !important;
-        color: #ffffff !important;
+        /*background: #182029 !important;*/
+        /*color: #ffffff !important;*/
         font-weight: bold;
         font-size: 18px;
     }
