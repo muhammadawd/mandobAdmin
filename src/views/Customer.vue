@@ -341,7 +341,9 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
-                        vm.$refs.addModal.close();
+                        if (error.response.status != 422) {
+                            vm.$refs.addModal.close();
+                        }
                     });
                 } catch (e) {
                     console.log(e)
@@ -371,7 +373,9 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
-                        vm.$refs.addModal.close();
+                        if (error.response.status != 422) {
+                            vm.$refs.addModal.close();
+                        }
                     });
                 } catch (e) {
                     console.log(e)

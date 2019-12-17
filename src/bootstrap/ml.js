@@ -113,7 +113,17 @@ export default new MLCreate({
             job: 'الوظيفة',
             age: 'العمر',
             hiring_at: 'تاريخ التوظيف',
-            employee: 'الموظفين'
+            employee: 'الموظفين',
+            violation: 'المخالفات',
+            locations: 'متابعة المندوبين',
+            send_fcm: 'ارسال اشعار لتحديد الموقع',
+            send_fcm_all: 'سيتم ارسال الاشعار لجميع المندوبين اذا لم تحدد احد',
+            send: 'ارسال',
+            add_violation: 'اضافة مخالفة',
+            location_ok: 'نجاح',
+            notes: 'ملاحظات',
+            lat: 'احداثي رأسي',
+            lng: 'احداثي افقي',
         })
     ]
 })

@@ -34,7 +34,10 @@
                              style="min-height: 600px;">
                             <div class="table-responsive">
                                 <div class="main-content">
-                                    <div class="title">{{$ml.get('attendance_report')}}</div>
+                                    <div class="title">
+                                        {{$ml.get('attendance_report')}}
+                                        ({{months[dataModel.month - 1] ? months[dataModel.month - 1].title : ''}} - {{dataModel.year}})
+                                    </div>
                                     <div class="table-responsive">
                                         <table class="table" id="printMe">
                                             <tr class="cells">
@@ -46,7 +49,7 @@
                                             </tr>
 
                                             <tr class="cells" v-for="(person , index) in tableData" :key="index">
-                                                <td class="cells__names text-right" dir="rtl">{{person.name}}  ({{person.barcode}}) </td>
+                                                <td class="cells__names text-right" dir="rtl">{{person.name}}({{person.barcode}})</td>
                                                 <td class="cells__alphabet text-center bg-white"
                                                     v-for="(day , key) in person.days">
                                                     <div v-if="!getDates(day).length"><i

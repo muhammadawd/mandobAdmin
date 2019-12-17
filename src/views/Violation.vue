@@ -1,13 +1,16 @@
 <template>
     <div>
 
-        <base-header type="gradient-danger" class="pb-6 pb-8 pt-5 pt-md-8">
+        <base-header type="gradient-info" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
             <div class="row">
-                <div class="col-md-4 text-right">
-                    <button class="btn btn-dark btn-icon btn-icon-only" @click="showModal()">
-                        <i class="ni ni-fat-add ni-lg pt-1"></i>
+                <div class="col-md-4 text-right d-print-none">
+                    <button class="btn btn-secondary d-print-none" @click="print()">
+                        <i class="fas fa-print"></i>
                     </button>
+                    <!--                    <button class="btn btn-info btn-icon btn-icon-only" @click="showModal()">-->
+                    <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                    <!--                    </button>-->
                 </div>
             </div>
         </base-header>
@@ -18,6 +21,19 @@
                     <div class="card shadow border-0">
                         <div class="map-canvas"
                              style="min-height: 600px;">
+                            <div class="row p-2 mt-2 mb-2 d-print-none">
+                                <div class="col-md-3 text-right">
+                                    <label class="font-weight-bold">{{$ml.get('date')}}</label>
+                                    <flat-pickr class="form-control text-center form-control-alternative" dir="ltr"
+                                                :config="{dateFormat: 'Y-m-d',mode:'range'}"
+                                                v-model="filterModel.date"></flat-pickr>
+                                </div>
+                                <div class="col-md-12 text-right mt-1">
+                                    <button class="btn btn-info btn-md" @click="getAllViolations()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <base-table class="table align-items-center table-flush"
                                             :class="'table-darks'"
@@ -25,37 +41,30 @@
                                             tbody-classes="list"
                                             :data="tableData">
                                     <template slot="columns">
-                                        <th>{{$ml.get('barcode')}}</th>
                                         <th>{{$ml.get('name')}}</th>
-                                        <th>{{$ml.get('phone')}}</th>
-                                        <th>{{$ml.get('age')}}</th>
-                                        <th>{{$ml.get('job')}}</th>
-                                        <th>{{$ml.get('hiring_at')}}</th>
-                                        <th width="100">{{$ml.get('operations')}}</th>
+                                        <th>{{$ml.get('value')}}</th>
+                                        <th>{{$ml.get('date')}}</th>
+                                        <th>{{$ml.get('notes')}}</th>
+                                        <th class="d-print-none" width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
                                         <td class="budget" :id="'td_row_'+row.id">
-                                            {{row.barcode}}
+                                            {{row.mandoob.first_name}} {{row.mandoob.last_name}}
                                         </td>
                                         <td>
-                                            {{row.name}}
+                                            {{row.value}}
                                         </td>
                                         <td>
-                                            {{row.phone}}
+                                            {{row.date}}
                                         </td>
                                         <td>
-                                            {{row.age}}
+                                            {{row.notes}}
                                         </td>
-                                        <td>
-                                            {{row.job}}
-                                        </td>
-                                        <td>
-                                            {{row.hiring_at}}
-                                        </td>
-                                        <td>
+
+                                        <td class="d-print-none">
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteEmployee(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteViolation(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
@@ -72,42 +81,27 @@
             </div>
             <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal'" width="70%">
                 <div class="row text-right">
-                    <div class="col-md-4">
-                        <label>{{$ml.get('barcode')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.barcode">
-                        <div class="text-danger error_text" id="barcode_error"></div>
+                    <div class="col-md-3">
+                        <label class="font-weight-bold">{{$ml.get('date')}}</label>
+                        <flat-pickr type="text" class="form-control" v-model="dataModel.date"></flat-pickr>
+                        <div class="text-danger error_text" id="date_error"></div>
                     </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('name')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.name">
-                        <div class="text-danger error_text" id="name_error"></div>
+                    <div class="col-md-3">
+                        <label class="font-weight-bold">{{$ml.get('value')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.value">
+                        <div class="text-danger error_text" id="value_error"></div>
                     </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('phone')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.phone">
-                        <div class="text-danger error_text" id="phone_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('age')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.age">
-                        <div class="text-danger error_text" id="age_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('job')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.job">
-                        <div class="text-danger error_text" id="job_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('hiring_at')}}</label>
-                        <flat-pickr type="text" class="form-control" v-model="dataModel.hiring_at"></flat-pickr>
-                        <div class="text-danger error_text" id="hiring_at_error"></div>
+                    <div class="col-md-6">
+                        <label class="font-weight-bold">{{$ml.get('notes')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.notes">
+                        <div class="text-danger error_text" id="notes_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
-                        <button class="btn btn-info" @click="addEmployee()" v-if="!dataModel.id">
-                            <slot v-if="disable">LOADING ...</slot>
-                            <slot v-if="!disable">{{$ml.get('add')}}</slot>
-                        </button>
-                        <button class="btn btn-info" @click="updateEmployee()" v-if="dataModel.id">
+                        <!--                        <button class="btn btn-info" @click="addClient()" v-if="!dataModel.id">-->
+                        <!--                            <slot v-if="disable">LOADING ...</slot>-->
+                        <!--                            <slot v-if="!disable">{{$ml.get('add')}}</slot>-->
+                        <!--                        </button>-->
+                        <button class="btn btn-info" @click="updateClient()" v-if="dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('edit')}}</slot>
                         </button>
@@ -121,8 +115,8 @@
     import {SweetModal, SweetModalTab} from 'sweet-modal-vue'
     import Multiselect from 'vue-multiselect'
     import 'vue-multiselect/dist/vue-multiselect.min.css'
+    import flatPickr from 'vue-flatpickr-component';
     import 'flatpickr/dist/flatpickr.css';
-    import FlatPickr from "vue-flatpickr-component/src/component";
 
     export default {
         data() {
@@ -131,29 +125,24 @@
                 tableData: [],
                 isLoading: true,
                 disable: false,
-                dataModel: {}
+                dataModel: {},
+                filterModel: {},
             }
-        },
-        watch: {
-            selectValue: function (newVal, oldVal) {
-                if (newVal) {
-                    this.dataModel.city_id = newVal.id
-                } else {
-                    this.dataModel.city_id = newVal
-                }
-            },
         },
         mounted() {
             let vm = this;
-            vm.getAllEmployees();
+            vm.getAllViolations();
         },
         components: {
-            FlatPickr,
             Multiselect,
             SweetModal,
+            flatPickr,
             SweetModalTab
         },
         methods: {
+            print() {
+                window.print()
+            },
             showModal() {
                 let vm = this;
                 vm.resetModelData();
@@ -165,16 +154,28 @@
                 vm.selectValue = data.city;
                 vm.$refs.addModal.open();
             },
-            getAllEmployees() {
+            getAllViolations() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
+                let start_date = null;
+                let end_date = null;
+                if (vm.filterModel.date) {
+                    let arr = vm.filterModel.date.split(" to ");
+                    start_date = arr[0];
+                    end_date = arr[1] ? arr[1] : arr[0];
+                }
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.ALL_EMPLOYEE)
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_VIOLATION, {
+                        params: {
+                            start_date: start_date,
+                            end_date: end_date
+                        }
+                    })
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.employees.data;
+                                vm.tableData = response.data.violations.data;
                                 return null;
                             }
                             vm.tableData = [];
@@ -188,7 +189,7 @@
                     console.log(e)
                 }
             },
-            deleteEmployee: function (row) {
+            deleteViolation: function (row) {
                 let vm = this;
 
                 vm.$swal({
@@ -203,7 +204,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_EMPLOYEE+ `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_VIOLATION + `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;
@@ -223,42 +224,12 @@
                     }
                 });
             },
-            addEmployee: function () {
+            updateClient: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.ADD_EMPLOYEE, request_data)
-                        .then((response) => {
-                            vm.$root.$children[0].$refs.loader.show_loader = false;
-                            response = response.data;
-                            if (response.status) {
-                                window.helper.showMessage('success', vm);
-                                vm.resetModelData();
-                                $('.error_text').text('');
-                                let employee = response.data.employee;
-                                vm.tableData.push(employee);
-                                vm.$refs.addModal.close();
-                                return null;
-                            }
-
-                        }).catch((error) => {
-                        vm.$root.$children[0].$refs.loader.show_loader = false;
-                        window.helper.handleError(error, vm);
-                        if (error.response.status != 422) {
-                            vm.$refs.addModal.close();
-                        }
-                    });
-                } catch (e) {
-                    console.log(e)
-                }
-            },
-            updateEmployee: function () {
-                let vm = this;
-                let request_data = vm.dataModel;
-                vm.$root.$children[0].$refs.loader.show_loader = true;
-                try {
-                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_EMPLOYEE, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_VIOLATION, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -269,8 +240,8 @@
                                 vm.$refs.addModal.close();
                                 // location.reload()
                                 $(`#td_row_${request_data.id}`).parent().remove();
-                                let employee = response.data.employee;
-                                vm.tableData.push(employee);
+                                let violation = response.data.violation;
+                                vm.tableData.push(violation);
                                 return null;
                             }
 
@@ -287,17 +258,7 @@
             },
             resetModelData() {
                 this.selectValue = null;
-                this.dataModel = {
-                    "id": "",
-                    "name": "",
-                    "phone": "",
-                    "age": "",
-                    "job_id": "",
-                    "hiring_at": "",
-                    "created_at": " ",
-                    "updated_at": " ",
-                    "job": "   "
-                }
+                this.dataModel = {}
             }
         }
     }

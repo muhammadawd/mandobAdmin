@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-let BASE_URL = `https://approc.com/~approctest/mandoob/api/`;
-// let BASE_URL = `http://192.168.1.2/mandoob/api/`;
+// let BASE_URL = `https://approc.com/~approctest/mandoob/api/`;
+let BASE_URL = `http://192.168.1.2/mandoob/api/`;
 
 export default {
     AUTH_ACCOUNT: 'admin/login',
@@ -28,6 +28,15 @@ export default {
     DELETE_MANDOOBS: 'mandoob/delete',
     ADD_MANDOOBS: 'mandoob/create',
     UPDATE_MANDOOBS: 'mandoob/update',
+    SEND_NOTIFICATION_MANDOOBS: 'mandoob/push-notification/send-to',
+
+    ALL_LOCATIONS: 'location',
+    DELETE_LOCATIONS: 'location/delete',
+
+    ALL_VIOLATION: 'violation',
+    ADD_VIOLATION: 'violation/create',
+    UPDATE_VIOLATION: 'violation/update',
+    DELETE_VIOLATION: 'violation/delete',
 
     ALL_SUPERVISOR: 'supervisor',
     DELETE_SUPERVISOR: 'supervisor/delete',

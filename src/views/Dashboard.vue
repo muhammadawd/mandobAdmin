@@ -166,8 +166,8 @@
         },
         mounted() {
             this.getAllStatistics();
-            var thisDate,thisData;
-            $( "#bar svg" ).on('click', function() {
+            var thisDate, thisData;
+            $("#bar svg").on('click', function () {
                 // Find data and date in the actual morris diply below the graph.
                 thisDate = $(".morris-hover-row-label").html();
                 let thisDataHtml = $(".morris-hover-point").html().split(":");
@@ -175,7 +175,7 @@
                 console.log(thisDataHtml)
 
                 // alert !!
-                console.log( "Data: "+thisData+"\nDate: "+thisDate );
+                console.log("Data: " + thisData + "\nDate: " + thisDate);
             });
         },
         components: {
@@ -207,11 +207,12 @@
                         {
                             label: value.name,
                             name: value.name,
-                            id: value.clients[0].id,
-                            visit_cost: value.clients[0].visit_cost
-                        }
+                            id: value.clients[0] ? value.clients[0].id : null,
+                            visit_cost: value.clients[0] ? value.clients[0].visit_cost : null
+                        },
                     );
-                    vm.topClientNames.push(value.clients[0].name)
+                    // vm.topClientNames.push(value.clients[0] ? value.clients[0].name : null)
+                    vm.topClientNames.push('اقصي قيمة')
                 });
             },
             getAllStatistics() {
@@ -240,6 +241,7 @@
 
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
+                        console.log(error)
                         window.helper.handleError(error, vm);
                         vm.tableData = [];
                     });

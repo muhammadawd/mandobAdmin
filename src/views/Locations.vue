@@ -1,12 +1,13 @@
 <template>
     <div>
 
-        <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
+        <base-header type="gradient-warning" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-success btn-icon btn-icon-only" @click="showModal()">
-                        <i class="ni ni-fat-add ni-lg pt-1"></i>
+                    <button class="btn btn-danger" @click="showNotifactionModal()">
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        {{$ml.get('send_fcm')}}
                     </button>
                 </div>
             </div>
@@ -18,6 +19,25 @@
                     <div class="card shadow border-0">
                         <div class="map-canvas"
                              style="min-height: 600px;">
+                            <div class="row p-2 mt-2 mb-2">
+                                <div class="col-md-3 text-right">
+                                    <label class="font-weight-bold">{{$ml.get('mandoob')}}</label>
+                                    <multiselect v-model="selectMandoob" :options="allMandoobs"
+                                                 :custom-label="customLabel"
+                                                 :placeholder="$ml.get('search')"></multiselect>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <label class="font-weight-bold">{{$ml.get('date')}}</label>
+                                    <flat-pickr class="form-control text-center form-control-alternative" dir="ltr"
+                                                :config="{dateFormat: 'Y-m-d',mode:'range'}"
+                                                v-model="filterModel.date"></flat-pickr>
+                                </div>
+                                <div class="col-md-12 text-right mt-1">
+                                    <button class="btn btn-info btn-md" @click="getAllLocations()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <base-table class="table align-items-center table-flush"
                                             :class="'table-darks'"
@@ -25,35 +45,39 @@
                                             tbody-classes="list"
                                             :data="tableData">
                                     <template slot="columns">
-                                        <th>{{$ml.get('first_name')}}</th>
-                                        <th>{{$ml.get('last_name')}}</th>
-                                        <th>{{$ml.get('barcode')}}</th>
-                                        <th>{{$ml.get('email')}}</th>
-                                        <th>{{$ml.get('cities')}}</th>
+                                        <th>{{$ml.get('lat')}}</th>
+                                        <th>{{$ml.get('lng')}}</th>
+                                        <th>{{$ml.get('mandoob')}}</th>
+                                        <th>{{$ml.get('date')}}</th>
+                                        <th>{{$ml.get('address')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
                                         <td class="budget" :id="'td_row_'+row.id">
-                                            {{row.first_name}}
+                                            {{row.lat}}
                                         </td>
                                         <td>
-                                            {{row.last_name}}
+                                            {{row.lng}}
                                         </td>
                                         <td>
-                                            {{row.barcode}}
+                                            {{row.mandoob.first_name}}
+                                            {{row.mandoob.last_name}}
                                         </td>
                                         <td>
-                                            {{row.email}}
+                                            {{row.created_at}}
                                         </td>
-                                        <td v-html="getCitiesText(row.cities)"></td>
+                                        <td>
+                                            {{row.address}}
+                                        </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteSupervisor(row)">
-                                                    <i class="ni ni-fat-remove ni-lg pt-1"></i>
+                                                <button class="btn btn-danger btn-sm"
+                                                        @click="showAddViolationModal(row)">
+                                                    {{$ml.get('add_violation')}}
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
-                                                    <i class="ni ni-collection ni-lg pt-1"></i>
+                                                <button class="btn btn-success btn-sm" @click="deleteLocation(row)">
+                                                    {{$ml.get('location_ok')}}
                                                 </button>
                                             </div>
                                         </td>
@@ -64,52 +88,58 @@
                     </div>
                 </div>
             </div>
-            <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal'" width="70%">
+            <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'notifactionModal'" width="70%">
                 <div class="row text-right">
-                    <div class="col-md-4">
-                        <label>{{$ml.get('barcode')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.barcode">
-                        <div class="text-danger error_text" id="barcode_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('first_name')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.first_name">
-                        <div class="text-danger error_text" id="first_name_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('last_name')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.last_name">
-                        <div class="text-danger error_text" id="last_name_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('email')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.email">
-                        <div class="text-danger error_text" id="email_error"></div>
-                    </div>
-<!--                    <div class="col-md-12"></div>-->
-                    <div class="col-md-4">
-                        <label>{{$ml.get('password')}}</label>
-                        <input type="password" class="form-control" v-model="dataModel.password">
-                        <div class="text-danger error_text" id="password_error"></div>
-                    </div>
                     <div class="col-md-12">
-                        <label>{{$ml.get('city')}}</label>
-                        <multiselect v-model="selectValue" :options="allGovernorates" :multiple="true"
-                                     group-values="cities"
-                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
-                                     track-by="name" label="name">
-                            <span slot="noResult">Oops! No elements found. </span>
+                        <label>{{$ml.get('mandoob')}}</label>
+                        <multiselect v-model="selectValue" :options="allMandoobs" :multiple="true"
+                                     :placeholder="$ml.get('search')"
+                                     :custom-label="customLabel">
+                            <span slot="noResult">Oops! No elements found.</span>
                         </multiselect>
-                        <div class="text-danger error_text" id="city_id_error"></div>
+                        <div class="text-info mt-2 font-weight-bold">
+                            {{$ml.get('send_fcm_all')}}
+                        </div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
-                        <button class="btn btn-info" @click="addSupervisor()" v-if="!dataModel.id">
-                            <slot v-if="disable">LOADING ...</slot>
-                            <slot v-if="!disable">{{$ml.get('add')}}</slot>
+                        <button class="btn btn-info" @click="sendNotifications()">
+                            <slot>{{$ml.get('send')}}</slot>
                         </button>
-                        <button class="btn btn-info" @click="updateSupervisor()" v-if="dataModel.id">
-                            <slot v-if="disable">LOADING ...</slot>
-                            <slot v-if="!disable">{{$ml.get('edit')}}</slot>
+                    </div>
+                </div>
+            </sweet-modal>
+            <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal'" width="70%">
+                <div class="row text-right" v-if="dataModel.mandoob">
+                    <div class="col-md-12 text-center">
+                        <h1 class="text-white">{{$ml.get('add_violation')}}</h1>
+                    </div>
+                    <div class="col-md-12">
+                        <b>{{$ml.get('name')}}: </b>{{dataModel.mandoob.first_name}} {{dataModel.mandoob.last_name}}
+                        <br>
+                        <b>{{$ml.get('address')}}: </b>{{dataModel.address}}
+                        <input type="hidden" v-model="dataViolationModel.mandoob_id = dataModel.mandoob_id">
+                        <hr>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="font-weight-bold">{{$ml.get('date')}}</label>
+                        <flat-pickr type="text" class="form-control"
+                                    :config="{dateFormat: 'Y-m-d H:i',enableTime:true}"
+                                    v-model="dataViolationModel.date = dataModel.created_at"></flat-pickr>
+                        <div class="text-danger error_text" id="date_error"></div>
+                    </div>
+                    <!--                    <div class="col-md-3">-->
+                    <!--                        <label class="font-weight-bold">{{$ml.get('value')}}</label>-->
+                    <!--                        <input type="text" class="form-control" v-model="dataViolationModel.value">-->
+                    <!--                        <div class="text-danger error_text" id="value_error"></div>-->
+                    <!--                    </div>-->
+                    <div class="col-md-9">
+                        <label class="font-weight-bold">{{$ml.get('notes')}}</label>
+                        <input type="text" class="form-control" v-model="dataViolationModel.notes">
+                        <div class="text-danger error_text" id="notes_error"></div>
+                    </div>
+                    <div class="col-md-12 text-center mt-2">
+                        <button class="btn btn-info" @click="addViolation()">
+                            <slot>{{$ml.get('add')}}</slot>
                         </button>
                     </div>
                 </div>
@@ -121,20 +151,21 @@
     import {SweetModal, SweetModalTab} from 'sweet-modal-vue'
     import Multiselect from 'vue-multiselect'
     import 'vue-multiselect/dist/vue-multiselect.min.css'
+    import flatPickr from 'vue-flatpickr-component';
+    import 'flatpickr/dist/flatpickr.css';
 
     export default {
         data() {
             return {
-                selectValue: null,
+                selectValue: [],
+                selectMandoob: null,
                 tableData: [],
                 isLoading: true,
                 disable: false,
-                allGovernorates: [],
-                statusModel: {
-                    client_status: [],
-                    client_transaction: [],
-                },
-                dataModel: {}
+                allMandoobs: [],
+                dataModel: {},
+                dataViolationModel: {},
+                filterModel: {}
             }
         },
         watch: {
@@ -148,93 +179,59 @@
         },
         mounted() {
             let vm = this;
-            vm.getAllSupervisor();
-            vm.getallGovernorates();
-            // vm.getAllStatus();
+            vm.getAllLocations();
+            vm.getAllMandoob();
         },
         components: {
             Multiselect,
             SweetModal,
+            flatPickr,
             SweetModalTab
         },
         methods: {
-            getCitiesText(cities) {
-                let str = '';
-                _.forEach(cities, (item, index) => {
-                    str += `<span class="badge badge-info" style="font-size: 12px"> ${item.translated.title} </span> `;
-                    // if (index + 1 != cities.length) str += ','
-                })
-                return str;
+            customLabel({first_name, last_name}) {
+                return `${first_name} – ${last_name}`
             },
             showModal() {
                 let vm = this;
                 vm.resetModelData();
                 vm.$refs.addModal.open();
             },
-            showUpdateModal(data) {
+            showAddViolationModal(data) {
                 let vm = this;
                 vm.dataModel = data;
-                vm.selectValue = data.cities;
                 vm.$refs.addModal.open();
             },
-            getAllStatus() {
+            showNotifactionModal() {
                 let vm = this;
-                vm.$root.$children[0].$refs.loader.show_loader = true;
-                try {
-                    window.serviceAPI.API().get(window.serviceAPI.COMMON_STATUS)
-                        .then((response) => {
-                            vm.$root.$children[0].$refs.loader.show_loader = false;
-                            response = response.data;
-                            if (response.status) {
-                                vm.statusModel.client_status = response.data.status.client_status;
-                                vm.statusModel.client_transaction = response.data.status.client_transaction;
-                            }
-                        }).catch((error) => {
-                        vm.$root.$children[0].$refs.loader.show_loader = false;
-                        window.helper.handleError(error, vm);
-                        vm.statusModel.client_status = [];
-                        vm.statusModel.client_transaction = [];
-                    });
-                } catch (e) {
-                    console.log(e)
-                }
+                vm.resetModelData();
+                vm.$refs.notifactionModal.open();
             },
-            getallGovernorates() {
+            getAllLocations() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
-                try {
-                    window.serviceAPI.API().get(window.serviceAPI.COMMON_GOVERNORATES)
-                        .then((response) => {
-                            vm.$root.$children[0].$refs.loader.show_loader = false;
-                            response = response.data;
-                            if (response.status) {
-                                vm.allGovernorates = response.data.governorates;
-                                return null;
-                            }
-                            vm.allGovernorates = [];
-                        }).catch((error) => {
-                        vm.$root.$children[0].$refs.loader.show_loader = false;
-                        window.helper.handleError(error, vm);
-                        vm.allGovernorates = [];
-                    });
-                } catch (e) {
-                    console.log(e)
+                let mandoob_id = vm.selectMandoob ? vm.selectMandoob.id : null
+                let start_date = null;
+                let end_date = null;
+                if (vm.filterModel.date) {
+                    let arr = vm.filterModel.date.split(" to ");
+                    start_date = arr[0];
+                    end_date = arr[1];
                 }
-            },
-            getAllSupervisor() {
-                let vm = this;
-                vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.ALL_SUPERVISOR)
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_LOCATIONS, {
+                        params: {
+                            mandoob_id: mandoob_id,
+                            start_date: start_date,
+                            end_date: end_date,
+                        }
+                    })
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.super_visors.data;
-                                return null;
+                                vm.tableData = response.data.locations.data;
                             }
-                            vm.tableData = [];
-
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
@@ -244,9 +241,31 @@
                     console.log(e)
                 }
             },
-            deleteSupervisor: function (row) {
+            getAllMandoob() {
                 let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_MANDOOBS)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+                                vm.allMandoobs = response.data.mandoobs.data;
+                                return null;
+                            }
+                            vm.allMandoobs = [];
 
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.allMandoobs = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            deleteLocation: function (row) {
+                let vm = this;
                 vm.$swal({
                     title: vm.$ml.get('confirm_warning'),
                     text: vm.$ml.get('are_you_sure'),
@@ -259,7 +278,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_SUPERVISOR + `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_LOCATIONS + `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;
@@ -279,13 +298,14 @@
                     }
                 });
             },
-            addSupervisor: function () {
+            sendNotifications: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
-                request_data.city_ids = _.map(vm.selectValue, 'id');
+                request_data.mandoob_ids = _.map(vm.selectValue, 'id');
+                console.log(request_data);
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.ADD_SUPERVISOR, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.SEND_NOTIFICATION_MANDOOBS, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -293,9 +313,7 @@
                                 window.helper.showMessage('success', vm);
                                 vm.resetModelData();
                                 $('.error_text').text('');
-                                let super_visor = response.data.super_visor;
-                                vm.tableData.push(super_visor);
-                                vm.$refs.addModal.close();
+                                vm.$refs.notifactionModal.close();
                                 return null;
                             }
 
@@ -303,31 +321,27 @@
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
                         if (error.response.status != 422) {
-                            vm.$refs.addModal.close();
+                            vm.$refs.notifactionModal.close();
                         }
                     });
                 } catch (e) {
                     console.log(e)
                 }
             },
-            updateSupervisor: function () {
+            addViolation: function () {
                 let vm = this;
-                let request_data = vm.dataModel;
+                let request_data = vm.dataViolationModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_SUPERVISOR, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.ADD_VIOLATION, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                let super_visor = response.data.super_visor;
                                 window.helper.showMessage('success', vm);
-                                vm.resetModelData();
+                                vm.resetViolationModel();
                                 $('.error_text').text('');
                                 vm.$refs.addModal.close();
-                                // location.reload()
-                                $(`#td_row_${request_data.id}`).parent().remove();
-                                vm.tableData.push(super_visor);
                                 return null;
                             }
 
@@ -346,15 +360,18 @@
                 this.selectValue = [];
                 this.dataModel = {
                     "id": "",
-                    "barcode": "",
-                    "first_name": "",
-                    "last_name": "",
-                    "email": "",
-                    "type": "super_visor",
-                    "parent_id": "",
-                    "created_at": "",
-                    "updated_at": "",
-                    "cities": []
+                    "lat": "",
+                    "lng": "",
+                    "address": "",
+                    "mandoob": null,
+                }
+            },
+            resetViolationModel() {
+                this.dataViolationModel = {
+                    "id": "",
+                    "mandoob_id": "",
+                    "value": "",
+                    "date": "",
                 }
             }
         }
@@ -370,5 +387,12 @@
         /*color: #ffffff !important;*/
         font-weight: bold;
         font-size: 18px;
+    }
+
+    .multiselect__option--highlight::after {
+        float: left !important;
+        text-align: left;
+        left: 0;
+        opacity: 0.5;
     }
 </style>

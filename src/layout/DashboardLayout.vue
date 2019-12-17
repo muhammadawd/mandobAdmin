@@ -71,6 +71,10 @@
                         :link="{name: $ml.get('employee'), icon: 'fa fa-user text-default', path: '/employee'}"/>
                 <sidebar-item
                         :link="{name: $ml.get('attendance'), icon: 'ni ni-key-25 text-primary', path: '/attendance'}"/>
+                <sidebar-item
+                        :link="{name: $ml.get('locations'), icon: 'ni ni-map-big text-default', path: '/locations'}"/>
+                <sidebar-item
+                        :link="{name: $ml.get('violation'), icon: 'ni ni-collection text-primary', path: '/violation'}"/>
             </template>
         </side-bar>
         <div class="main-content" :data="sidebarBackground">

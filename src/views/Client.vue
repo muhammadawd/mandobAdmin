@@ -69,7 +69,7 @@
                                                 <router-link
                                                         :to="{name:'show_client',params:{id:row.id}}"
                                                         class="btn btn-sm btn-warning">
-                                                    <i class="fa fa-eye"></i>
+                                                    <i class="fa fa-eye pt-1"></i>
                                                 </router-link>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
@@ -145,6 +145,29 @@
                         <input type="text" class="form-control" v-model="dataModel.addressText">
                         <div class="text-danger error_text" id="addressText_error"></div>
                     </div>
+                    <div class="col-md-12">
+                        <label>{{$ml.get('address')}}</label>
+
+                        <gmap-map ref="mymap" :center="mapStartLocation" :zoom="7" style="width: 100%; height: 300px" :draggable="true">
+                            <gmap-marker :position="mapStartLocation" :draggable="true" @drag="updateCoordinates" />
+<!--                            <gmap-marker :position="mapStartLocation"/>-->
+                        </gmap-map>
+<!--                        <GmapMap-->
+<!--                                :center="{lat:10, lng:10}"-->
+<!--                                :zoom="7"-->
+<!--                                map-type-id="terrain"-->
+<!--                                style="width:100%; height: 300px"-->
+<!--                        >-->
+<!--                            <GmapMarker-->
+<!--                                    :key="index"-->
+<!--                                    v-for="(m, index) in markers"-->
+<!--                                    :position="m.position"-->
+<!--                                    :clickable="true"-->
+<!--                                    :draggable="true"-->
+<!--                                    @click="center=m.position"-->
+<!--                            />-->
+<!--                        </GmapMap>-->
+                    </div>
                     <div class="col-md-12 text-center mt-2">
                         <button class="btn btn-info" @click="addClient()" v-if="!dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
@@ -164,10 +187,28 @@
     import {SweetModal, SweetModalTab} from 'sweet-modal-vue'
     import Multiselect from 'vue-multiselect'
     import 'vue-multiselect/dist/vue-multiselect.min.css'
+    import Vue from 'vue'
+    import * as VueGoogleMaps from 'vue2-google-maps'
+
+    Vue.use(VueGoogleMaps, {
+        load: {
+            key: 'AIzaSyCqIzCMjzn64-AcsHMKgkPXEZcKc1sTuGs',
+            libraries: 'places',
+        },
+    })
+    import {gmapApi} from 'vue2-google-maps'
 
     export default {
         data() {
             return {
+                coordinates: {
+                    lat:28.519383,
+                    lng:29.768600,
+                },
+                mapStartLocation:{
+                    lat:28.519383,
+                    lng:29.768600,
+                },
                 selectValue: null,
                 tableData: [],
                 isLoading: true,
@@ -179,6 +220,9 @@
                 },
                 dataModel: {}
             }
+        },
+        computed: {
+            google: gmapApi
         },
         watch: {
             selectValue: function (newVal, oldVal) {
@@ -201,6 +245,13 @@
             SweetModalTab
         },
         methods: {
+            updateCoordinates(location) {
+                // console.log(this.$refs.mymap)
+                this.coordinates = {
+                    lat: location.latLng.lat(),
+                    lng: location.latLng.lng(),
+                };
+            },
             showModal() {
                 let vm = this;
                 vm.resetModelData();
@@ -210,6 +261,15 @@
                 let vm = this;
                 vm.dataModel = data;
                 vm.selectValue = data.city;
+                console.log(data.lat  , data.lng)
+                vm.coordinates = {
+                    lat:data.lat,
+                    lng:data.lng,
+                };
+                vm.mapStartLocation = {
+                    lat:data.lat,
+                    lng:data.lng,
+                };
                 vm.$refs.addModal.open();
             },
             getAllStatus() {
@@ -317,6 +377,8 @@
             addClient: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
+                request_data.lat = vm.coordinates.lat;
+                request_data.lng = vm.coordinates.lng;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
                     window.serviceAPI.API().post(window.serviceAPI.ADD_CLIENTS, request_data)
@@ -336,7 +398,10 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
-                        vm.$refs.addModal.close();
+
+                        if (error.response.status != 422) {
+                            vm.$refs.addModal.close();
+                        }
                     });
                 } catch (e) {
                     console.log(e)
@@ -345,6 +410,8 @@
             updateClient: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
+                request_data.lat = vm.coordinates.lat;
+                request_data.lng = vm.coordinates.lng;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
                     window.serviceAPI.API().post(window.serviceAPI.UPDATE_CLIENTS, request_data)
@@ -366,7 +433,9 @@
                         }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
-                        vm.$refs.addModal.close();
+                        if (error.response.status != 422) {
+                            vm.$refs.addModal.close();
+                        }
                     });
                 } catch (e) {
                     console.log(e)

@@ -41,6 +41,22 @@ const router = new Router({
                     meta: {
                         requiresAuth: true,
                     },
+                    path: '/violation',
+                    name: 'violation',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Violation.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/locations',
+                    name: 'locations',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Locations.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
                     path: '/clients',
                     name: 'clients',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Client.vue')
