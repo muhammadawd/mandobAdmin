@@ -68,7 +68,7 @@ export default new MLCreate({
             supervisor: 'المراقبين',
             cost: 'التكلفة',
             cities: 'المناطق',
-            customers: 'الفنيين',
+            customers: 'العملاء والفنيين',
             customer_experience: 'خبرة العميل',
             customer_type: 'نوع العميل',
             username: 'اسم المستخدم',
