@@ -125,9 +125,10 @@ export default new MLCreate({
             lat: 'احداثي رأسي',
             lng: 'احداثي افقي',
             employees_report: 'تقرير الموظفين  ',
-            end_customer: 'العملاء ',
+            end_customer: 'شهادات الضمان ',
             certificates_de: 'شهادات الضمان المستلمة',
             certificates_node: 'شهادات الضمان غير المستلمة ',
+            shopCreationDate: ' تاريخ انشاء المحل',
         })
     ]
 })

@@ -140,7 +140,12 @@
                         <input type="text" class="form-control" v-model="dataModel.email">
                         <div class="text-danger error_text" id="email_error"></div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
+                        <label>{{$ml.get('shopCreationDate')}}</label>
+                        <flat-pickr class="form-control" v-model="dataModel.shopCreationDate"></flat-pickr>
+                        <div class="text-danger error_text" id="shopCreationDate_error"></div>
+                    </div>
+                    <div class="col-md-4">
                         <label>{{$ml.get('address')}}</label>
                         <input type="text" class="form-control" v-model="dataModel.addressText">
                         <div class="text-danger error_text" id="addressText_error"></div>
@@ -148,25 +153,26 @@
                     <div class="col-md-12">
                         <label>{{$ml.get('address')}}</label>
 
-                        <gmap-map ref="mymap" :center="mapStartLocation" :zoom="7" style="width: 100%; height: 300px" :draggable="true">
-                            <gmap-marker :position="mapStartLocation" :draggable="true" @drag="updateCoordinates" />
-<!--                            <gmap-marker :position="mapStartLocation"/>-->
+                        <gmap-map ref="mymap" :center="mapStartLocation" :zoom="7" style="width: 100%; height: 300px"
+                                  :draggable="true">
+                            <gmap-marker :position="mapStartLocation" :draggable="true" @drag="updateCoordinates"/>
+                            <!--                            <gmap-marker :position="mapStartLocation"/>-->
                         </gmap-map>
-<!--                        <GmapMap-->
-<!--                                :center="{lat:10, lng:10}"-->
-<!--                                :zoom="7"-->
-<!--                                map-type-id="terrain"-->
-<!--                                style="width:100%; height: 300px"-->
-<!--                        >-->
-<!--                            <GmapMarker-->
-<!--                                    :key="index"-->
-<!--                                    v-for="(m, index) in markers"-->
-<!--                                    :position="m.position"-->
-<!--                                    :clickable="true"-->
-<!--                                    :draggable="true"-->
-<!--                                    @click="center=m.position"-->
-<!--                            />-->
-<!--                        </GmapMap>-->
+                        <!--                        <GmapMap-->
+                        <!--                                :center="{lat:10, lng:10}"-->
+                        <!--                                :zoom="7"-->
+                        <!--                                map-type-id="terrain"-->
+                        <!--                                style="width:100%; height: 300px"-->
+                        <!--                        >-->
+                        <!--                            <GmapMarker-->
+                        <!--                                    :key="index"-->
+                        <!--                                    v-for="(m, index) in markers"-->
+                        <!--                                    :position="m.position"-->
+                        <!--                                    :clickable="true"-->
+                        <!--                                    :draggable="true"-->
+                        <!--                                    @click="center=m.position"-->
+                        <!--                            />-->
+                        <!--                        </GmapMap>-->
                     </div>
                     <div class="col-md-12 text-center mt-2">
                         <button class="btn btn-info" @click="addClient()" v-if="!dataModel.id">
@@ -187,6 +193,8 @@
     import {SweetModal, SweetModalTab} from 'sweet-modal-vue'
     import Multiselect from 'vue-multiselect'
     import 'vue-multiselect/dist/vue-multiselect.min.css'
+    import flatPickr from 'vue-flatpickr-component';
+    import 'flatpickr/dist/flatpickr.css';
     import Vue from 'vue'
     import * as VueGoogleMaps from 'vue2-google-maps'
 
@@ -202,12 +210,12 @@
         data() {
             return {
                 coordinates: {
-                    lat:28.519383,
-                    lng:29.768600,
+                    lat: 28.519383,
+                    lng: 29.768600,
                 },
-                mapStartLocation:{
-                    lat:28.519383,
-                    lng:29.768600,
+                mapStartLocation: {
+                    lat: 28.519383,
+                    lng: 29.768600,
                 },
                 selectValue: null,
                 tableData: [],
@@ -242,6 +250,7 @@
         components: {
             Multiselect,
             SweetModal,
+            flatPickr,
             SweetModalTab
         },
         methods: {
@@ -261,14 +270,14 @@
                 let vm = this;
                 vm.dataModel = data;
                 vm.selectValue = data.city;
-                console.log(data.lat  , data.lng)
+                console.log(data.lat, data.lng)
                 vm.coordinates = {
-                    lat:data.lat,
-                    lng:data.lng,
+                    lat: data.lat,
+                    lng: data.lng,
                 };
                 vm.mapStartLocation = {
-                    lat:data.lat,
-                    lng:data.lng,
+                    lat: data.lat,
+                    lng: data.lng,
                 };
                 vm.$refs.addModal.open();
             },
