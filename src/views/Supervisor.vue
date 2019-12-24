@@ -66,6 +66,16 @@
             </div>
             <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal'" width="70%">
                 <div class="row text-right">
+                    <div class="col-md-12">
+                        <label>{{$ml.get('city')}}</label>
+                        <multiselect v-model="selectValue" :options="allGovernorates" :multiple="true"
+                                     group-values="cities"
+                                     group-label="name" :group-select="true" :placeholder="$ml.get('search')"
+                                     track-by="name" label="name">
+                            <span slot="noResult">Oops! No elements found. </span>
+                        </multiselect>
+                        <div class="text-danger error_text" id="city_id_error"></div>
+                    </div>
                     <div class="col-md-4">
                         <label>{{$ml.get('barcode')}}</label>
                         <input type="text" class="form-control" v-model="dataModel.barcode">
@@ -91,16 +101,6 @@
                         <label>{{$ml.get('password')}}</label>
                         <input type="password" class="form-control" v-model="dataModel.password">
                         <div class="text-danger error_text" id="password_error"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <label>{{$ml.get('city')}}</label>
-                        <multiselect v-model="selectValue" :options="allGovernorates" :multiple="true"
-                                     group-values="cities"
-                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
-                                     track-by="name" label="name">
-                            <span slot="noResult">Oops! No elements found. </span>
-                        </multiselect>
-                        <div class="text-danger error_text" id="city_id_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
                         <button class="btn btn-info" @click="addSupervisor()" v-if="!dataModel.id">
@@ -313,6 +313,7 @@
             updateSupervisor: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
+                request_data.city_ids = _.map(vm.selectValue, 'id');
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
                     window.serviceAPI.API().post(window.serviceAPI.UPDATE_SUPERVISOR, request_data)

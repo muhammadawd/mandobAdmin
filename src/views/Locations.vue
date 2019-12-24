@@ -118,6 +118,7 @@
                         <br>
                         <b>{{$ml.get('address')}}: </b>{{dataModel.address}}
                         <input type="hidden" v-model="dataViolationModel.mandoob_id = dataModel.mandoob_id">
+                        <input type="hidden" v-model="dataViolationModel.location_id = dataModel.id">
                         <hr>
                     </div>
                     <div class="col-md-3">

@@ -29,17 +29,34 @@
                     </stats-card>
 
                 </div>
-                <div class="col-xl-3 col-lg-6 text-center">
+                <div class="col-xl-3 col-lg-6  text-center">
                     <stats-card :title="$ml.get('totalNotCompletedCoupons')"
                                 type="gradient-info"
                                 :sub-title="totalNotCompletedCoupons"
-                                icon="ni ni-chart-bar-32"
+                                icon="ni ni-active-40"
                                 class="mb-4 mb-xl-0">
                     </stats-card>
                 </div>
                 <div class="col-xl-3 col-lg-6 mt-2 text-center">
-                    <stats-card :title="$ml.get('totalExpenses')"
+                    <stats-card :title="$ml.get('certificates_de')"
                                 type="gradient-info"
+                                :sub-title="totalCertificateCompleted"
+                                icon="ni ni-chart-pie-35"
+                                class="mb-4 mb-xl-0">
+                    </stats-card>
+                </div>
+                <div class="col-xl-3 col-lg-6 mt-2 text-center">
+                    <stats-card :title="$ml.get('certificates_node')"
+                                type="gradient-default"
+                                :sub-title="totalCertificateNotCompleted"
+                                icon="ni ni-active-40"
+                                class="mb-4 mb-xl-0">
+                    </stats-card>
+
+                </div>
+                <div class="col-xl-3 col-lg-6 mt-2 text-center">
+                    <stats-card :title="$ml.get('totalExpenses')"
+                                type="gradient-default"
                                 :sub-title="totalExpenses"
                                 icon="ni ni-chart-bar-32"
                                 class="mb-4 mb-xl-0">
@@ -55,6 +72,49 @@
                         <div class="map-canvas"
                              style="min-height: 600px;">
                             <div class="row">
+                                <div class="col-md-12"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <h2 class="font-weight-bold text-center mt-4">{{$ml.get('most_visit_cities')}}</h2>
+                                    <donut-chart
+                                            id="donut"
+                                            :data="donutDataCities"
+                                            colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]'
+                                            resize="true">
+                                    </donut-chart>
+                                </div>
+                                <div class="col-md-3">
+                                    <h2 class="font-weight-bold text-center mt-4">
+                                        {{$ml.get('topMandoobsCollected')}}</h2>
+                                    <donut-chart
+                                            id="donut2"
+                                            :data="donutDataMandoob"
+                                            colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]'
+                                            resize="true">
+                                    </donut-chart>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <h2 class="font-weight-bold text-center mt-4">
+                                        {{$ml.get('topClientCities')}}</h2>
+                                    <bar-chart
+                                            id="bar"
+                                            :data="barTopClientCities"
+                                            grid="true"
+                                            xkey="name"
+                                            ykeys='["visit_cost"]'
+                                            :labels='topClientNames'
+                                            grid-text-weight="bold"
+                                            bar-colors='[ "#36A2EB", "#FF6384", "#FFCE56" ]'
+                                            resize="true">
+                                    </bar-chart>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12 text-center">
+                                    <hr class="m-2">
+                                    <h2>{{$ml.get('reports')}}</h2>
+                                </div>
                                 <div class="col-md-3">
                                     <router-link :to="{name:'expenses_report'}">
                                         <div class="card-item">
@@ -95,41 +155,13 @@
                                         </div>
                                     </router-link>
                                 </div>
-                                <div class="col-md-3"></div>
                                 <div class="col-md-3">
-                                    <h2 class="font-weight-bold text-center mt-4">{{$ml.get('most_visit_cities')}}</h2>
-                                    <donut-chart
-                                            id="donut"
-                                            :data="donutDataCities"
-                                            colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]'
-                                            resize="true">
-                                    </donut-chart>
-                                </div>
-                                <div class="col-md-3">
-                                    <h2 class="font-weight-bold text-center mt-4">
-                                        {{$ml.get('topMandoobsCollected')}}</h2>
-                                    <donut-chart
-                                            id="donut2"
-                                            :data="donutDataMandoob"
-                                            colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]'
-                                            resize="true">
-                                    </donut-chart>
-                                </div>
-                                <div class="col-md-12">
-
-                                    <h2 class="font-weight-bold text-center mt-4">
-                                        {{$ml.get('topClientCities')}}</h2>
-                                    <bar-chart
-                                            id="bar"
-                                            :data="barTopClientCities"
-                                            grid="true"
-                                            xkey="name"
-                                            ykeys='["visit_cost"]'
-                                            :labels='topClientNames'
-                                            grid-text-weight="bold"
-                                            bar-colors='[ "#36A2EB", "#FF6384", "#FFCE56" ]'
-                                            resize="true">
-                                    </bar-chart>
+                                    <router-link :to="{name:'employees_report'}">
+                                        <div class="card-item">
+                                            <i class="fa fa-users f-lg"></i>
+                                            <h2>{{$ml.get('employees_report')}}</h2>
+                                        </div>
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
@@ -159,6 +191,8 @@
                 totalCompletedCoupons: "...",
                 totalNotCompletedCoupons: "...",
                 totalExpenses: "...",
+                totalCertificateNotCompleted: "...",
+                totalCertificateCompleted: "...",
                 donutDataCities: [],
                 donutDataMandoob: [],
                 barTopClientCities: [],
@@ -203,10 +237,11 @@
             prepareTopClientCities() {
                 let vm = this;
                 _.forEach(vm.topClientCities, function (value, key) {
+                    let client_name = value.clients[0] ? value.clients[0].name : null;
                     vm.barTopClientCities.push(
                         {
-                            label: value.name,
-                            name: value.name,
+                            label: value.name + ' (' + client_name + ') ',
+                            name: value.name + ' (' + client_name + ') ',
                             id: value.clients[0] ? value.clients[0].id : null,
                             visit_cost: value.clients[0] ? value.clients[0].visit_cost : null
                         },
@@ -232,6 +267,8 @@
                                 vm.totalNotCompletedCoupons = response.data.totalNotCompletedCoupons.toString();
                                 vm.totalCollected = response.data.totalCollected.toString();
                                 vm.totalExpenses = response.data.totalExpenses.toString();
+                                vm.totalCertificateCompleted = response.data.totalCertificateCompleted.toString();
+                                vm.totalCertificateNotCompleted = response.data.totalCertificateNotCompleted.toString();
                                 vm.prepareTopCities();
                                 vm.prepareTopMandoob();
                                 vm.prepareTopClientCities();

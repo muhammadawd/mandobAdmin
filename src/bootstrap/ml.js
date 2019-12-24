@@ -6,7 +6,7 @@ Vue.use(MLInstaller);
 export default new MLCreate({
     initial: 'ar',
     // development  , production
-    save: process.env.NODE_ENV === 'development',
+    save: process.env.NODE_ENV === 'production',
     languages: [
         new MLanguage('en').create({
             ar: 'Arabic language',
@@ -68,7 +68,7 @@ export default new MLCreate({
             supervisor: 'المراقبين',
             cost: 'التكلفة',
             cities: 'المناطق',
-            customers: 'العملاء',
+            customers: 'الفنيين',
             customer_experience: 'خبرة العميل',
             customer_type: 'نوع العميل',
             username: 'اسم المستخدم',
@@ -124,6 +124,10 @@ export default new MLCreate({
             notes: 'ملاحظات',
             lat: 'احداثي رأسي',
             lng: 'احداثي افقي',
+            employees_report: 'تقرير الموظفين  ',
+            end_customer: 'العملاء ',
+            certificates_de: 'شهادات الضمان المستلمة',
+            certificates_node: 'شهادات الضمان غير المستلمة ',
         })
     ]
 })

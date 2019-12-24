@@ -10,10 +10,20 @@
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
-                    <div class="card shadow border-0"  id="printMe">
+                    <div class="card shadow border-0" id="printMe">
                         <div class="map-canvas"
                              style="min-height: 600px;">
                             <div class="table-responsive">
+                                <div class="row p-2">
+                                    <div class="col-md-3 text-right">
+                                        <label class="font-weight-bold">{{$ml.get('status')}}</label>
+                                        <select class="form-control form-control-alternative" v-model="status" @change="getAllCoupons()">
+                                            <option value="">All</option>
+                                            <option value="completed">Completed</option>
+                                            <option value="not_completed">Not Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <base-table class="table align-items-center table-flush"
                                             :class="'table-darks'"
                                             :thead-classes="'thead-darks'"
@@ -22,6 +32,7 @@
                                     <template slot="columns">
                                         <th>{{$ml.get('code')}}</th>
                                         <th>{{$ml.get('value')}}</th>
+                                        <th class="text-center">{{$ml.get('status')}}</th>
                                         <th>{{$ml.get('delivered_at')}}</th>
                                         <th>{{$ml.get('finished_at')}}</th>
                                         <th>{{$ml.get('created_at')}}</th>
@@ -34,6 +45,7 @@
                                         <td>
                                             {{row.value}}
                                         </td>
+                                        <td class="text-center" v-html="getStatusTag(row)"></td>
                                         <td>
                                             {{row.delivered_at}}
                                         </td>
@@ -65,6 +77,7 @@
         data() {
             return {
                 selectValue: null,
+                status: "",
                 value: null,
                 all_coupon_values: [],
                 tableData: [],
@@ -84,14 +97,27 @@
             SweetModalTab
         },
         methods: {
-            print(){
+            print() {
                 this.$htmlToPaper('printMe')
+            },
+            getStatusTag(row) {
+                if (row.finished_at) {
+                    return `<label class="badge badge-success">تم الاستخدام</label>`
+                } else if (row.delivered_at) {
+                    return `<label class="badge badge-warning">تم التوصيل</label>`
+                } else {
+                    return `<label class="badge badge-info">جديد</label>`
+                }
             },
             getAllCoupons() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.COUPONS_REPORT)
+                    window.serviceAPI.API().get(window.serviceAPI.COUPONS_REPORT, {
+                        params: {
+                            status: vm.status
+                        }
+                    })
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;

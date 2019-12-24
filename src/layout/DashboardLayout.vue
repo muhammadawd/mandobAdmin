@@ -64,6 +64,13 @@
                                         {{$ml.get('attendance_report')}}
                                 </router-link>
                             </li>
+                            <li class="nav-item">
+                                <router-link
+                                        class="nav-link"
+                                        :to="{name:'employees_report'}">
+                                        {{$ml.get('employees_report')}}
+                                </router-link>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -75,6 +82,8 @@
                         :link="{name: $ml.get('locations'), icon: 'ni ni-map-big text-default', path: '/locations'}"/>
                 <sidebar-item
                         :link="{name: $ml.get('violation'), icon: 'ni ni-collection text-primary', path: '/violation'}"/>
+                <sidebar-item
+                        :link="{name: $ml.get('end_customer'), icon: 'fa fa-users text-default', path: '/end_customer'}"/>
             </template>
         </side-bar>
         <div class="main-content" :data="sidebarBackground">

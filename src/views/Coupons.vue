@@ -31,9 +31,6 @@
                                     <template slot="columns">
                                         <th>{{$ml.get('code')}}</th>
                                         <th>{{$ml.get('value')}}</th>
-                                        <th>{{$ml.get('owner_name')}}</th>
-                                        <th>{{$ml.get('warranty_certificate')}}</th>
-                                        <th>{{$ml.get('image')}}</th>
                                         <th>{{$ml.get('delivered_at')}}</th>
                                         <th>{{$ml.get('finished_at')}}</th>
                                         <th>{{$ml.get('created_at')}}</th>
@@ -46,20 +43,6 @@
                                         </td>
                                         <td>
                                             {{row.value}}
-                                        </td>
-                                        <td>
-                                            {{row.owner_name}}
-                                        </td>
-                                        <td>
-                                            {{row.warranty_certificate}}
-                                        </td>
-                                        <td>
-                                            <slot v-if="row.image">
-                                                <a :href="row.image" target="_blank">
-                                                    <i class="fas fa-image"></i>
-                                                    <b> {{$ml.get('show_image')}}</b>
-                                                </a>
-                                            </slot>
                                         </td>
                                         <td>
                                             {{row.delivered_at}}
@@ -95,16 +78,6 @@
                         <div class="text-danger error_text" id="code_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('owner_name')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.owner_name">
-                        <div class="text-danger error_text" id="owner_name_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('warranty_certificate')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.warranty_certificate">
-                        <div class="text-danger error_text" id="warranty_certificate_error"></div>
-                    </div>
-                    <div class="col-md-4">
                         <label>{{$ml.get('value')}}</label>
                         <select class="form-control" v-model="dataModel.coupon_value_id">
                             <option v-for="(item , index) in all_coupon_values" :value="item.id">{{item.value}}</option>
@@ -120,12 +93,6 @@
                         <label>{{$ml.get('finished_at')}}</label>
                         <flat-pickr class="form-control" v-model="dataModel.finished_at"></flat-pickr>
                         <div class="text-danger error_text" id="finished_at_error"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <label>{{$ml.get('image')}}</label>
-                        <input type="file" class="form-control" ref="image" v-on:change="handleFileUpload()"
-                               accept="image/*">
-                        <div class="text-danger error_text" id="image_error"></div>
                     </div>
                     <div class="col-md-12"></div>
                     <div class="col-md-12 text-center mt-2">
@@ -298,12 +265,9 @@
                 console.log(request_data)
 
                 let formData = new FormData();
-                formData.append('image', request_data.image)
                 formData.append('code', request_data.code)
                 formData.append('coupon_value_id', request_data.coupon_value_id)
                 formData.append('created_at', request_data.created_at)
-                formData.append('owner_name', request_data.owner_name)
-                formData.append('warranty_certificate', request_data.warranty_certificate)
                 try {
                     window.serviceAPI.API().post(window.serviceAPI.ADD_COUPONS, formData, {
                         headers: {

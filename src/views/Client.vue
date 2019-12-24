@@ -192,7 +192,7 @@
 
     Vue.use(VueGoogleMaps, {
         load: {
-            key: 'AIzaSyCqIzCMjzn64-AcsHMKgkPXEZcKc1sTuGs',
+            key: 'AIzaSyB4kLULJUNPOxMyK6UYPMeN5bA245f0E-w',
             libraries: 'places',
         },
     })
@@ -502,7 +502,7 @@
 
     .multiselect__option--disabled {
         /*background: #182029 !important;*/
-        /*color: #ffffff !important;*/
+        /*color: #000 !important;*/
         font-weight: bold;
         font-size: 18px;
     }

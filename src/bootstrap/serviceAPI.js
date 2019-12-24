@@ -1,9 +1,10 @@
 import axios from 'axios'
 
-// let BASE_URL = `https://approc.com/~approctest/mandoob/api/`;
-let BASE_URL = `http://192.168.1.2/mandoob/api/`;
+let BASE_URL = `https://approc.com/~approctest/mandoob/api/`;
+// let BASE_URL = `http://192.168.1.2/mandoob/api/`;
 
 export default {
+    BASE_URL:'https://approc.com/~approctest/mandoob/api',
     AUTH_ACCOUNT: 'admin/login',
 
     COMMON_GOVERNORATES: 'common/governorates',
@@ -55,9 +56,15 @@ export default {
     ADD_COUPONS: 'coupon/create',
     UPDATE_COUPONS: 'coupon/update',
 
+    ALL_ENDCUSTOMER: 'end-customer',
+    DELETE_ENDCUSTOMER: 'end-customer/delete',
+    ADD_ENDCUSTOMER: 'end-customer/create',
+    UPDATE_ENDCUSTOMER: 'end-customer/update',
+
     EXPENSES_REPORT: '/reports/allExpenses',
     COUPONS_REPORT: '/reports/allCoupons',
     VISITS_REPORT: '/reports/allVisitDetails',
+    PERSONS_REPORT: '/reports/person',
 
     ADD_ATTEND: 'absence/create',
     ALL_ABSENCE: 'absence',
