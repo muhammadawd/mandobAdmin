@@ -384,8 +384,8 @@
                                 vm.$refs.addModal.close();
                                 // location.reload()
                                 $(`#td_row_${request_data.id}`).parent().remove();
-                                let coupon = response.data.coupon;
-                                vm.tableData.push(coupon);
+                                let endCustomer = response.data.endCustomer;
+                                vm.tableData.push(endCustomer);
                                 return null;
                             }
 

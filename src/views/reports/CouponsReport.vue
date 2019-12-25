@@ -30,19 +30,18 @@
                                             tbody-classes="list"
                                             :data="tableData">
                                     <template slot="columns">
-                                        <th>{{$ml.get('code')}}</th>
                                         <th>{{$ml.get('value')}}</th>
                                         <th class="text-center">{{$ml.get('status')}}</th>
                                         <th>{{$ml.get('delivered_at')}}</th>
                                         <th>{{$ml.get('finished_at')}}</th>
                                         <th>{{$ml.get('created_at')}}</th>
+                                        <th>{{$ml.get('customers')}}</th>
+                                        <th>{{$ml.get('mandoob')}}</th>
+                                        <th>{{$ml.get('clients')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
                                         <td class="budget" :id="'td_row_'+row.id">
-                                            {{row.code}}
-                                        </td>
-                                        <td>
                                             {{row.value}}
                                         </td>
                                         <td class="text-center" v-html="getStatusTag(row)"></td>
@@ -54,6 +53,23 @@
                                         </td>
                                         <td>
                                             {{row.created_at}}
+
+                                        </td>
+                                        <td>
+                                            <slot v-if="row.customer">
+                                                {{row.customer.name}}
+                                            </slot>
+                                        </td>
+                                        <td>
+                                            <slot v-if="row.mandoob">
+                                                {{row.mandoob.first_name}}
+                                                {{row.mandoob.last_name}}
+                                            </slot>
+                                        </td>
+                                        <td>
+                                            <slot v-if="row.client">
+                                                {{row.client.name}}
+                                            </slot>
                                         </td>
                                     </template>
                                 </base-table>
