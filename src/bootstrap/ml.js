@@ -129,6 +129,13 @@ export default new MLCreate({
             certificates_de: 'شهادات الضمان المستلمة',
             certificates_node: 'شهادات الضمان غير المستلمة ',
             shopCreationDate: ' تاريخ انشاء المحل',
+            reset_password: 'تغيير كلمة المرور',
+            change: 'تغيير',
+            number: 'العدد',
+            push_notifications: 'الاشعارات',
+            end_customer_details: 'تفاصيل شهادات الضمان',
+            nearest_client: 'اقرب وكيل',
+            password_confirmation: 'تأكيد كلمة المرور',
         })
     ]
 })

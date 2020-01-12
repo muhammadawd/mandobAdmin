@@ -1,11 +1,12 @@
 import axios from 'axios'
 
 let BASE_URL = `https://approc.com/~approctest/mandoob/api/`;
-// let BASE_URL = `http://192.168.1.2/mandoob/api/`;
+// let BASE_URL = `http://192.168.1.9/mandoob/api/`;
 
 export default {
     BASE_URL:'https://approc.com/~approctest/mandoob/api',
     AUTH_ACCOUNT: 'admin/login',
+    RESET_ACCOUNT: 'mandoob/resetPassword',
 
     COMMON_GOVERNORATES: 'common/governorates',
     COMMON_STATUS: 'common/status',
@@ -32,6 +33,7 @@ export default {
     SEND_NOTIFICATION_MANDOOBS: 'mandoob/push-notification/send-to',
 
     ALL_LOCATIONS: 'location',
+    ALL_NOTIFICATIONS_LOCATIONS: 'mandoob/push-notification/all',
     DELETE_LOCATIONS: 'location/delete',
 
     ALL_VIOLATION: 'violation',
@@ -59,6 +61,8 @@ export default {
     ALL_ENDCUSTOMER: 'end-customer',
     DELETE_ENDCUSTOMER: 'end-customer/delete',
     ADD_ENDCUSTOMER: 'end-customer/create',
+    UPDATE_DETAILS_ENDCUSTOMER: 'end-customer/update-details',
+    FIND_ENDCUSTOMER: 'end-customer',
     UPDATE_ENDCUSTOMER: 'end-customer/update',
 
     EXPENSES_REPORT: '/reports/allExpenses',

@@ -6,8 +6,11 @@
             <div class="row">
                 <div class="col-md-4 text-right">
                     <button class="btn btn-danger" @click="showNotifactionModal()">
-                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                         {{$ml.get('send_fcm')}}
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-primary" @click="$router.push({name:'push_notifications'})">
+                        {{$ml.get('push_notifications')}}
                     </button>
                 </div>
             </div>
@@ -50,6 +53,7 @@
                                         <th>{{$ml.get('mandoob')}}</th>
                                         <th>{{$ml.get('date')}}</th>
                                         <th>{{$ml.get('address')}}</th>
+                                        <th>{{$ml.get('nearest_client')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
@@ -69,6 +73,12 @@
                                         </td>
                                         <td>
                                             {{row.address}}
+                                        </td>
+                                        <td>
+                                            <slot v-if="row.nearest_client"></slot>
+                                            {{row.nearest_client.name}}
+                                            |
+                                            {{row.nearest_client.distance ? row.nearest_client.distance : 0}} كيلومتر
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">

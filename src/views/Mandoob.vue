@@ -108,7 +108,7 @@
                         </select>
                         <div class="text-danger error_text" id="type_error"></div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4" v-if="!dataModel.id">
                         <label>{{$ml.get('password')}}</label>
                         <input type="password" class="form-control" v-model="dataModel.password">
                         <div class="text-danger error_text" id="password_error"></div>

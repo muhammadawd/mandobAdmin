@@ -57,6 +57,14 @@ const router = new Router({
                     meta: {
                         requiresAuth: true,
                     },
+                    path: '/push_notifications',
+                    name: 'push_notifications',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/PushNotifications.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
                     path: '/clients',
                     name: 'clients',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Client.vue')
@@ -100,6 +108,14 @@ const router = new Router({
                     path: '/end_customer',
                     name: 'end_customer',
                     component: () => import(/* webpackChunkName: "demo" */ './views/EndCustomer.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/end_customer/:id',
+                    name: 'end_customer_details',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/EndCustomerDetails.vue')
                 },
                 {
                     meta: {
@@ -171,6 +187,14 @@ const router = new Router({
                     path: '/login',
                     name: 'login',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Login.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: false,
+                    },
+                    path: '/reset_password/:token',
+                    name: 'reset_password',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/ResetPassword.vue')
                 }
             ]
         }

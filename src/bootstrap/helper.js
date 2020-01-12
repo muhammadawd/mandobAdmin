@@ -64,6 +64,7 @@ export const helper = {
             if (error.response.status == 422) {
                 // let validations = window.helper.validationGroupingData(error.response.data.data, 'param');
                 let validations = error.response.data.data.validation_errors;
+                console.log(validations)
                 try {
                     window.helper.addErrors(vm.dataModel, validations);
                 } catch (e) {

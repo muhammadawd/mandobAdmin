@@ -59,6 +59,10 @@
                                                 <button class="btn btn-danger btn-sm" @click="deleteCustomer(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
+                                                <router-link class="btn btn-success btn-sm"
+                                                             :to="{'name':'end_customer_details',params:{id:row.id}}">
+                                                    <i class="ni ni-archive-2 ni-lg pt-1"></i>
+                                                </router-link>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
@@ -96,6 +100,13 @@
                             <span slot="noResult">Oops! No elements found. </span>
                         </multiselect>
                         <div class="text-danger error_text" id="customer_id_error"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <label>{{$ml.get('mandoob')}}</label>
+                        <multiselect v-model="selectMandoob" :options="all_mandoobs" label="name" track-by="name"
+                                     :custom-label="nameFirstlast"
+                                     :placeholder="$ml.get('search')"></multiselect>
+                        <div class="text-danger error_text" id="mandoob_id_error"></div>
                     </div>
                     <div class="col-md-4">
                         <label>{{$ml.get('city')}}</label>
@@ -159,6 +170,8 @@
                 selectValueCustomer: null,
                 allGovernorates: [],
                 all_customer: [],
+                all_mandoobs: [],
+                selectMandoob: null,
                 image: '',
                 value: null,
                 all_coupon_values: [],
@@ -170,6 +183,7 @@
         },
         mounted() {
             let vm = this;
+            vm.getAllMandoob();
             vm.getAllCustomers();
             vm._getAllCustomers();
             vm.getallGovernorates();
@@ -181,6 +195,9 @@
             SweetModalTab
         },
         methods: {
+            nameFirstlast({first_name, last_name}) {
+                return `${first_name} - ${last_name}`
+            },
             getallGovernorates() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
@@ -240,7 +257,31 @@
                 vm.dataModel = data;
                 vm.selectValue = data.city;
                 vm.selectValueCustomer = data.customer;
+                vm.selectMandoob = data.mandoob;
                 vm.$refs.addModal.open();
+            },
+            getAllMandoob() {
+                let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_MANDOOBS)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+                                vm.all_mandoobs = response.data.mandoobs.data;
+                                return null;
+                            }
+                            vm.all_mandoobs = [];
+
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.all_mandoobs = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
             },
             getAllCustomers() {
                 let vm = this;
@@ -305,6 +346,7 @@
                 let request_data = vm.dataModel;
                 request_data.city_id = vm.selectValue ? vm.selectValue.id : null;
                 request_data.customer_id = vm.selectValueCustomer ? vm.selectValueCustomer.id : null;
+                request_data.mandoob_id = vm.selectMandoob ? vm.selectMandoob.id : null;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 console.log(request_data)
 
@@ -318,6 +360,7 @@
                 formData.append('warranty_certificate', request_data.warranty_certificate)
                 if (request_data.city_id) formData.append('city_id', request_data.city_id);
                 if (request_data.customer_id) formData.append('customer_id', request_data.customer_id);
+                if (request_data.mandoob_id) formData.append('mandoob_id', request_data.mandoob_id);
 
                 try {
                     window.serviceAPI.API().post(window.serviceAPI.ADD_ENDCUSTOMER, formData, {
@@ -354,6 +397,7 @@
                 let request_data = vm.dataModel;
                 request_data.city_id = vm.selectValue ? vm.selectValue.id : null;
                 request_data.customer_id = vm.selectValueCustomer ? vm.selectValueCustomer.id : null;
+                request_data.mandoob_id = vm.selectMandoob ? vm.selectMandoob.id : null;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 console.log(request_data)
 
@@ -368,6 +412,7 @@
                 if (request_data.warranty_certificate) formData.append('warranty_certificate', request_data.warranty_certificate)
                 if (request_data.city_id) formData.append('city_id', request_data.city_id);
                 if (request_data.customer_id) formData.append('customer_id', request_data.customer_id);
+                if (request_data.mandoob_id) formData.append('mandoob_id', request_data.mandoob_id);
                 try {
                     window.serviceAPI.API().post(window.serviceAPI.UPDATE_ENDCUSTOMER, formData, {
                         headers: {
