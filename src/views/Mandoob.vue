@@ -117,7 +117,7 @@
                         <label>{{$ml.get('city')}}</label>
                         <multiselect v-model="selectValue" :options="allGovernorates" :multiple="true"
                                      group-values="cities"
-                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
+                                     group-label="name" :group-select="true" :placeholder="$ml.get('search')"
                                      track-by="name" label="name">
                             <span slot="noResult">Oops! No elements found.</span>
                         </multiselect>
