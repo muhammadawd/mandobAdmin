@@ -31,11 +31,13 @@
                         :link="{name: $ml.get('violation'), icon: 'ni ni-collection text-primary', path: '/violation'}"/>
                 <sidebar-item
                         :link="{name: $ml.get('end_customer'), icon: 'fa fa-users text-default', path: '/end_customer'}"/>
+                <sidebar-item
+                        :link="{name: $ml.get('push_notifications'), icon: 'fa fa-globe text-primary', path: '/push_notifications'}"/>
 
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="collapse" @click="collapse('navbar-reports',this)"
                        aria-expanded="true">
-                        <i class="ni ni-briefcase-24 text-primary"></i>
+                        <i class="ni ni-briefcase-24 text-default"></i>
                         <span class="nav-link-text">{{$ml.get('reports')}}</span>
                     </a>
                     <div class="collapse " id="navbar-reports">
@@ -96,7 +98,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="collapse" @click="collapse('navbar-setting',this)"
                        aria-expanded="true">
-                        <i class="ni ni-settings text-black"></i>
+                        <i class="ni ni-settings text-primary"></i>
                         <span class="nav-link-text">{{$ml.get('settings')}}</span>
                     </a>
                     <div class="collapse " id="navbar-setting">

@@ -70,6 +70,10 @@
                                                 {{row.mandoob.first_name}}
                                                 {{row.mandoob.last_name}}
                                             </slot>
+                                            <slot v-if="row.supervisor">
+                                                {{row.supervisor.first_name}}
+                                                {{row.supervisor.last_name}}
+                                            </slot>
                                         </td>
                                         <td>
                                             {{row.created_at}}
@@ -113,6 +117,7 @@
                         <label>{{$ml.get('mandoob')}}</label>
                         <multiselect v-model="selectValue" :options="allMandoobs" :multiple="true"
                                      :placeholder="$ml.get('search')"
+                                     track-by="id"
                                      :custom-label="customLabel">
                             <span slot="noResult">Oops! No elements found.</span>
                         </multiselect>
@@ -120,10 +125,17 @@
                             {{$ml.get('send_fcm_all')}}
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <label>{{$ml.get('text')}}</label>
-                        <textarea v-model="message" class="form-control form-control-alternative" rows="6"></textarea>
-                        <div class="text-danger error_text" id="message_error"></div>
+                    <div class="col-md-6">
+                        <label>{{$ml.get('supervisor')}}</label>
+                        <multiselect v-model="selectSupervisorsValue" :options="allSupervisors" :multiple="true"
+                                     :placeholder="$ml.get('search')"
+                                     track-by="id"
+                                     :custom-label="customLabel">
+                            <span slot="noResult">Oops! No elements found.</span>
+                        </multiselect>
+                        <div class="text-info mt-2 font-weight-bold">
+                            {{$ml.get('send_fcm_all')}}
+                        </div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
                         <button class="btn btn-info" @click="sendNotifications()">
@@ -183,30 +195,24 @@
         data() {
             return {
                 selectValue: [],
+                allMandoobs: [],
+                allSupervisors: [],
+                selectSupervisorsValue: [],
                 selectMandoob: null,
                 message: null,
                 tableData: [],
                 isLoading: true,
                 disable: false,
-                allMandoobs: [],
                 dataModel: {},
                 dataViolationModel: {},
                 filterModel: {}
             }
         },
-        watch: {
-            selectValue: function (newVal, oldVal) {
-                if (newVal.length) {
-                    // this.dataModel.city_id = newVal.id
-                } else {
-                    // this.dataModel.city_id = newVal
-                }
-            },
-        },
         mounted() {
             let vm = this;
             vm.getAllLocations();
             vm.getAllMandoob();
+            vm.getAllSupervisor();
         },
         components: {
             Multiselect,
@@ -262,6 +268,31 @@
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
                         vm.tableData = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            getAllSupervisor() {
+                let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_SUPERVISOR)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+
+                                console.log(response.data.super_visors)
+                                vm.allSupervisors = response.data.super_visors.data;
+                                return null;
+                            }
+                            vm.allSupervisors = [];
+
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.allSupervisors = [];
                     });
                 } catch (e) {
                     console.log(e)
@@ -328,6 +359,7 @@
                 let vm = this;
                 let request_data = vm.dataModel;
                 request_data.mandoob_ids = _.map(vm.selectValue, 'id');
+                request_data.supervisor_ids = _.map(vm.selectSupervisorsValue, 'id');
                 request_data.message = vm.message;
                 console.log(request_data);
                 vm.$root.$children[0].$refs.loader.show_loader = true;
