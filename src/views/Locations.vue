@@ -3,15 +3,18 @@
 
         <base-header type="gradient-warning" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
+            <button class="btn btn-secondary" @click="print">
+                <i class="fas fa-print"></i>
+            </button>
             <div class="row">
                 <div class="col-md-4 text-right">
                     <button class="btn btn-danger" @click="showNotifactionModal()">
                         {{$ml.get('send_fcm')}}
                     </button>
                     &nbsp;
-<!--                    <button class="btn btn-primary" @click="$router.push({name:'push_notifications'})">-->
-<!--                        {{$ml.get('push_notifications')}}-->
-<!--                    </button>-->
+                    <!--                    <button class="btn btn-primary" @click="$router.push({name:'push_notifications'})">-->
+                    <!--                        {{$ml.get('push_notifications')}}-->
+                    <!--                    </button>-->
                 </div>
             </div>
         </base-header>
@@ -19,23 +22,23 @@
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
-                    <div class="card shadow border-0">
+                    <div class="card shadow border-0" id="printMe">
                         <div class="map-canvas"
                              style="min-height: 600px;">
                             <div class="row p-2 mt-2 mb-2">
-                                <div class="col-md-3 text-right">
+                                <div class="col-md-3 text-right d-print-none">
                                     <label class="font-weight-bold">{{$ml.get('mandoob')}}</label>
                                     <multiselect v-model="selectMandoob" :options="allMandoobs"
                                                  :custom-label="customLabel"
                                                  :placeholder="$ml.get('search')"></multiselect>
                                 </div>
-                                <div class="col-md-3 text-right">
+                                <div class="col-md-3 text-right d-print-none">
                                     <label class="font-weight-bold">{{$ml.get('date')}}</label>
                                     <flat-pickr class="form-control text-center form-control-alternative" dir="ltr"
                                                 :config="{dateFormat: 'Y-m-d',mode:'range'}"
                                                 v-model="filterModel.date"></flat-pickr>
                                 </div>
-                                <div class="col-md-12 text-right mt-1">
+                                <div class="col-md-12 text-right mt-1 d-print-none">
                                     <button class="btn btn-info btn-md" @click="getAllLocations()">
                                         <i class="fa fa-search"></i>
                                     </button>
@@ -55,7 +58,7 @@
                                         <th>{{$ml.get('status')}}</th>
                                         <th>{{$ml.get('address')}}</th>
                                         <th>{{$ml.get('nearest_client')}}</th>
-                                        <th width="100">{{$ml.get('operations')}}</th>
+                                        <th class="d-print-none" width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
@@ -84,7 +87,7 @@
                                         <td>
                                             {{row.address}}
                                         </td>
-                                        <td>
+                                        <td class="d-print-none">
                                             <slot v-if="row.nearest_client">
                                                 {{row.nearest_client.name}}
                                                 |
@@ -221,6 +224,9 @@
             SweetModalTab
         },
         methods: {
+            print() {
+                this.$htmlToPaper('printMe')
+            },
             customLabel({first_name, last_name}) {
                 return `${first_name} – ${last_name}`
             },
@@ -436,22 +442,3 @@
         }
     }
 </script>
-<style>
-    .multiselect__option {
-        text-align: right;
-    }
-
-    .multiselect__option--disabled {
-        /*background: #182029 !important;*/
-        /*color: #ffffff !important;*/
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    .multiselect__option--highlight::after {
-        float: left !important;
-        text-align: left;
-        left: 0;
-        opacity: 0.5;
-    }
-</style>

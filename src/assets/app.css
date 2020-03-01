@@ -81,3 +81,8 @@ body, .section, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, div, .ui-i
 .multiselect__tags-wrap {
     display: contents !important;
 }
+@media print {
+    .d-print-none {
+        display: none !important;
+    }
+}
