@@ -9,9 +9,9 @@
                         {{$ml.get('send_fcm')}}
                     </button>
                     &nbsp;
-                    <button class="btn btn-primary" @click="$router.push({name:'push_notifications'})">
-                        {{$ml.get('push_notifications')}}
-                    </button>
+<!--                    <button class="btn btn-primary" @click="$router.push({name:'push_notifications'})">-->
+<!--                        {{$ml.get('push_notifications')}}-->
+<!--                    </button>-->
                 </div>
             </div>
         </base-header>
@@ -52,6 +52,7 @@
                                         <th>{{$ml.get('lng')}}</th>
                                         <th>{{$ml.get('mandoob')}}</th>
                                         <th>{{$ml.get('date')}}</th>
+                                        <th>{{$ml.get('status')}}</th>
                                         <th>{{$ml.get('address')}}</th>
                                         <th>{{$ml.get('nearest_client')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
@@ -65,20 +66,28 @@
                                             {{row.lng}}
                                         </td>
                                         <td>
-                                            {{row.mandoob.first_name}}
-                                            {{row.mandoob.last_name}}
+                                            <slot v-if="row.mandoob">
+                                                {{row.mandoob.first_name}}
+                                                {{row.mandoob.last_name}}
+                                            </slot>
                                         </td>
                                         <td>
                                             {{row.created_at}}
                                         </td>
                                         <td>
+                                            <label class="badge badge-primary">{{$ml.get(row.status)}}</label>
+                                        </td>
+                                        <td>
                                             {{row.address}}
                                         </td>
                                         <td>
-                                            <slot v-if="row.nearest_client"></slot>
-                                            {{row.nearest_client.name}}
-                                            |
-                                            {{row.nearest_client.distance ? row.nearest_client.distance : 0}} كيلومتر
+                                            <slot v-if="row.nearest_client">
+                                                {{row.nearest_client.name}}
+                                                |
+                                                {{row.nearest_client.distance ?
+                                                parseFloat(row.nearest_client.distance).toFixed(3) : 0}}
+                                                كيلومتر
+                                            </slot>
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">

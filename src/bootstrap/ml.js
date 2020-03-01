@@ -115,8 +115,9 @@ export default new MLCreate({
             hiring_at: 'تاريخ التوظيف',
             employee: 'الموظفين',
             violation: 'المخالفات',
+            text: 'النص',
             locations: 'المتابعة والاشعارات',
-            send_fcm: 'ارسال اشعار لتحديد الموقع',
+            send_fcm: 'ارسال اشعار',
             send_fcm_all: 'سيتم ارسال الاشعار لجميع المندوبين اذا لم تحدد احد',
             send: 'ارسال',
             add_violation: 'اضافة مخالفة',
@@ -154,6 +155,9 @@ export default new MLCreate({
             role: '  الصلاحية',
             admins: 'المديرين',
             roles: 'الصلاحيات والادوار',
+            location_end: 'انتهي',
+            location_not_delivered: 'لم يستلم',
+            location_delivered: 'استلم',
         })
     ]
 })
