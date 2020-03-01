@@ -73,6 +73,10 @@ export const helper = {
                 return;
             }
 
+            if (error.response.status == 401) {
+                vm.$router.push({name: 'login'})
+            }
+
             vm.$notify({
                 icon: "ti-info",
                 horizontalAlign: 'center',

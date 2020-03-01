@@ -142,7 +142,10 @@
                     </div>
                     <div class="col-md-4">
                         <label>{{$ml.get('shopCreationDate')}}</label>
-                        <flat-pickr class="form-control" v-model="dataModel.shopCreationDate"></flat-pickr>
+                        <!--                        <flat-pickr class="form-control" v-model="dataModel.shopCreationDate"></flat-pickr>-->
+                        <select class="form-control" v-model="dataModel.shopCreationDate">
+                            <option v-for="(year , key) in years" :key="key" :value="year">{{year}}</option>
+                        </select>
                         <div class="text-danger error_text" id="shopCreationDate_error"></div>
                     </div>
                     <div class="col-md-4">
@@ -230,7 +233,11 @@
             }
         },
         computed: {
-            google: gmapApi
+            google: gmapApi,
+            years() {
+                const year = new Date().getFullYear()
+                return Array.from({length: year - 1950}, (value, index) => 1951 + index)
+            }
         },
         watch: {
             selectValue: function (newVal, oldVal) {
