@@ -100,7 +100,7 @@
             </div>
             <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'notifactionModal'" width="70%">
                 <div class="row text-right">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label>{{$ml.get('mandoob')}}</label>
                         <multiselect v-model="selectValue" :options="allMandoobs" :multiple="true"
                                      :placeholder="$ml.get('search')"
@@ -110,6 +110,11 @@
                         <div class="text-info mt-2 font-weight-bold">
                             {{$ml.get('send_fcm_all')}}
                         </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>{{$ml.get('text')}}</label>
+                        <textarea v-model="message" class="form-control form-control-alternative" rows="6"></textarea>
+                        <div class="text-danger error_text" id="message_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
                         <button class="btn btn-info" @click="sendNotifications()">
@@ -170,6 +175,7 @@
             return {
                 selectValue: [],
                 selectMandoob: null,
+                message: null,
                 tableData: [],
                 isLoading: true,
                 disable: false,
@@ -313,6 +319,7 @@
                 let vm = this;
                 let request_data = vm.dataModel;
                 request_data.mandoob_ids = _.map(vm.selectValue, 'id');
+                request_data.message = vm.message;
                 console.log(request_data);
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {

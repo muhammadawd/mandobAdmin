@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-info btn-icon btn-icon-only" @click="showModal()">
-                        <i class="ni ni-fat-add ni-lg pt-1"></i>
+                    <button class="btn btn-info btn-icon" @click="showModal()">
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        {{$ml.get('add_coupon')}}
                     </button>
                     &nbsp;
                     <button class="btn btn-warning" @click="showModal2()">
@@ -37,6 +38,7 @@
                                         <th>{{$ml.get('customers')}}</th>
                                         <th>{{$ml.get('mandoob')}}</th>
                                         <th>{{$ml.get('clients')}}</th>
+                                        <th>{{$ml.get('added_by')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
@@ -73,6 +75,12 @@
                                             </slot>
                                         </td>
                                         <td>
+                                            <div v-if="row.causer" dir="ltr">
+                                                ({{row.causer.type}}) -
+                                                {{row.causer.name}}
+                                            </div>
+                                        </td>
+                                        <td>
                                             <div class="btn-group" dir="ltr">
                                                 <button class="btn btn-danger btn-sm" @click="deleteCoupon(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
@@ -105,12 +113,16 @@
                     </div>
                     <div class="col-md-4">
                         <label>{{$ml.get('created_at')}}</label>
-                        <flat-pickr class="form-control" v-model="dataModel.created_at"></flat-pickr>
+                        <flat-pickr class="form-control"
+                                    :config="{dateFormat: 'Y-m-d H:i',enableTime:true}"
+                                    v-model="dataModel.created_at"></flat-pickr>
                         <div class="text-danger error_text" id="created_at_error"></div>
                     </div>
                     <div class="col-md-4" v-if="dataModel.id">
                         <label>{{$ml.get('finished_at')}}</label>
-                        <flat-pickr class="form-control" v-model="dataModel.finished_at"></flat-pickr>
+                        <flat-pickr class="form-control"
+                                    :config="{dateFormat: 'Y-m-d H:i',enableTime:true}"
+                                    v-model="dataModel.finished_at"></flat-pickr>
                         <div class="text-danger error_text" id="finished_at_error"></div>
                     </div>
                     <div class="col-md-12"></div>
@@ -128,9 +140,15 @@
                     </div>
                     <div class="col-md-4">
                         <label class="text-white font-weight-bold">{{$ml.get('mandoob')}}</label>
-                        <multiselect v-model="selectMandoob" :options="all_mandoobs" label="name" track-by="name"
-                                     :custom-label="nameFirstlast"
-                                     :placeholder="$ml.get('search')"></multiselect>
+                        <multiselect v-model="selectMandoob" :options="allSupervisors" :multiple="false"
+                                     group-values="mandoobs" :max-height="120"
+                                     group-label="first_name" :group-select="false" :placeholder="$ml.get('search')"
+                                     track-by="id" :custom-label="nameFirstlast">
+                            <span slot="noResult">Oops! No elements found. </span>
+                        </multiselect>
+                        <!--                        <multiselect v-model="selectMandoob" :options="all_mandoobs" label="name" track-by="name"-->
+                        <!--                                     :custom-label="nameFirstlast"-->
+                        <!--                                     :placeholder="$ml.get('search')"></multiselect>-->
                         <div class="text-danger error_text" id="mandoob_id_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
@@ -179,6 +197,7 @@
                 all_coupon_values: [],
                 tableData: [],
                 all_mandoobs: [],
+                allSupervisors: [],
                 selectMandoob: null,
                 all_customers: [],
                 selectCustomer: null,
@@ -197,6 +216,7 @@
             vm.getAllMandoob();
             vm.getAllClients();
             vm.getAllCustomers();
+            vm.getAllSupervisor();
         },
         components: {
             Multiselect,
@@ -207,6 +227,31 @@
         methods: {
             nameFirstlast({first_name, last_name}) {
                 return `${first_name} - ${last_name}`
+            },
+            getAllSupervisor() {
+                let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_SUPERVISOR)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+
+                                console.log(response.data.super_visors)
+                                vm.allSupervisors = response.data.super_visors.data;
+                                return null;
+                            }
+                            vm.allSupervisors = [];
+
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.allSupervisors = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
             },
             getAllMandoob() {
                 let vm = this;

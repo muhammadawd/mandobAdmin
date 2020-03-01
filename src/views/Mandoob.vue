@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-danger btn-icon btn-icon-only" @click="showModal()">
-                        <i class="ni ni-fat-add ni-lg pt-1"></i>
+                    <button class="btn btn-danger btn-icon" @click="showModal()">
+<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        {{$ml.get('add_mandoob')}}
                     </button>
                 </div>
             </div>

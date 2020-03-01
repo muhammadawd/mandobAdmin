@@ -6,6 +6,7 @@ let BASE_URL = `https://approc.com/~approctest/mandoob/api/`;
 export default {
     BASE_URL:'https://approc.com/~approctest/mandoob/api',
     AUTH_ACCOUNT: 'admin/login',
+    AUTH_ADMIN: 'admin/auth',
     RESET_ACCOUNT: 'mandoob/resetPassword',
 
     COMMON_GOVERNORATES: 'common/governorates',
@@ -25,6 +26,19 @@ export default {
     FIND_EMPLOYEE: 'employee',
     ADD_EMPLOYEE: 'employee/create',
     UPDATE_EMPLOYEE: 'employee/update',
+
+    ALL_ADMINS: 'admin',
+    DELETE_ADMINS: 'admin/delete',
+    FIND_ADMINS: 'admin',
+    ADD_ADMINS: 'admin/create',
+    UPDATE_ADMINS: 'admin/update',
+
+    ALL_ROLES: 'role',
+    DELETE_ROLES: 'role/delete',
+    FIND_ROLES: 'role',
+    ALL_PERMISSIONS: 'role/permissions',
+    ADD_ROLES: 'role/create-update',
+    UPDATE_ROLES: 'role/create-update',
 
     ALL_MANDOOBS: 'mandoob',
     DELETE_MANDOOBS: 'mandoob/delete',

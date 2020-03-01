@@ -77,3 +77,7 @@ body, .section, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, div, .ui-i
 .multiselect__option:after {
     left: 0 !important;
 }
+
+.multiselect__tags-wrap {
+    display: contents !important;
+}

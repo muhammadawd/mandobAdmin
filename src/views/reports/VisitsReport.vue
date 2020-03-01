@@ -77,6 +77,7 @@
                                         <th>{{$ml.get('cost')}}</th>
                                         <th>{{$ml.get('start_date')}}</th>
                                         <th>{{$ml.get('end_date')}}</th>
+                                        <th>{{$ml.get('notes')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
@@ -106,6 +107,9 @@
                                         </td>
                                         <td>
                                             {{row.end_date}}
+                                        </td>
+                                        <td>
+                                            {{row.notes}}
                                         </td>
                                     </template>
                                 </base-table>

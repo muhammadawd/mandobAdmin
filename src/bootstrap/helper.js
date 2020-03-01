@@ -54,6 +54,19 @@ export const helper = {
             }
         }
     },
+    hasAccessPermission: (permission) => {
+        // return true;
+        let user = JSON.parse(localStorage.getItem('auth_data'));
+        if (permission == 'ALLOW_ALL') {
+            return true
+        } else if (user.permissions.includes(permission)) {
+
+            return true;
+        } else {
+
+            return false;
+        }
+    },
     handleError: (error, vm) => {
         // request error cause of offline using
         if (!navigator.onLine) return;

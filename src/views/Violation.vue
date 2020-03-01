@@ -83,7 +83,8 @@
                 <div class="row text-right">
                     <div class="col-md-3">
                         <label class="font-weight-bold">{{$ml.get('date')}}</label>
-                        <flat-pickr type="text" class="form-control" v-model="dataModel.date"></flat-pickr>
+                        <flat-pickr type="text" class="form-control"
+                                    :config="{dateFormat: 'Y-m-d H:i',enableTime:true}" v-model="dataModel.date"></flat-pickr>
                         <div class="text-danger error_text" id="date_error"></div>
                     </div>
                     <div class="col-md-3">

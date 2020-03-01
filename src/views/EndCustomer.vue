@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-info btn-icon btn-icon-only" @click="showModal()">
-                        <i class="ni ni-fat-add ni-lg pt-1"></i>
+                    <button class="btn btn-info btn-icon" @click="showModal()">
+<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        {{$ml.get('add_end_customer')}}
                     </button>
                 </div>
             </div>
@@ -30,6 +31,8 @@
                                         <th>{{$ml.get('phone')}}</th>
                                         <th>{{$ml.get('warranty_certificate')}}</th>
                                         <th>{{$ml.get('image')}}</th>
+                                        <th>{{$ml.get('finished_at')}}</th>
+                                        <th>{{$ml.get('added_by')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
@@ -53,6 +56,20 @@
                                                     <b> {{$ml.get('show_image')}}</b>
                                                 </a>
                                             </slot>
+                                        </td>
+                                        <td>
+                                            <slot v-if="row.finished_at">
+                                                <label class="badge badge-primary">{{$ml.get('delivered')}}</label>
+                                            </slot>
+                                            <slot v-if="!row.finished_at">
+                                                <label class="badge badge-danger">{{$ml.get('not_delivered')}}</label>
+                                            </slot>
+                                        </td>
+                                        <td>
+                                            <div v-if="row.causer" dir="ltr">
+                                                ({{row.causer.type}}) -
+                                                {{row.causer.name}}
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
@@ -103,16 +120,22 @@
                     </div>
                     <div class="col-md-4">
                         <label>{{$ml.get('mandoob')}}</label>
-                        <multiselect v-model="selectMandoob" :options="all_mandoobs" label="name" track-by="name"
-                                     :custom-label="nameFirstlast"
-                                     :placeholder="$ml.get('search')"></multiselect>
+                        <multiselect v-model="selectMandoob" :options="allSupervisors" :multiple="false"
+                                     group-values="mandoobs" :max-height="120"
+                                     group-label="first_name" :group-select="false" :placeholder="$ml.get('search')"
+                                     track-by="id" :custom-label="nameFirstlast">
+                            <span slot="noResult">Oops! No elements found. </span>
+                        </multiselect>
+<!--                        <multiselect v-model="selectMandoob" :options="all_mandoobs" label="name" track-by="name"-->
+<!--                                     :custom-label="nameFirstlast"-->
+<!--                                     :placeholder="$ml.get('search')"></multiselect>-->
                         <div class="text-danger error_text" id="mandoob_id_error"></div>
                     </div>
                     <div class="col-md-4">
                         <label>{{$ml.get('city')}}</label>
                         <multiselect v-model="selectValue" :options="allGovernorates" :multiple="false"
                                      group-values="cities"
-                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
+                                     group-label="name" :group-select="true" :placeholder="$ml.get('search')"
                                      track-by="name" label="name">
                             <span slot="noResult">Oops! No elements found. </span>
                         </multiselect>
@@ -169,6 +192,7 @@
                 selectValue: null,
                 selectValueCustomer: null,
                 allGovernorates: [],
+                allSupervisors: [],
                 all_customer: [],
                 all_mandoobs: [],
                 selectMandoob: null,
@@ -185,6 +209,7 @@
             let vm = this;
             vm.getAllMandoob();
             vm.getAllCustomers();
+            vm.getAllSupervisor();
             vm._getAllCustomers();
             vm.getallGovernorates();
         },
@@ -195,6 +220,31 @@
             SweetModalTab
         },
         methods: {
+            getAllSupervisor() {
+                let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_SUPERVISOR)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+
+                                console.log(response.data.super_visors)
+                                vm.allSupervisors = response.data.super_visors.data;
+                                return null;
+                            }
+                            vm.allSupervisors = [];
+
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.allSupervisors = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            },
             nameFirstlast({first_name, last_name}) {
                 return `${first_name} - ${last_name}`
             },

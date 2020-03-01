@@ -57,7 +57,10 @@
                             response = response.data;
                             if (response.status) {
                                 window.helper.showMessage('success', vm);
-                                ls.saveToStorage('auth_data', response.data)
+                                let auth_data = response.data;
+                                let permissions = _.map(auth_data.admin.role.permissions, 'name');
+                                auth_data.permissions = permissions;
+                                ls.saveToStorage('auth_data', auth_data)
                                 vm.$router.push({name: 'dashboard'})
                                 return null;
                             }

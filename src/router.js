@@ -105,6 +105,38 @@ const router = new Router({
                     meta: {
                         requiresAuth: true,
                     },
+                    path: '/admins',
+                    name: 'admins',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Admin.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/roles',
+                    name: 'roles',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Roles.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/roles/add',
+                    name: 'add_roles',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/AddRoles.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
+                    path: '/roles/edit/:id',
+                    name: 'edit_roles',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/EditRoles.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
                     path: '/end_customer',
                     name: 'end_customer',
                     component: () => import(/* webpackChunkName: "demo" */ './views/EndCustomer.vue')
@@ -169,6 +201,14 @@ const router = new Router({
                     meta: {
                         requiresAuth: true,
                     },
+                    path: '/endcustomer_report',
+                    name: 'endcustomer_report',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/reports/EndCustomerReport.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                    },
                     path: '/attendance',
                     name: 'attendance',
                     component: () => import(/* webpackChunkName: "demo" */ './views/Attendance.vue')
@@ -201,6 +241,21 @@ const router = new Router({
     ]
 });
 
+function getAuth() {
+    window.serviceAPI.API().get(window.serviceAPI.AUTH_ADMIN)
+        .then((response) => {
+            response = response.data
+            if (response.status) {
+                let permissions = _.map(response.data.admin.role.permissions, 'name');
+                let auth_data = JSON.parse(window.ls.getFromStorage('auth_data'));
+                auth_data.permissions = permissions;
+                window.ls.saveToStorage('auth_data', auth_data)
+            }
+        })
+        .catch((errors) => {
+            console.log(errors)
+        })
+}
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         let auth_data = ls.getFromStorage('auth_data');
@@ -212,6 +267,7 @@ router.beforeEach((to, from, next) => {
             })
         } else {
             next()
+            getAuth();
         }
     } else {
         next() // make sure to always call next()!

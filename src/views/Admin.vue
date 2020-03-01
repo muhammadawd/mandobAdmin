@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-md-4 text-right">
                     <button class="btn btn-dark btn-icon" @click="showModal()">
-                        {{$ml.get('add_employee')}}
-<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        {{$ml.get('add_admin')}}
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                     </button>
                 </div>
             </div>
@@ -26,37 +26,29 @@
                                             tbody-classes="list"
                                             :data="tableData">
                                     <template slot="columns">
-                                        <th>{{$ml.get('barcode')}}</th>
                                         <th>{{$ml.get('name')}}</th>
-                                        <th>{{$ml.get('phone')}}</th>
-                                        <th>{{$ml.get('age')}}</th>
-                                        <th>{{$ml.get('job')}}</th>
-                                        <th>{{$ml.get('hiring_at')}}</th>
+                                        <th>{{$ml.get('username')}}</th>
+                                        <th>{{$ml.get('email')}}</th>
+                                        <th>{{$ml.get('barcode')}}</th>
                                         <th width="100">{{$ml.get('operations')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
                                         <td class="budget" :id="'td_row_'+row.id">
-                                            {{row.barcode}}
-                                        </td>
-                                        <td>
                                             {{row.name}}
                                         </td>
                                         <td>
-                                            {{row.phone}}
+                                            {{row.username}}
                                         </td>
                                         <td>
-                                            {{row.age}}
+                                            {{row.email}}
                                         </td>
                                         <td>
-                                            {{row.job}}
-                                        </td>
-                                        <td>
-                                            {{row.hiring_at}}
+                                            {{row.barcode}}
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteEmployee(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteAdmin(row)">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
                                                 <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
@@ -74,41 +66,43 @@
             <sweet-modal modal-theme="dark" overlay-theme="dark" :ref="'addModal'" width="70%">
                 <div class="row text-right">
                     <div class="col-md-4">
-                        <label>{{$ml.get('barcode')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.barcode">
-                        <div class="text-danger error_text" id="barcode_error"></div>
-                    </div>
-                    <div class="col-md-4">
                         <label>{{$ml.get('name')}}</label>
                         <input type="text" class="form-control" v-model="dataModel.name">
                         <div class="text-danger error_text" id="name_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('phone')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.phone">
-                        <div class="text-danger error_text" id="phone_error"></div>
+                        <label>{{$ml.get('username')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.username">
+                        <div class="text-danger error_text" id="username_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('age')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.age">
-                        <div class="text-danger error_text" id="age_error"></div>
+                        <label>{{$ml.get('password')}}</label>
+                        <input type="password" class="form-control" v-model="dataModel.password">
+                        <div class="text-danger error_text" id="password_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('job')}}</label>
-                        <input type="text" class="form-control" v-model="dataModel.job">
-                        <div class="text-danger error_text" id="job_error"></div>
+                        <label>{{$ml.get('email')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.email">
+                        <div class="text-danger error_text" id="email_error"></div>
                     </div>
                     <div class="col-md-4">
-                        <label>{{$ml.get('hiring_at')}}</label>
-                        <flat-pickr type="text" class="form-control" v-model="dataModel.hiring_at"></flat-pickr>
-                        <div class="text-danger error_text" id="hiring_at_error"></div>
+                        <label>{{$ml.get('barcode')}}</label>
+                        <input type="text" class="form-control" v-model="dataModel.barcode">
+                        <div class="text-danger error_text" id="barcode_error"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <label>{{$ml.get('role')}}</label>
+                        <select type="text" class="form-control" v-model="dataModel.role_id">
+                            <option v-for="(item , key) in roles" :value="item.id" :key="key">{{item.translated.title}}</option>
+                        </select>
+                        <div class="text-danger error_text" id="role_id_error"></div>
                     </div>
                     <div class="col-md-12 text-center mt-2">
-                        <button class="btn btn-info" @click="addEmployee()" v-if="!dataModel.id">
+                        <button class="btn btn-info" @click="addAdmin()" v-if="!dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('add')}}</slot>
                         </button>
-                        <button class="btn btn-info" @click="updateEmployee()" v-if="dataModel.id">
+                        <button class="btn btn-info" @click="updateAdmin()" v-if="dataModel.id">
                             <slot v-if="disable">LOADING ...</slot>
                             <slot v-if="!disable">{{$ml.get('edit')}}</slot>
                         </button>
@@ -130,6 +124,7 @@
             return {
                 selectValue: null,
                 tableData: [],
+                roles: [],
                 isLoading: true,
                 disable: false,
                 dataModel: {}
@@ -146,7 +141,10 @@
         },
         mounted() {
             let vm = this;
-            vm.getAllEmployees();
+            // console.log(this.helper.hasAccessPermission('update-admins'))
+            // console.log(this.$pusher)
+            vm.getAllAdmins();
+            vm.getAllRoles();
         },
         components: {
             FlatPickr,
@@ -166,16 +164,16 @@
                 vm.selectValue = data.city;
                 vm.$refs.addModal.open();
             },
-            getAllEmployees() {
+            getAllAdmins() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.ALL_EMPLOYEE)
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_ADMINS)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
                             if (response.status) {
-                                vm.tableData = response.data.employees.data;
+                                vm.tableData = response.data.admins.data;
                                 return null;
                             }
                             vm.tableData = [];
@@ -189,7 +187,30 @@
                     console.log(e)
                 }
             },
-            deleteEmployee: function (row) {
+            getAllRoles() {
+                let vm = this;
+                vm.$root.$children[0].$refs.loader.show_loader = true;
+                try {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_ROLES)
+                        .then((response) => {
+                            vm.$root.$children[0].$refs.loader.show_loader = false;
+                            response = response.data;
+                            if (response.status) {
+                                vm.roles = response.data.roles.data;
+                                return null;
+                            }
+                            vm.roles = [];
+
+                        }).catch((error) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        window.helper.handleError(error, vm);
+                        vm.roles = [];
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            deleteAdmin: function (row) {
                 let vm = this;
 
                 vm.$swal({
@@ -204,7 +225,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_EMPLOYEE+ `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_ADMINS + `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;
@@ -224,12 +245,12 @@
                     }
                 });
             },
-            addEmployee: function () {
+            addAdmin: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.ADD_EMPLOYEE, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.ADD_ADMINS, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -237,8 +258,8 @@
                                 window.helper.showMessage('success', vm);
                                 vm.resetModelData();
                                 $('.error_text').text('');
-                                let employee = response.data.employee;
-                                vm.tableData.push(employee);
+                                let admin = response.data.admin;
+                                vm.tableData.push(admin);
                                 vm.$refs.addModal.close();
                                 return null;
                             }
@@ -254,12 +275,12 @@
                     console.log(e)
                 }
             },
-            updateEmployee: function () {
+            updateAdmin: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 try {
-                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_EMPLOYEE, request_data)
+                    window.serviceAPI.API().post(window.serviceAPI.UPDATE_ADMINS, request_data)
                         .then((response) => {
                             vm.$root.$children[0].$refs.loader.show_loader = false;
                             response = response.data;
@@ -270,8 +291,8 @@
                                 vm.$refs.addModal.close();
                                 // location.reload()
                                 $(`#td_row_${request_data.id}`).parent().remove();
-                                let employee = response.data.employee;
-                                vm.tableData.push(employee);
+                                let admin = response.data.admin;
+                                vm.tableData.push(admin);
                                 return null;
                             }
 
@@ -291,13 +312,9 @@
                 this.dataModel = {
                     "id": "",
                     "name": "",
-                    "phone": "",
-                    "age": "",
-                    "job_id": "",
-                    "hiring_at": "",
-                    "created_at": " ",
-                    "updated_at": " ",
-                    "job": "   "
+                    "barcode": "",
+                    "email": "",
+                    "username": "",
                 }
             }
         }

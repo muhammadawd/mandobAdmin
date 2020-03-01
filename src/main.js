@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 import './bootstrap/bootstrap'
+import {helper} from "@/bootstrap/helper";
 import './bootstrap/ml'
 import VueHtmlToPaper from 'vue-html-to-paper';
 
@@ -20,6 +21,14 @@ const options = {
     ]
 }
 
+Vue.use(require('vue-pusher'), {
+    api_key: '933c8b0e0cc75266a007',
+    options: {
+        cluster: 'eu',
+        encrypted: true,
+    }
+});
+Vue.prototype.helper = helper
 
 import ArgonDashboard from './plugins/argon-dashboard'
 // import VueFirestore from 'vue-firestore'

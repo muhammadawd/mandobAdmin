@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-primary btn-icon btn-icon-only" @click="showModal()">
-                        <i class="ni ni-fat-add ni-lg pt-1"></i>
+                    <button class="btn btn-primary btn-icon" @click="showModal()">
+<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        {{$ml.get('add_customer')}}
                     </button>
                 </div>
             </div>
@@ -99,7 +100,7 @@
                         <label>{{$ml.get('city')}}</label>
                         <multiselect v-model="selectValue" :options="allGovernorates" :multiple="false"
                                      group-values="cities"
-                                     group-label="name" :group-select="false" :placeholder="$ml.get('search')"
+                                     group-label="name" :group-select="true" :placeholder="$ml.get('search')"
                                      track-by="name" label="name">
                             <span slot="noResult">Oops! No elements found. </span>
                         </multiselect>

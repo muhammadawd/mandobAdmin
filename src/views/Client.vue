@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-info btn-icon btn-icon-only" @click="showModal()">
-                        <i class="ni ni-fat-add ni-lg pt-1"></i>
+                    <button class="btn btn-info btn-icon" @click="showModal()">
+<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        {{$ml.get('add_client')}}
                     </button>
                 </div>
             </div>
@@ -156,7 +157,7 @@
                     <div class="col-md-12">
                         <label>{{$ml.get('address')}}</label>
 
-                        <gmap-map ref="mymap" :center="mapStartLocation" :zoom="7" style="width: 100%; height: 300px"
+                        <gmap-map ref="mymap" :center="mapStartLocation" :zoom="9" style="width: 100%; height: 300px"
                                   :draggable="true">
                             <gmap-marker :position="mapStartLocation" :draggable="true" @drag="updateCoordinates"/>
                             <!--                            <gmap-marker :position="mapStartLocation"/>-->

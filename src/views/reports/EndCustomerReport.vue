@@ -22,24 +22,16 @@
                                                     v-model="filterModel.date"></flat-pickr>
                                     </div>
                                     <div class="col-md-3 text-right">
-                                        <label class=" font-weight-bold">{{$ml.get('mandoob')}}</label>
-                                        <multiselect v-model="selectMandoob" :options="mandoobs" label="name"
-                                                     track-by="name"
-                                                     :custom-label="nameFirstlast"
-                                                     :placeholder="$ml.get('search')"></multiselect>
-
-                                    </div>
-                                    <div class="col-md-3 text-right">
                                         <label class="font-weight-bold">{{$ml.get('status')}}</label>
                                         <select class="form-control form-control-alternative" v-model="status"
-                                                @change="getAllCoupons()">
+                                                @change="getAllEndCustomers()">
                                             <option value="">All</option>
                                             <option value="completed">Completed</option>
                                             <option value="not_completed">Not Completed</option>
                                         </select>
                                     </div>
                                     <div class="col-md-12 text-center">
-                                        <button class="btn btn-primary mt-2" @click="getAllCoupons()">
+                                        <button class="btn btn-primary mt-2" @click="getAllEndCustomers()">
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </div>
@@ -50,45 +42,41 @@
                                             tbody-classes="list"
                                             :data="tableData">
                                     <template slot="columns">
-                                        <th>{{$ml.get('value')}}</th>
-                                        <th class="text-center">{{$ml.get('status')}}</th>
-                                        <th>{{$ml.get('delivered_at')}}</th>
+                                        <th>{{$ml.get('name')}}</th>
+                                        <th>{{$ml.get('address')}}</th>
+                                        <th>{{$ml.get('phone')}}</th>
+                                        <th>{{$ml.get('warranty_certificate')}}</th>
+                                        <th>{{$ml.get('image')}}</th>
                                         <th>{{$ml.get('finished_at')}}</th>
-                                        <th>{{$ml.get('created_at')}}</th>
-                                        <th>{{$ml.get('customers')}}</th>
-                                        <th>{{$ml.get('mandoob')}}</th>
-                                        <th>{{$ml.get('clients')}}</th>
                                     </template>
 
                                     <template slot-scope="{row}">
                                         <td class="budget" :id="'td_row_'+row.id">
-                                            {{row.value}}
-                                        </td>
-                                        <td class="text-center" v-html="getStatusTag(row)"></td>
-                                        <td>
-                                            {{row.delivered_at}}
+                                            {{row.name}}
                                         </td>
                                         <td>
-                                            {{row.finished_at}}
+                                            {{row.address}}
                                         </td>
                                         <td>
-                                            {{row.created_at}}
-
+                                            {{row.phone}}
                                         </td>
                                         <td>
-                                            <slot v-if="row.customer">
-                                                {{row.customer.name}}
+                                            {{row.warranty_certificate}}
+                                        </td>
+                                        <td>
+                                            <slot v-if="row.image">
+                                                <a :href="row.image" target="_blank">
+                                                    <i class="fas fa-image"></i>
+                                                    <b> {{$ml.get('show_image')}}</b>
+                                                </a>
                                             </slot>
                                         </td>
                                         <td>
-                                            <slot v-if="row.mandoob">
-                                                {{row.mandoob.first_name}}
-                                                {{row.mandoob.last_name}}
+                                            <slot v-if="row.finished_at">
+                                                <label class="badge badge-primary">{{$ml.get('delivered')}}</label>
                                             </slot>
-                                        </td>
-                                        <td>
-                                            <slot v-if="row.client">
-                                                {{row.client.name}}
+                                            <slot v-if="!row.finished_at">
+                                                <label class="badge badge-danger">{{$ml.get('not_delivered')}}</label>
                                             </slot>
                                         </td>
                                     </template>
@@ -128,7 +116,7 @@
         mounted() {
             let vm = this;
             vm.getAllFilterData();
-            vm.getAllCoupons();
+            vm.getAllEndCustomers();
         },
         components: {
             Multiselect,
@@ -181,7 +169,7 @@
                     console.log(e)
                 }
             },
-            getAllCoupons() {
+            getAllEndCustomers() {
                 let vm = this;
                 vm.$root.$children[0].$refs.loader.show_loader = true;
                 let mandoob_id = this.selectMandoob ? this.selectMandoob.id : null;
@@ -195,24 +183,23 @@
                     end_date = arr[1];
                 }
                 try {
-                    window.serviceAPI.API().get(window.serviceAPI.COUPONS_REPORT, {
+                    window.serviceAPI.API().get(window.serviceAPI.ALL_ENDCUSTOMER, {
                         params: {
                             status: vm.status,
                             start_date: start_date,
                             end_date: end_date,
                             mandoob_id: mandoob_id
                         }
-                    })
-                        .then((response) => {
-                            vm.$root.$children[0].$refs.loader.show_loader = false;
-                            response = response.data;
-                            if (response.status) {
-                                vm.tableData = response.data.coupons;
-                                return null;
-                            }
-                            vm.tableData = [];
+                    }).then((response) => {
+                        vm.$root.$children[0].$refs.loader.show_loader = false;
+                        response = response.data;
+                        if (response.status) {
+                            vm.tableData = response.data.endCustomers.data;
+                            return null;
+                        }
+                        vm.tableData = [];
 
-                        }).catch((error) => {
+                    }).catch((error) => {
                         vm.$root.$children[0].$refs.loader.show_loader = false;
                         window.helper.handleError(error, vm);
                         vm.tableData = [];
@@ -220,7 +207,7 @@
                 } catch (e) {
                     console.log(e)
                 }
-            }
+            },
         }
     }
 </script>
