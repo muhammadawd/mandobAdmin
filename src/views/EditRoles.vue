@@ -43,8 +43,8 @@
                                                 <input :id="'permission_'+permission.id" type="checkbox"
                                                        v-model="selectedPermission" :value="permission.id"/>
                                                 <label :for="'permission_'+permission.id">&nbsp;{{permission.translated.title}}
-                                                    <br>
-                                                    {{permission.name}}
+<!--                                                    <br>-->
+<!--                                                    {{permission.name}}-->
                                                 </label>
                                             </div>
                                         </div>
