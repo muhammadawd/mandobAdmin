@@ -21,7 +21,8 @@
             let vm = this;
             let auth_data = window.ls.getFromStorage('auth_data');
             auth_data = JSON.parse(auth_data);
-            let channel = vm.$pusher.subscribe(`alert-channel-admin-${auth_data.admin.id}`);
+            // let channel = vm.$pusher.subscribe(`alert-channel-admin-${auth_data.admin.id}`);
+            let channel = vm.$pusher.subscribe(`alert-channel-admin`);
             channel.bind(`AlertEvent`, (payload) => {
                 console.log(payload)
                 payload = payload.alert
