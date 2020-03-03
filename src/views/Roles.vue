@@ -5,7 +5,8 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-dark btn-icon" @click="$router.push({name:'add_roles'})">
+                    <button class="btn btn-dark btn-icon" @click="$router.push({name:'add_roles'})"
+                            v-if="$helper.hasAccessPermission('create-role')">
                         {{$ml.get('add_role')}}
                         <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                     </button>
@@ -36,11 +37,13 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteRole(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteRole(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-role')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
                                                 <button class="btn btn-info btn-sm"
-                                                        @click="$router.push({name:'edit_roles',params:{id:row.id}})">
+                                                        @click="$router.push({name:'edit_roles',params:{id:row.id}})"
+                                                        v-if="$helper.hasAccessPermission('update-role')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>

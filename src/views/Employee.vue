@@ -5,9 +5,10 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-dark btn-icon" @click="showModal()">
+                    <button class="btn btn-dark btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-employee')">
                         {{$ml.get('add_employee')}}
-<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                     </button>
                 </div>
             </div>
@@ -56,10 +57,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteEmployee(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteEmployee(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-employee')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-employee')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>
@@ -204,7 +207,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_EMPLOYEE+ `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_EMPLOYEE + `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;

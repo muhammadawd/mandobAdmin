@@ -32,6 +32,16 @@ export const helper = {
             type: type
         });
     },
+    showNotification: (vm, type, title, notes, date = null) => {
+        vm.$notify({
+            icon: "ti-info",
+            horizontalAlign: 'left',
+            verticalAlign: 'bottom',
+            title: `${title}`,
+            message: `${notes}`,
+            type: type
+        });
+    },
     validationGroupingData: (xs, key) => {
         return xs.reduce(function (rv, x) {
             (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -88,6 +98,10 @@ export const helper = {
 
             if (error.response.status == 401) {
                 vm.$router.push({name: 'login'})
+            }
+
+            if (error.response.status == 403) {
+                vm.$router.push({name: 'page403'})
             }
 
             vm.$notify({

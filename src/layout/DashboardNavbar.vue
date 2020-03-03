@@ -13,6 +13,25 @@
             <!--            </div>-->
         </form>
         <ul class="navbar-nav align-items-center d-none d-md-flex">
+            <li class="nav-item"  @click="$router.push({name:'push_notifications'})">
+                <div lass="nav-link pr-0">
+                    <div class="media align-items-center" slot="title">
+                <span class="avatar avatar-sm rounded-circle bg-primary">
+                    <i class="fa fa-bell"></i>
+                 </span>
+                        <div class="media-body ml-2 d-none d-lg-block position-relative">
+                            <span class="mb-0 text-sm bg-danger font-weight-bold" id="notification_count"> 0 </span>
+                        </div>
+                    </div>
+
+                    <!--                    <template>-->
+                    <!--                        <div class=" dropdown-header noti-title">-->
+                    <!--                            <h6 class="text-overflow m-0">{{$ml.get('welcome')}}!</h6>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="dropdown-divider"></div>-->
+                    <!--                    </template>-->
+                </div>
+            </li>
             <li class="nav-item dropdown">
                 <base-dropdown class="nav-link pr-0">
                     <div class="media align-items-center" slot="title">
@@ -73,3 +92,17 @@
         }
     };
 </script>
+<style>
+    #notification_count {
+        position: absolute;
+        left: 1px;
+        top: -25px;
+        color: #FFF;
+        background: #F44336;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        padding-top: 2px;
+    }
+</style>

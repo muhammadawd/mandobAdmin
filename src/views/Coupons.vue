@@ -5,12 +5,14 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-info btn-icon" @click="showModal()">
+                    <button class="btn btn-info btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-coupon')">
                         <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                         {{$ml.get('add_coupon')}}
                     </button>
                     &nbsp;
-                    <button class="btn btn-warning" @click="showModal2()">
+                    <button class="btn btn-warning" @click="showModal2()"
+                            v-if="$helper.hasAccessPermission('create-coupon-value')">
                         {{$ml.get('add_coupon_value')}}
                     </button>
                 </div>
@@ -82,10 +84,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteCoupon(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteCoupon(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-coupon')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-coupon')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>
@@ -174,6 +178,20 @@
                         <button class="btn btn-info" @click="addCouponValue()">
                             <slot>{{$ml.get('add')}}</slot>
                         </button>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <table class="table table-bordered">
+                            <tr v-for="(item , index) in all_coupon_values" :id="'td_row_value_'+item.id">
+                                <td><h3 class="text-white font-weight-bold">{{item.value}}</h3></td>
+                                <td width="50">
+                                    <button class="btn btn-danger"
+                                            v-if="$helper.hasAccessPermission('delete-coupon-value')"
+                                            @click="deleteCouponValue(item)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </sweet-modal>
@@ -432,6 +450,41 @@
                     }
                 });
             },
+            deleteCouponValue: function (row) {
+                let vm = this;
+
+                vm.$swal({
+                    title: vm.$ml.get('confirm_warning'),
+                    text: vm.$ml.get('are_you_sure'),
+                    type: 'warning',
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    confirmButtonText: vm.$ml.get('yes'),
+                    cancelButtonText: vm.$ml.get('no')
+                }).then((result) => {
+                    if (result.value) {
+                        vm.$root.$children[0].$refs.loader.show_loader = true;
+                        try {
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_COUPONS_VALUES + `/${row.id}`)
+                                .then((response) => {
+                                    vm.$root.$children[0].$refs.loader.show_loader = false;
+                                    response = response.data;
+                                    if (response.status) {
+                                        $(`#td_row_value_${row.id}`).remove();
+                                        window.helper.showMessage('success', vm);
+                                        return null;
+                                    }
+                                }).catch((error) => {
+                                vm.$root.$children[0].$refs.loader.show_loader = false;
+                                window.helper.handleError(error, vm);
+                                vm.tableData = [];
+                            });
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    }
+                });
+            },
             addCoupon: function () {
                 let vm = this;
                 let request_data = vm.dataModel;
@@ -571,5 +624,8 @@
         /*color: #ffffff !important;*/
         font-weight: bold;
         font-size: 18px;
+    }
+    .swal2-container{
+        z-index: 9999999!important;
     }
 </style>

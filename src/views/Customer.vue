@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-primary btn-icon" @click="showModal()">
-<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                    <button class="btn btn-primary btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-customer')">
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                         {{$ml.get('add_customer')}}
                     </button>
                 </div>
@@ -58,10 +59,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteCustomer(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteCustomer(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-customer')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-customer')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>
@@ -298,7 +301,7 @@
                     if (result.value) {
                         vm.$root.$children[0].$refs.loader.show_loader = true;
                         try {
-                            window.serviceAPI.API().post(window.serviceAPI.DELETE_CUSTOMERS+ `/${row.id}`)
+                            window.serviceAPI.API().post(window.serviceAPI.DELETE_CUSTOMERS + `/${row.id}`)
                                 .then((response) => {
                                     vm.$root.$children[0].$refs.loader.show_loader = false;
                                     response = response.data;

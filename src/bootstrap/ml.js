@@ -158,6 +158,11 @@ export default new MLCreate({
             location_end: 'انتهي',
             location_not_delivered: 'لم يستلم',
             location_delivered: 'استلم',
+            title: 'العنوان',
+            sender: 'المرسل',
+            page403: 'غير مسموح',
+            sent_notification: 'الاشعارات المرسلة',
+            recieved_notification: 'الاشعارات المستقبلة',
         })
     ]
 })

@@ -5,7 +5,8 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-success btn-icon" @click="showModal()">
+                    <button class="btn btn-success btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-supervisor')">
                         <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                         {{$ml.get('add_supervisor')}}
                     </button>
@@ -50,10 +51,12 @@
                                         <td v-html="getCitiesText(row.cities)"></td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteSupervisor(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteSupervisor(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-supervisor')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-supervisor')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>

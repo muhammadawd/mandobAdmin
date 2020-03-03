@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-info btn-icon" @click="showModal()">
-<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                    <button class="btn btn-info btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-endcustomer')">
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                         {{$ml.get('add_end_customer')}}
                     </button>
                 </div>
@@ -73,14 +74,17 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteCustomer(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteCustomer(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-endcustomer')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
                                                 <router-link class="btn btn-success btn-sm"
+                                                             v-if="$helper.hasAccessPermission('show-endcustomer')"
                                                              :to="{'name':'end_customer_details',params:{id:row.id}}">
                                                     <i class="ni ni-archive-2 ni-lg pt-1"></i>
                                                 </router-link>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-endcustomer')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>
@@ -126,9 +130,9 @@
                                      track-by="id" :custom-label="nameFirstlast">
                             <span slot="noResult">Oops! No elements found. </span>
                         </multiselect>
-<!--                        <multiselect v-model="selectMandoob" :options="all_mandoobs" label="name" track-by="name"-->
-<!--                                     :custom-label="nameFirstlast"-->
-<!--                                     :placeholder="$ml.get('search')"></multiselect>-->
+                        <!--                        <multiselect v-model="selectMandoob" :options="all_mandoobs" label="name" track-by="name"-->
+                        <!--                                     :custom-label="nameFirstlast"-->
+                        <!--                                     :placeholder="$ml.get('search')"></multiselect>-->
                         <div class="text-danger error_text" id="mandoob_id_error"></div>
                     </div>
                     <div class="col-md-4">

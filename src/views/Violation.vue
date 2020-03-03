@@ -64,10 +64,10 @@
 
                                         <td class="d-print-none">
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteViolation(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteViolation(row)"  v-if="$helper.hasAccessPermission('delete-violation')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"  v-if="$helper.hasAccessPermission('update-violation')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>

@@ -8,7 +8,8 @@
             </button>
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-danger" @click="showNotifactionModal()">
+                    <button class="btn btn-danger" @click="showNotifactionModal()"
+                            v-if="$helper.hasAccessPermission('create-location')">
                         {{$ml.get('send_fcm')}}
                     </button>
                     &nbsp;
@@ -87,7 +88,7 @@
                                         <td>
                                             {{row.address}}
                                         </td>
-                                        <td class="d-print-none">
+                                        <td>
                                             <slot v-if="row.nearest_client">
                                                 {{row.nearest_client.name}}
                                                 |
@@ -96,13 +97,15 @@
                                                 كيلومتر
                                             </slot>
                                         </td>
-                                        <td>
+                                        <td class="d-print-none">
                                             <div class="btn-group" dir="ltr">
                                                 <button class="btn btn-danger btn-sm"
+                                                        v-if="!row.violation && $helper.hasAccessPermission('create-violation')"
                                                         @click="showAddViolationModal(row)">
                                                     {{$ml.get('add_violation')}}
                                                 </button>
-                                                <button class="btn btn-success btn-sm" @click="deleteLocation(row)">
+                                                <button class="btn btn-success btn-sm" @click="deleteLocation(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-location')">
                                                     {{$ml.get('location_ok')}}
                                                 </button>
                                             </div>

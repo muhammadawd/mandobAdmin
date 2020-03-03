@@ -16,6 +16,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'ALLOW_ALL',
                     },
                     path: '/',
                     name: 'dashboard',
@@ -24,6 +25,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'mandoobs',
                     },
                     path: '/mandoob',
                     name: 'mandoob',
@@ -32,6 +34,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'employees',
                     },
                     path: '/employee',
                     name: 'employee',
@@ -40,6 +43,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'violation',
                     },
                     path: '/violation',
                     name: 'violation',
@@ -48,6 +52,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'location',
                     },
                     path: '/locations',
                     name: 'locations',
@@ -56,6 +61,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'alerts',
                     },
                     path: '/push_notifications',
                     name: 'push_notifications',
@@ -64,6 +70,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'clients',
                     },
                     path: '/clients',
                     name: 'clients',
@@ -72,6 +79,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'ALLOW_ALL',
                     },
                     path: '/clients/:id',
                     name: 'show_client',
@@ -80,6 +88,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'customers',
                     },
                     path: '/customers',
                     name: 'customers',
@@ -88,6 +97,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'supervisors',
                     },
                     path: '/supervisor',
                     name: 'supervisor',
@@ -96,6 +106,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'coupons',
                     },
                     path: '/coupons',
                     name: 'coupons',
@@ -104,6 +115,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'setting',
                     },
                     path: '/admins',
                     name: 'admins',
@@ -112,6 +124,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'setting',
                     },
                     path: '/roles',
                     name: 'roles',
@@ -120,6 +133,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'ALLOW_ALL',
                     },
                     path: '/roles/add',
                     name: 'add_roles',
@@ -128,6 +142,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'ALLOW_ALL',
                     },
                     path: '/roles/edit/:id',
                     name: 'edit_roles',
@@ -136,6 +151,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'endcustomers',
                     },
                     path: '/end_customer',
                     name: 'end_customer',
@@ -144,6 +160,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'ALLOW_ALL',
                     },
                     path: '/end_customer/:id',
                     name: 'end_customer_details',
@@ -152,6 +169,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/client_report',
                     name: 'client_report',
@@ -160,6 +178,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/expenses_report',
                     name: 'expenses_report',
@@ -168,6 +187,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/coupons_report',
                     name: 'coupons_report',
@@ -176,6 +196,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/visits_report',
                     name: 'visits_report',
@@ -184,6 +205,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/attendance_report',
                     name: 'attendance_report',
@@ -192,6 +214,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/employees_report',
                     name: 'employees_report',
@@ -200,6 +223,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/endcustomer_report',
                     name: 'endcustomer_report',
@@ -208,6 +232,7 @@ const router = new Router({
                 {
                     meta: {
                         requiresAuth: true,
+                        premission: 'reports',
                     },
                     path: '/attendance',
                     name: 'attendance',
@@ -220,6 +245,22 @@ const router = new Router({
             redirect: 'login',
             component: AuthLayout,
             children: [
+                {
+                    meta: {
+                        requiresAuth: false,
+                    },
+                    path: '/page403',
+                    name: 'page403',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Page403.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: false,
+                    },
+                    path: '*',
+                    name: 'page404',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/Page404.vue')
+                },
                 {
                     meta: {
                         requiresAuth: false,
@@ -249,6 +290,7 @@ function getAuth() {
                 let permissions = _.map(response.data.admin.role.permissions, 'name');
                 let auth_data = JSON.parse(window.ls.getFromStorage('auth_data'));
                 auth_data.permissions = permissions;
+                $('#notification_count').text(response.data.alert_count);
                 window.ls.saveToStorage('auth_data', auth_data)
             }
         })
@@ -256,10 +298,16 @@ function getAuth() {
             console.log(errors)
         })
 }
+
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         let auth_data = ls.getFromStorage('auth_data');
         // this route requires auth, check if logged in
+        if (!helper.hasAccessPermission(to.meta.premission)) {
+            next({
+                name: 'page403',
+            })
+        }
         if (!auth_data) {
             // next()
             next({

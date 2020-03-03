@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-danger btn-icon" @click="showModal()">
-<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                    <button class="btn btn-danger btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-mandoob')">
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                         {{$ml.get('add_mandoob')}}
                     </button>
                 </div>
@@ -54,10 +55,12 @@
                                         <td v-html="getCitiesText(row.cities)"></td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteMandoob(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteMandoob(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-mandoob')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-mandoob')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>
@@ -91,7 +94,7 @@
                         <input type="text" class="form-control" v-model="dataModel.email">
                         <div class="text-danger error_text" id="email_error"></div>
                     </div>
-<!--                    <div class="col-md-12"></div>-->
+                    <!--                    <div class="col-md-12"></div>-->
                     <div class="col-md-4">
                         <label>{{$ml.get('supervisor')}}</label>
                         <select class="form-control" v-model="dataModel.parent_id">

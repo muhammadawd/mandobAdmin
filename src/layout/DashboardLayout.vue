@@ -13,28 +13,41 @@
           }"/>
 
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('clients')"
                         :link="{name: $ml.get('clients'), icon: 'ni ni-archive-2 text-default', path: '/clients'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('supervisors')"
                         :link="{name: $ml.get('supervisor'), icon: 'ni ni-vector text-primary', path: '/supervisor'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('mandoobs')"
                         :link="{name: $ml.get('mandoob'), icon: 'ni ni-delivery-fast text-default', path: '/mandoob'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('customers')"
                         :link="{name: $ml.get('customers'), icon: 'ni ni-circle-08 text-primary', path: '/customers'}"/>
-                <sidebar-item :link="{name: $ml.get('coupons'), icon: 'ni ni-badge text-default', path: '/coupons'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('coupons')"
+                        :link="{name: $ml.get('coupons'), icon: 'ni ni-badge text-default', path: '/coupons'}"/>
+                <sidebar-item
+                        v-if="$helper.hasAccessPermission('employees')"
                         :link="{name: $ml.get('employee'), icon: 'fa fa-user text-default', path: '/employee'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('absence')"
                         :link="{name: $ml.get('attendance'), icon: 'ni ni-key-25 text-primary', path: '/attendance'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('location')"
                         :link="{name: $ml.get('locations'), icon: 'ni ni-map-big text-default', path: '/locations'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('violation')"
                         :link="{name: $ml.get('violation'), icon: 'ni ni-collection text-primary', path: '/violation'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('endcustomers')"
                         :link="{name: $ml.get('end_customer'), icon: 'fa fa-users text-default', path: '/end_customer'}"/>
                 <sidebar-item
+                        v-if="$helper.hasAccessPermission('alerts')"
                         :link="{name: $ml.get('push_notifications'), icon: 'fa fa-globe text-primary', path: '/push_notifications'}"/>
 
-                <li class="nav-item">
+                <li class="nav-item"
+                    v-if="$helper.hasAccessPermission('reports')">
                     <a class="nav-link" href="#" data-toggle="collapse" @click="collapse('navbar-reports',this)"
                        aria-expanded="true">
                         <i class="ni ni-briefcase-24 text-default"></i>
@@ -45,6 +58,7 @@
                             <li class="nav-item">
                                 <router-link
                                         class="nav-link"
+                                        v-if="$helper.hasAccessPermission('report-expenses')"
                                         :to="{name:'expenses_report'}">
                                     {{$ml.get('mandoob_expenses_report')}}
                                 </router-link>
@@ -52,6 +66,7 @@
                             <li class="nav-item">
                                 <router-link
                                         class="nav-link"
+                                        v-if="$helper.hasAccessPermission('report-visit')"
                                         :to="{name:'visits_report'}">
                                     {{$ml.get('mandoob_visits_report')}}
                                 </router-link>
@@ -59,6 +74,7 @@
                             <li class="nav-item">
                                 <router-link
                                         class="nav-link"
+                                        v-if="$helper.hasAccessPermission('report-client')"
                                         :to="{name:'client_report'}">
                                     {{$ml.get('mandoob_clients_report')}}
                                 </router-link>
@@ -66,6 +82,7 @@
                             <li class="nav-item">
                                 <router-link
                                         class="nav-link"
+                                        v-if="$helper.hasAccessPermission('report-coupon')"
                                         :to="{name:'coupons_report'}">
                                     {{$ml.get('mandoob_coupons_report')}}
                                 </router-link>
@@ -73,6 +90,7 @@
                             <li class="nav-item">
                                 <router-link
                                         class="nav-link"
+                                        v-if="$helper.hasAccessPermission('create-absence')"
                                         :to="{name:'attendance_report'}">
                                     {{$ml.get('attendance_report')}}
                                 </router-link>
@@ -80,6 +98,7 @@
                             <li class="nav-item">
                                 <router-link
                                         class="nav-link"
+                                        v-if="$helper.hasAccessPermission('report-endcustomer')"
                                         :to="{name:'endcustomer_report'}">
                                     {{$ml.get('endcustomer_report')}}
                                 </router-link>
@@ -87,6 +106,7 @@
                             <li class="nav-item">
                                 <router-link
                                         class="nav-link"
+                                        v-if="$helper.hasAccessPermission('report-employee')"
                                         :to="{name:'employees_report'}">
                                     {{$ml.get('employees_report')}}
                                 </router-link>
@@ -95,7 +115,8 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item"
+                    v-if="$helper.hasAccessPermission('setting')">
                     <a class="nav-link" href="#" data-toggle="collapse" @click="collapse('navbar-setting',this)"
                        aria-expanded="true">
                         <i class="ni ni-settings text-primary"></i>

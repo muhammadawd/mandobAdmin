@@ -42,7 +42,10 @@
                                                  v-for="(permission,key) in currentPermissions" :key="key">
                                                 <input :id="'permission_'+permission.id" type="checkbox"
                                                        v-model="selectedPermission" :value="permission.id"/>
-                                                <label :for="'permission_'+permission.id">&nbsp;{{permission.translated.title}}</label>
+                                                <label :for="'permission_'+permission.id">&nbsp;{{permission.translated.title}}
+                                                    <br>
+                                                    {{permission.name}}
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -104,7 +107,7 @@
                             response = response.data;
                             if (response.status) {
                                 window.helper.showMessage('success', vm);
-                                vm.$router.push({name: 'roles'});
+                                // vm.$router.push({name: 'roles'});
                                 return null;
                             }
                         }).catch((error) => {

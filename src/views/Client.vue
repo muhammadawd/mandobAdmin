@@ -5,8 +5,9 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-info btn-icon" @click="showModal()">
-<!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
+                    <button class="btn btn-info btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-client')">
+                        <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                         {{$ml.get('add_client')}}
                     </button>
                 </div>
@@ -64,15 +65,17 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteClient(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteClient(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-client')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <router-link
-                                                        :to="{name:'show_client',params:{id:row.id}}"
-                                                        class="btn btn-sm btn-warning">
+                                                <router-link v-if="$helper.hasAccessPermission('show-client')"
+                                                             :to="{name:'show_client',params:{id:row.id}}"
+                                                             class="btn btn-sm btn-warning">
                                                     <i class="fa fa-eye pt-1"></i>
                                                 </router-link>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-client')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>

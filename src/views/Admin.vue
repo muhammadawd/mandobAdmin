@@ -5,7 +5,8 @@
             <!-- Card stats -->
             <div class="row">
                 <div class="col-md-4 text-right">
-                    <button class="btn btn-dark btn-icon" @click="showModal()">
+                    <button class="btn btn-dark btn-icon" @click="showModal()"
+                            v-if="$helper.hasAccessPermission('create-admin')">
                         {{$ml.get('add_admin')}}
                         <!--                        <i class="ni ni-fat-add ni-lg pt-1"></i>-->
                     </button>
@@ -48,10 +49,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" dir="ltr">
-                                                <button class="btn btn-danger btn-sm" @click="deleteAdmin(row)">
+                                                <button class="btn btn-danger btn-sm" @click="deleteAdmin(row)"
+                                                        v-if="$helper.hasAccessPermission('delete-admin')">
                                                     <i class="ni ni-fat-remove ni-lg pt-1"></i>
                                                 </button>
-                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)">
+                                                <button class="btn btn-info btn-sm" @click="showUpdateModal(row)"
+                                                        v-if="$helper.hasAccessPermission('update-admin')">
                                                     <i class="ni ni-collection ni-lg pt-1"></i>
                                                 </button>
                                             </div>
@@ -93,7 +96,9 @@
                     <div class="col-md-4">
                         <label>{{$ml.get('role')}}</label>
                         <select type="text" class="form-control" v-model="dataModel.role_id">
-                            <option v-for="(item , key) in roles" :value="item.id" :key="key">{{item.translated.title}}</option>
+                            <option v-for="(item , key) in roles" :value="item.id" :key="key">
+                                {{item.translated.title}}
+                            </option>
                         </select>
                         <div class="text-danger error_text" id="role_id_error"></div>
                     </div>

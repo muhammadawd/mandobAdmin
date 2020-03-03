@@ -65,7 +65,12 @@ export default {
     ADD_CUSTOMERS: 'customer/create',
     UPDATE_CUSTOMERS: 'customer/update',
 
+    ALL_ALERTS: 'alert',
+    DELETE_ALERTS: 'alert/delete',
+    ADD_ALERTS: 'alert/create',
+
     ADD_COUPONS_VALUES: 'coupon-value/create',
+    DELETE_COUPONS_VALUES: 'coupon-value/delete',
     ALL_COUPONS_VALUES: 'coupon-value',
     ALL_COUPONS: 'coupon',
     DELETE_COUPONS: 'coupon/delete',

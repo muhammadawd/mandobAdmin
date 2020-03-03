@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import './registerServiceWorker'
+// import './registerServiceWorker'
 import './bootstrap/bootstrap'
 import {helper} from "@/bootstrap/helper";
 import './bootstrap/ml'
@@ -17,7 +17,7 @@ const options = {
     styles: [
         'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.min.css',
-        'https://unpkg.com/kidlat-css/css/kidlat.css',
+        // 'https://unpkg.com/kidlat-css/css/kidlat.css',
     ]
 }
 
@@ -28,7 +28,7 @@ Vue.use(require('vue-pusher'), {
         encrypted: true,
     }
 });
-Vue.prototype.helper = helper
+Vue.prototype.$helper = helper
 
 import ArgonDashboard from './plugins/argon-dashboard'
 // import VueFirestore from 'vue-firestore'
