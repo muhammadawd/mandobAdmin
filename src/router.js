@@ -180,6 +180,15 @@ const router = new Router({
                         requiresAuth: true,
                         premission: 'reports',
                     },
+                    path: '/customers_report',
+                    name: 'customers_report',
+                    component: () => import(/* webpackChunkName: "demo" */ './views/reports/CustomersReport.vue')
+                },
+                {
+                    meta: {
+                        requiresAuth: true,
+                        premission: 'reports',
+                    },
                     path: '/expenses_report',
                     name: 'expenses_report',
                     component: () => import(/* webpackChunkName: "demo" */ './views/reports/ExpensesReport.vue')

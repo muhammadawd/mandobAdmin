@@ -117,7 +117,7 @@
                         <label>{{$ml.get('customers')}}</label>
                         <multiselect v-model="selectValueCustomer" :options="all_customer" :multiple="false"
                                      :group-select="false" :placeholder="$ml.get('search')"
-                                     track-by="name" label="name">
+                                     track-by="name" :custom-label="customerLabel">
                             <span slot="noResult">Oops! No elements found. </span>
                         </multiselect>
                         <div class="text-danger error_text" id="customer_id_error"></div>
@@ -251,6 +251,9 @@
             },
             nameFirstlast({first_name, last_name}) {
                 return `${first_name} - ${last_name}`
+            },
+            customerLabel({name, type}) {
+                return `${name} - ${type.translated ? type.translated.title : ''}`
             },
             getallGovernorates() {
                 let vm = this;

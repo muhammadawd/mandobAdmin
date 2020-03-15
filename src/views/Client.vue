@@ -224,10 +224,10 @@
                     lat: 28.519383,
                     lng: 29.768600,
                 },
-                selectValue: null,
                 tableData: [],
                 isLoading: true,
                 disable: false,
+                selectValue: null,
                 allGovernorates: [],
                 statusModel: {
                     client_status: [],

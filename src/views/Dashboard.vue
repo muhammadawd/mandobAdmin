@@ -3,7 +3,7 @@
 
         <base-header type="gradient-info" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
-            <div class="row d-nones">
+            <div class="row d-nones" v-if="$helper.hasAccessPermission('statistic')">
                 <div class="col-xl-3 col-lg-6 text-center">
                     <stats-card :title="$ml.get('totalCollected')"
                                 type="gradient-default"
@@ -71,7 +71,7 @@
                     <div class="card shadow border-0">
                         <div class="map-canvas"
                              style="min-height: 600px;">
-                            <div class="row">
+                            <div class="row"  v-if="$helper.hasAccessPermission('charts')">
                                 <div class="col-md-12"></div>
                                 <div class="col-md-3"></div>
                                 <div class="col-md-3">

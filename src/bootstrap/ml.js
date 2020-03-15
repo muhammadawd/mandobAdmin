@@ -161,6 +161,7 @@ export default new MLCreate({
             title: 'العنوان',
             sender: 'المرسل',
             page403: 'غير مسموح',
+            customers_report: 'الفنيين',
             sent_notification: 'الاشعارات المرسلة',
             recieved_notification: 'الاشعارات المستقبلة',
         })

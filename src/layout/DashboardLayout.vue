@@ -111,6 +111,14 @@
                                     {{$ml.get('employees_report')}}
                                 </router-link>
                             </li>
+                            <li class="nav-item">
+                                <router-link
+                                        class="nav-link"
+                                        v-if="$helper.hasAccessPermission('report-customer')"
+                                        :to="{name:'customers_report'}">
+                                    {{$ml.get('customers_report')}}
+                                </router-link>
+                            </li>
                         </ul>
                     </div>
                 </li>

@@ -16,7 +16,7 @@
                 <div class="col">
                     <div class="card shadow border-0">
                         <div class="map-canvas"
-                             style="min-height: 600px;">
+                             style="min-height: 600px;padding: 10px">
                             <div class="row p-2 mt-2 mb-2">
                                 <div class="col-md-3 text-right">
                                     <label class="font-weight-bold">{{$ml.get('date')}}</label>
@@ -41,8 +41,8 @@
                                             {{$ml.get('sent_notification')}}</p>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="table-responsive">
+                                <div class="col-md-9 mb-5">
+                                    <div class="table-responsive mb-5">
                                         <base-table class="table align-items-center table-flush"
                                                     :class="'table-darks'"
                                                     :thead-classes="'thead-darks'"
